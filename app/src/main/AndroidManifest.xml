@@ -9,14 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activities.student.StudentActivity"></activity>
+        <activity android:name=".activities.student.StudentsListActivity"></activity>
         <activity android:name=".activities.admin.RateActivity" />
+        <activity android:name=".activities.student.StudentActivity" />
         <activity android:name=".activities.admin.AdminActivity" />
         <activity android:name=".activities.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
