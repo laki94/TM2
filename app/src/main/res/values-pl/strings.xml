@@ -6,4 +6,7 @@
     <string name="Exercises">Ćwiczenia</string>
     <string name="Rate">Oceniaj</string>
     <string name="GenerateCSV">Generuj CSV</string>
+    <string name="FirstName">Imię</string>
+    <string name="LastName">Nazwisko</string>
+    <string name="Workstation">Stanowisko</string>
 </resources>

@@ -6,4 +6,7 @@
     <string name="Exercises">Exercises</string>
     <string name="Rate">Rate</string>
     <string name="GenerateCSV">Generate CSV</string>
+    <string name="FirstName">First name</string>
+    <string name="LastName">Last name</string>
+    <string name="Workstation">Workstation</string>
 </resources>
