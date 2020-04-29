@@ -3,4 +3,7 @@
 
     <string name="AdminPanel">Panel admina</string>
     <string name="StudentsPanel">Panel studentów</string>
+    <string name="Exercises">Ćwiczenia</string>
+    <string name="Rate">Oceniaj</string>
+    <string name="GenerateCSV">Generuj CSV</string>
 </resources>
