@@ -9,4 +9,5 @@
     <string name="FirstName">Imię</string>
     <string name="LastName">Nazwisko</string>
     <string name="Workstation">Stanowisko</string>
+    <string name="SaveRates">Zapisz oceny</string>
 </resources>

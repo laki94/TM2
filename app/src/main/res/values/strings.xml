@@ -9,4 +9,5 @@
     <string name="FirstName">First name</string>
     <string name="LastName">Last name</string>
     <string name="Workstation">Workstation</string>
+    <string name="SaveRates">Save rates</string>
 </resources>

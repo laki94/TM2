@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".activities.student.StudentActivity"></activity>
+        <activity android:name=".activities.admin.RateActivity" />
         <activity android:name=".activities.admin.AdminActivity" />
         <activity android:name=".activities.main.MainActivity">
             <intent-filter>
