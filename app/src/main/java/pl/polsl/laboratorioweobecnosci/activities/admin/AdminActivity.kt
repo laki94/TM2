@@ -1,6 +1,7 @@
 package pl.polsl.laboratorioweobecnosci.activities.admin
 
 import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -14,11 +15,13 @@ class AdminActivity : AppCompatActivity() {
     }
 
     fun onExercisesClick(view: View) {
-        /* TODO */
+        val intent = Intent(this, ExercisesActivity::class.java)
+        startActivity(intent)
     }
 
     fun onRateClick(view: View) {
-        /* TODO */
+        val intent = Intent(this, RateActivity::class.java)
+        startActivity(intent)
     }
 
     fun onGenerateCSVClick(view: View) {

@@ -10,4 +10,5 @@
     <string name="LastName">Nazwisko</string>
     <string name="Workstation">Stanowisko</string>
     <string name="SaveRates">Zapisz oceny</string>
+    <string name="BeginExercise">Rozpocznij zajęcia</string>
 </resources>

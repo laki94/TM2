@@ -1,10 +1,13 @@
 package pl.polsl.laboratorioweobecnosci.activities.main
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.activities.admin.AdminActivity
+import pl.polsl.laboratorioweobecnosci.activities.student.StudentsListActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,10 +17,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onAdminPanelClick(view: View) {
-        /* TODO */
+        val intent = Intent(this, AdminActivity::class.java)
+        startActivity(intent)
     }
 
-    fun onStudentsPanelClick(view: View) {
-        /* TODO */
+    fun onBeginExerciseClick(view: View) {
+        val intent = Intent(this, StudentsListActivity::class.java)
+        startActivity(intent)
     }
 }
