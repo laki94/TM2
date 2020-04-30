@@ -11,4 +11,12 @@
     <string name="Workstation">Workstation</string>
     <string name="SaveRates">Save rates</string>
     <string name="BeginExercise">Begin exercise</string>
+    <string name="AddStudent">Add student</string>
+    <string name="Save">Save</string>
+    <string name="BeginExerciseDate">Exercise begins at:\n%1$s</string>
+    <string name="EndExerciseDate">Exercise finishes at:\n%1$s</string>
+    <string name="Major">Major</string>
+    <string name="Semester">Semester</string>
+    <string name="Section">Section</string>
+    <string name="AddExercise">Add exercise</string>
 </resources>

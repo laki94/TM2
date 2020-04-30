@@ -1,9 +1,15 @@
 package pl.polsl.laboratorioweobecnosci.activities.admin
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import pl.polsl.laboratorioweobecnosci.R
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ExercisesActivity : AppCompatActivity() {
 
@@ -13,6 +19,7 @@ class ExercisesActivity : AppCompatActivity() {
     }
 
     fun onAddExerciseClick(view: View) {
-        /* TODO */
+        val dialog = ExerciseActivity(this)
+        dialog.showAddDialog(layoutInflater)
     }
 }

@@ -11,4 +11,12 @@
     <string name="Workstation">Stanowisko</string>
     <string name="SaveRates">Zapisz oceny</string>
     <string name="BeginExercise">Rozpocznij zajęcia</string>
+    <string name="AddStudent">Dodaj studenta</string>
+    <string name="Save">Zapisz</string>
+    <string name="BeginExerciseDate">Data rozpoczęcia ćwiczenia:\n%1$s</string>
+    <string name="EndExerciseDate">Data zakończenia ćwiczenia:\n%1$s</string>
+    <string name="Major">Kierunek</string>
+    <string name="Semester">Semestr</string>
+    <string name="Section">Sekcja</string>
+    <string name="AddExercise">Dodaj ćwiczenie</string>
 </resources>
