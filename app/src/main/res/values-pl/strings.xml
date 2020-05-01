@@ -19,4 +19,5 @@
     <string name="Semester">Semestr</string>
     <string name="Section">Sekcja</string>
     <string name="AddExercise">Dodaj ćwiczenie</string>
+    <string name="AddTask">Dodaj zadanie</string>
 </resources>
