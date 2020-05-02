@@ -7,7 +7,7 @@ import pl.polsl.laboratorioweobecnosci.database.models.StudentsList
 @Dao
 interface StudentDao {
     @Insert
-    fun insertAll(student: ArrayList<Student>)
+    fun insertAll(student: List<Student>)
     @Insert
     fun insert(student: Student):Long
 
@@ -17,6 +17,6 @@ interface StudentDao {
     @Delete
     fun delete(student: Student)
 
-    @Query("SELECT * FROM student WHERE class_id = :classId and workstation_id = :workstationId")
-    fun getStudentsOnWorkstation(classId: Int, workstationId:Int): StudentsList
+    @Query("SELECT * FROM student WHERE laboratory_id = :laboratoryId and workstation_id = :workstationId")
+    fun getStudentsOnWorkstation(laboratoryId: Int, workstationId:Int): List<Student>
 }

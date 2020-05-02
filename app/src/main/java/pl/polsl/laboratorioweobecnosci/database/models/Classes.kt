@@ -1,4 +1,4 @@
 package pl.polsl.laboratorioweobecnosci.database.models
 
-class Classes: ArrayList<Class>() {
+class Classes: ArrayList<Laboratory>() {
 }

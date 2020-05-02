@@ -17,7 +17,7 @@ interface WorkstationDao {
     fun delete(workstation: Workstation)
 
     @Query("SELECT * FROM workstation")
-    fun getWorkstations(): ArrayList<Workstation>
+    fun getWorkstations(): List<Workstation>
 
     @Query("SELECT * FROM workstation where id = :workstationId")
     fun getWorkstation(workstationId: Int): Workstation

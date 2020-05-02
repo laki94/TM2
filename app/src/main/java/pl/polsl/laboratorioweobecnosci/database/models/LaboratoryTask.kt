@@ -8,13 +8,13 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 
-@Entity()
-data class ClassTask(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
+@Entity
+data class LaboratoryTask(
     @ColumnInfo(name = "task_number")
     val taskNumber: Int,
     val degree:Int,
-    @ColumnInfo(name = "class_id")
-    val classId:Int
+    @ColumnInfo(name = "laboratory_id")
+    val laboratoryId:Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L
 )

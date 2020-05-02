@@ -3,12 +3,14 @@ package pl.polsl.laboratorioweobecnosci.activities.admin
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
+import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -96,8 +98,14 @@ class ExerciseDialog(context: Context) : AlertDialog.Builder(context) {
         setTitle(R.string.AddExercise)
         setView(dialogLayout)
         initializeButtons(dialogLayout)
-        setPositiveButton(R.string.Save) { _, _ -> }
-
+        setPositiveButton(R.string.Save) { _, _ ->
+            Thread {
+                val db = DatabaseHandler(this.context)
+                val work = Workstation(6)
+                val id = db.workstationDao().insert(work)
+                Log.d("dsadasd", id.toString() )
+            }.start()
+        }
         super.show()
     }
 }

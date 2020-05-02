@@ -4,9 +4,7 @@ import android.content.Context
 import androidx.room.Entity
 import pl.polsl.laboratorioweobecnosci.R
 
-
-@Entity()
-data class StudentWorkstationClass(
+data class StudentWorkstationLaboratory(
     val workstation:Workstation,
     val students: StudentsList
 ) {

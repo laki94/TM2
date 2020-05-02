@@ -4,21 +4,25 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import pl.polsl.laboratorioweobecnosci.database.converter.DateConverter
+import pl.polsl.laboratorioweobecnosci.database.converter.StudentListConverter
 import pl.polsl.laboratorioweobecnosci.database.dao.*
 import pl.polsl.laboratorioweobecnosci.database.models.*
-import java.lang.Class
 
 @Database(
-    entities = [Class::class, ClassTask::class, Student::class, Workstation::class, WorkstationClassTask::class],
+//    entities = [Class::class, ClassTask::class, Student::class, Workstation::class, WorkstationClassTask::class],
+    entities = [Laboratory::class, LaboratoryTask::class, Student::class, Workstation::class, WorkstationLaboratoryTask::class],
     version = 1
+
 )
-//@TypeConverters(DateConverter::class)
+@TypeConverters(DateConverter::class, StudentListConverter::class)
 abstract class DatabaseHandler : RoomDatabase(){
-    abstract fun classDao(): ClassDao
-    abstract fun classTaskDao(): ClassTaskDao
+    abstract fun laboratoryDao(): LaboratoryDao
+    abstract fun laboratoryTaskDao(): LaboratoryTaskDao
     abstract fun studentDao(): StudentDao
     abstract fun workstationDao(): WorkstationDao
-    abstract fun workstationClassTaskDao(): WorkstationClassTaskDao
+    abstract fun workstationLaboratoryTaskDao(): WorkstationLaboratoryTaskDao
 
     companion object {
         @Volatile private var instance: DatabaseHandler? = null
@@ -33,14 +37,14 @@ abstract class DatabaseHandler : RoomDatabase(){
             .addMigrations()
             .build()
     }
-    fun getWorkstationsWithStudents(classId:Int): StudentWorkstationClassList {
-        var workstations = this.classDao().getClassWorkstations(classId)
-        var workstationStudent = StudentWorkstationClassList()
+    fun getWorkstationsWithStudents(laboratoryId:Int): StudentWorkstationLaboratoryList {
+        var workstations = this.laboratoryDao().getLaboratoryWorkstations(laboratoryId)
+        var workstationStudent = StudentWorkstationLaboratoryList()
         workstations.forEach {
             workstationStudent.add(
-                StudentWorkstationClass(
+                StudentWorkstationLaboratory(
                     this.workstationDao().getWorkstation(it),
-                    this.studentDao().getStudentsOnWorkstation(classId, it)
+                    StudentsList(this.studentDao().getStudentsOnWorkstation(laboratoryId, it))
                 )
             )
         }

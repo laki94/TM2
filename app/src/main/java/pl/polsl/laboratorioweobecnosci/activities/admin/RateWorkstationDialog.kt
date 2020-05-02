@@ -7,12 +7,12 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationClass
+import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationLaboratory
 import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 
 class RateWorkstationDialog(context: Context) : AlertDialog.Builder(context) {
 
-    fun rate(inflater: LayoutInflater, studentsAtWorkstation: StudentWorkstationClass) {
+    fun rate(inflater: LayoutInflater, studentsAtWorkstation: StudentWorkstationLaboratory) {
         val dialogLayout = inflater.inflate(R.layout.dialog_rate_workstation, null)
         val spinner = dialogLayout.findViewById<Spinner>(R.id.sGrade)
 

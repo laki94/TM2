@@ -6,7 +6,6 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.*
 
 class RateActivity : AppCompatActivity() {
@@ -17,7 +16,7 @@ class RateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rate)
 
-        mAdapter = RateListAdapter(this, StudentWorkstationClassList())
+        mAdapter = RateListAdapter(this, StudentWorkstationLaboratoryList())
 
         mAdapter.let {
             it.onWorkstationClick = {
@@ -32,7 +31,8 @@ class RateActivity : AppCompatActivity() {
 
     private fun showRateSingleWorkstationDialog() {
         val dialog = RateWorkstationDialog(this)
-        dialog.rate(layoutInflater, StudentWorkstationClass(Workstation(1), StudentsList())) //TODO
+        //Tu jest zły dialog
+//        dialog.rate(layoutInflater, StudentWorkstationLaboratory(Workstation(1), StudentsList(this.studentDao().getStudentsOnWorkstation(laboratoryId, it)))) //TODO
     }
 
     fun onSaveRatesClick(view: View) {

@@ -1,22 +1,19 @@
 package pl.polsl.laboratorioweobecnosci.database.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-
-import androidx.room.PrimaryKey
+import androidx.room.*
+import pl.polsl.laboratorioweobecnosci.database.converter.StudentListConverter
 
 
-@Entity()
+@Entity
 data class Student(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
     @ColumnInfo(name = "first_name")
     val firstName: String,
     @ColumnInfo(name = "last_name")
     val lastName: String,
-    @ColumnInfo(name = "class_id")
-    val classId:Int,
+    @ColumnInfo(name = "laboratory_id")
+    val laboratoryId:Int,
     @ColumnInfo(name = "workstation_id")
-    val workstationId:Int
+    val workstationId:Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L
 )
