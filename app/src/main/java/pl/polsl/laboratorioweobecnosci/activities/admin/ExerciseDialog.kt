@@ -14,7 +14,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class ExerciseActivity(context: Context) : AlertDialog.Builder(context) {
+class ExerciseDialog(context: Context) : AlertDialog.Builder(context) {
 
     private lateinit var mDateFrom: LocalDateTime
     private lateinit var mDateTo: LocalDateTime

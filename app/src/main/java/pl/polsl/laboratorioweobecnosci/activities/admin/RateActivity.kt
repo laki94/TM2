@@ -29,7 +29,7 @@ class RateActivity : AppCompatActivity() {
     }
 
     private fun showRateSingleWorkstationDialog() {
-        val dialog = RateWorkstation(this)
+        val dialog = RateWorkstationDialog(this)
         dialog.rate(layoutInflater)
     }
 
