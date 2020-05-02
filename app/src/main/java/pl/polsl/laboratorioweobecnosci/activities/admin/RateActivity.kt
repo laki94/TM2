@@ -15,11 +15,22 @@ class RateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rate)
 
-        mAdapter = RateListAdapter(this)
+        mAdapter = RateListAdapter(this, ArrayList())
+
+        mAdapter.let {
+            it.onWorkstationClick = {
+                showRateSingleWorkstationDialog();
+            }
+        }
 
         val list = findViewById<RecyclerView>(R.id.rvWorkstations)
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = mAdapter
+    }
+
+    private fun showRateSingleWorkstationDialog() {
+        val dialog = RateWorkstation(this)
+        dialog.rate(layoutInflater)
     }
 
     fun onSaveRatesClick(view: View) {

@@ -20,4 +20,14 @@
     <string name="Section">Sekcja</string>
     <string name="AddExercise">Dodaj ćwiczenie</string>
     <string name="AddTask">Dodaj zadanie</string>
+    <string name="ProposedGrade">Proponowana ocena</string>
+    <string name="AcceptGrade">Akceptuj ocenę</string>
+    <string name="RateWorkstation">Oceń stanowisko</string>
+
+    <string-array name="Grades">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>

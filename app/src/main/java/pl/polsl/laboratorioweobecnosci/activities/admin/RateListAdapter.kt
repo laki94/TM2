@@ -12,22 +12,33 @@ import kotlinx.android.synthetic.main.button_item.view.*
 import kotlinx.android.synthetic.main.card_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
 
-class RateListAdapter(private val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+// TODO zmienic Any jak bedzie klasa
+
+class RateListAdapter(private val context: Context, private val items: ArrayList<Any>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var onWorkstationClick: ((Any) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.card_item, parent, false))
+        return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.button_item, parent, false))
     }
 
     override fun getItemCount(): Int {
-        return 0
+        return items.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val myHolder = holder as MyViewHolder
 
+//        myHolder.bItem.text = items[position] // TODO opisane stanowisko
     }
 
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         val bItem: Button = view.bButtonItem
+
+        init {
+            bItem.setOnClickListener {
+                onWorkstationClick?.invoke(items[adapterPosition])
+            }
+        }
     }
 }
