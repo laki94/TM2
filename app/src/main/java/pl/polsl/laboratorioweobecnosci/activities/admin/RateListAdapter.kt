@@ -8,12 +8,14 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.button_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationClass
+import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationClassList
 import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 import pl.polsl.laboratorioweobecnosci.database.models.WorkstationsList
 
-class RateListAdapter(private val context: Context, private val items: WorkstationsList): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RateListAdapter(private val context: Context, private val items: StudentWorkstationClassList): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var onWorkstationClick: ((Workstation) -> Unit)? = null
+    var onWorkstationClick: ((StudentWorkstationClass) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.button_item, parent, false))

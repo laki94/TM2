@@ -7,11 +7,12 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationClass
 import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 
 class RateWorkstationDialog(context: Context) : AlertDialog.Builder(context) {
 
-    fun rate(inflater: LayoutInflater, workstation: Workstation) {
+    fun rate(inflater: LayoutInflater, studentsAtWorkstation: StudentWorkstationClass) {
         val dialogLayout = inflater.inflate(R.layout.dialog_rate_workstation, null)
         val spinner = dialogLayout.findViewById<Spinner>(R.id.sGrade)
 
@@ -19,9 +20,9 @@ class RateWorkstationDialog(context: Context) : AlertDialog.Builder(context) {
             context.resources.getStringArray(R.array.Grades))
 
         val students = dialogLayout.findViewById<TextView>(R.id.tvStudentsInfo)
-        students.text = workstation.students().toString()
+        students.text = studentsAtWorkstation.students.toString()
 
-        setTitle(context.getString(R.string.RateWorkstation, workstation.stationNr()))
+        setTitle(context.getString(R.string.RateWorkstation, studentsAtWorkstation.workstation.number))
         setView(dialogLayout)
         setPositiveButton(R.string.AcceptGrade) { _, _ -> }
 

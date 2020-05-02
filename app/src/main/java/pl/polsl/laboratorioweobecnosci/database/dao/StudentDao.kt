@@ -2,6 +2,7 @@ package pl.polsl.laboratorioweobecnosci.database.dao
 
 import androidx.room.*
 import pl.polsl.laboratorioweobecnosci.database.models.Student
+import pl.polsl.laboratorioweobecnosci.database.models.StudentsList
 
 @Dao
 interface StudentDao {
@@ -17,5 +18,5 @@ interface StudentDao {
     fun delete(student: Student)
 
     @Query("SELECT * FROM student WHERE class_id = :classId and workstation_id = :workstationId")
-    fun getStudentsOnWorkstation(classId: Int, workstationId:Int):ArrayList<Student>
+    fun getStudentsOnWorkstation(classId: Int, workstationId:Int): StudentsList
 }

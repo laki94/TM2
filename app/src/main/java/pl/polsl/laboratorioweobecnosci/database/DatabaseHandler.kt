@@ -33,9 +33,9 @@ abstract class DatabaseHandler : RoomDatabase(){
             .addMigrations()
             .build()
     }
-    fun getWorkstationsWithStudents(classId:Int): ArrayList<StudentWorkstationClass> {
+    fun getWorkstationsWithStudents(classId:Int): StudentWorkstationClassList {
         var workstations = this.classDao().getClassWorkstations(classId)
-        var workstationStudent = ArrayList<StudentWorkstationClass>()
+        var workstationStudent = StudentWorkstationClassList()
         workstations.forEach {
             workstationStudent.add(
                 StudentWorkstationClass(

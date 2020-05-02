@@ -23,6 +23,7 @@
     <string name="ProposedGrade">Proposed grade</string>
     <string name="AcceptGrade">Accept grade</string>
     <string name="RateWorkstation">Rate workstation %1$d</string>
+    <string name="StudyType">Study type</string>
 
     <string-array name="Grades">
         <item>2</item>
