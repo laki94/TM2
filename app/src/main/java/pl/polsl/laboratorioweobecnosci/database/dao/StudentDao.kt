@@ -11,7 +11,7 @@ interface StudentDao {
     @Insert
     fun insertAll(student: List<Student>)
     @Insert
-    fun insert(student: Student)
+    fun insert(student: Student):Long
 
     @Update
     fun update(student: Student)

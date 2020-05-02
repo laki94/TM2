@@ -9,7 +9,7 @@ interface ClassDao {
     @Insert
     fun insertAll(classObject: List<Class>)
     @Insert
-    fun insert(classObject: Class)
+    fun insert(classObject: Class):Long
 
     @Update
     fun update(classObject: Class)

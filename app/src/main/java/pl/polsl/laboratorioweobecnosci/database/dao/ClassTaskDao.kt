@@ -8,7 +8,7 @@ interface ClassTaskDao {
     @Insert
     fun insertAll(classTask: List<ClassTask>)
     @Insert
-    fun insert(classTask: ClassTask)
+    fun insert(classTask: ClassTask):Long
 
     @Update
     fun update(classTask: ClassTask)

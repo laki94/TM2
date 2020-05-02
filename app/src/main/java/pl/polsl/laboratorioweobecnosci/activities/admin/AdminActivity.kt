@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 
 class AdminActivity : AppCompatActivity() {
 

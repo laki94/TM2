@@ -8,7 +8,7 @@ interface WorkstationClassTaskDao {
     @Insert
     fun insertAll(workstationClassTask: List<WorkstationClassTask>)
     @Insert
-    fun insert(workstationClassTask: WorkstationClassTask)
+    fun insert(workstationClassTask: WorkstationClassTask):Long
 
     @Update
     fun update(workstationClassTask: WorkstationClassTask)

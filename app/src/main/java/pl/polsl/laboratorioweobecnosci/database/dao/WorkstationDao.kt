@@ -8,7 +8,7 @@ interface WorkstationDao {
     @Insert
     fun insertAll(workstation: List<Workstation>)
     @Insert
-    fun insert(workstation: Workstation)
+    fun insert(workstation: Workstation):Long
 
     @Update
     fun update(workstation: Workstation)
