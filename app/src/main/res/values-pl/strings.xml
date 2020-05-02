@@ -22,7 +22,7 @@
     <string name="AddTask">Dodaj zadanie</string>
     <string name="ProposedGrade">Proponowana ocena</string>
     <string name="AcceptGrade">Akceptuj ocenę</string>
-    <string name="RateWorkstation">Oceń stanowisko</string>
+    <string name="RateWorkstation">Oceń stanowisko %1$d</string>
 
     <string-array name="Grades">
         <item>2</item>

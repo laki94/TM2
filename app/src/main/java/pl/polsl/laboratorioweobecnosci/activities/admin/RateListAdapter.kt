@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.button_item.view.*
 import kotlinx.android.synthetic.main.card_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.models.Workstation
+import pl.polsl.laboratorioweobecnosci.models.WorkstationsList
 
-// TODO zmienic Any jak bedzie klasa
+class RateListAdapter(private val context: Context, private val items: WorkstationsList): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-class RateListAdapter(private val context: Context, private val items: ArrayList<Any>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    var onWorkstationClick: ((Any) -> Unit)? = null
+    var onWorkstationClick: ((Workstation) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.button_item, parent, false))
@@ -29,7 +29,7 @@ class RateListAdapter(private val context: Context, private val items: ArrayList
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val myHolder = holder as MyViewHolder
 
-//        myHolder.bItem.text = items[position] // TODO opisane stanowisko
+        myHolder.bItem.text = items[position].toString(context)
     }
 
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {

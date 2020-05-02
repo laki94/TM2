@@ -21,7 +21,6 @@ class ExerciseDialog(context: Context) : AlertDialog.Builder(context) {
     private lateinit var mButtonStartDate: Button
     private lateinit var mButtonEndDate: Button
 
-
     private fun setButtonsText() {
         mButtonStartDate.text =
             context.getString(R.string.BeginExerciseDate,
