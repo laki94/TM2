@@ -14,12 +14,7 @@ class StudentsListActivity : AppCompatActivity() {
     }
 
     fun onAddStudentClick(view: View) {
-        val builder = AlertDialog.Builder(this)
-        val inflater = layoutInflater
-        builder.setTitle(R.string.AddStudent)
-        val dialogLayout = inflater.inflate(R.layout.activity_student, null)
-        builder.setView(dialogLayout)
-        builder.setPositiveButton(R.string.Save) { _, _ -> }
-        builder.show()
+        val dialog = StudentDialog(this)
+        dialog.addStudent(layoutInflater)
     }
 }

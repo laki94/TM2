@@ -14,7 +14,7 @@
         <activity android:name=".activities.admin.ExercisesActivity" />
         <activity android:name=".activities.student.StudentsListActivity" />
         <activity android:name=".activities.admin.RateActivity" />
-        <activity android:name=".activities.student.StudentActivity" />
+        <activity android:name=".activities.student.StudentDialog" />
         <activity android:name=".activities.admin.AdminActivity" />
         <activity android:name=".activities.main.MainActivity">
             <intent-filter>
