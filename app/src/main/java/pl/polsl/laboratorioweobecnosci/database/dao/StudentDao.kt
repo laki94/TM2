@@ -1,15 +1,12 @@
 package pl.polsl.laboratorioweobecnosci.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Update
+import androidx.room.*
 import pl.polsl.laboratorioweobecnosci.database.models.Student
 
 @Dao
 interface StudentDao {
     @Insert
-    fun insertAll(student: List<Student>)
+    fun insertAll(student: ArrayList<Student>)
     @Insert
     fun insert(student: Student):Long
 
@@ -19,5 +16,6 @@ interface StudentDao {
     @Delete
     fun delete(student: Student)
 
-
+    @Query("SELECT * FROM student WHERE class_id = :classId and workstation_id = :workstationId")
+    fun getStudentsOnWorkstation(classId: Int, workstationId:Int):ArrayList<Student>
 }

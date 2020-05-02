@@ -5,10 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import pl.polsl.laboratorioweobecnosci.database.dao.*
-import pl.polsl.laboratorioweobecnosci.database.models.ClassTask
-import pl.polsl.laboratorioweobecnosci.database.models.Student
-import pl.polsl.laboratorioweobecnosci.database.models.Workstation
-import pl.polsl.laboratorioweobecnosci.database.models.WorkstationClassTask
+import pl.polsl.laboratorioweobecnosci.database.models.*
+import java.lang.Class
 
 @Database(
     entities = [Class::class, ClassTask::class, Student::class, Workstation::class, WorkstationClassTask::class],
@@ -34,5 +32,18 @@ abstract class DatabaseHandler : RoomDatabase(){
             DatabaseHandler::class.java, "laboratorioweobecnosci.db")
             .addMigrations()
             .build()
+    }
+    fun getWorkstationsWithStudents(classId:Int): ArrayList<StudentWorkstationClass> {
+        var workstations = this.classDao().getClassWorkstations(classId)
+        var workstationStudent = ArrayList<StudentWorkstationClass>()
+        workstations.forEach {
+            workstationStudent.add(
+                StudentWorkstationClass(
+                    this.workstationDao().getWorkstation(it),
+                    this.studentDao().getStudentsOnWorkstation(classId, it)
+                )
+            )
+        }
+        return workstationStudent
     }
 }

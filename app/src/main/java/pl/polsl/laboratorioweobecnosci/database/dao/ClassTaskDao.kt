@@ -6,7 +6,7 @@ import pl.polsl.laboratorioweobecnosci.database.models.ClassTask
 @Dao
 interface ClassTaskDao {
     @Insert
-    fun insertAll(classTask: List<ClassTask>)
+    fun insertAll(classTask: ArrayList<ClassTask>)
     @Insert
     fun insert(classTask: ClassTask):Long
 
@@ -17,8 +17,8 @@ interface ClassTaskDao {
     fun delete(classTask: ClassTask)
 
     @Query("SELECT * FROM classtask")
-    fun getAllClassTasks(): List<ClassTask>
+    fun getAllClassTasks(): ArrayList<ClassTask>
 
     @Query("SELECT * FROM classtask where class_id = :classId")
-    fun getTasksForClass(classId: Int): List<ClassTask>
+    fun getTasksForClass(classId: Int): ArrayList<ClassTask>
 }

@@ -6,7 +6,7 @@ import pl.polsl.laboratorioweobecnosci.database.models.WorkstationClassTask
 @Dao
 interface WorkstationClassTaskDao {
     @Insert
-    fun insertAll(workstationClassTask: List<WorkstationClassTask>)
+    fun insertAll(workstationClassTask: ArrayList<WorkstationClassTask>)
     @Insert
     fun insert(workstationClassTask: WorkstationClassTask):Long
 
@@ -17,5 +17,5 @@ interface WorkstationClassTaskDao {
     fun delete(workstationClassTask: WorkstationClassTask)
 
     @Query("SELECT * FROM workstationclasstask")
-    fun getAllWorkstationClassTasks(): List<WorkstationClassTask>
+    fun getAllWorkstationClassTasks(): ArrayList<WorkstationClassTask>
 }

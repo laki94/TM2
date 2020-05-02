@@ -18,8 +18,12 @@ interface ClassDao {
     fun delete(classObject: Class)
 
     @Query("SELECT * FROM class")
-    fun getClasses(): List<Class>
+    fun getClasses(): ArrayList<Class>
 
     @Query("SELECT * FROM student where class_id = :classId")
-    fun getClassStudents(classId: Int): List<Student>
+    fun getClassStudents(classId: Int): ArrayList<Student>
+
+    @Query("SELECT workstation_id FROM student where class_id = :classId")
+    fun getClassWorkstations(classId: Int): ArrayList<Int>
+
 }

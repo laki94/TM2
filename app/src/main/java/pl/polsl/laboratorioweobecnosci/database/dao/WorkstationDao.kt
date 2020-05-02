@@ -6,7 +6,7 @@ import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 @Dao
 interface WorkstationDao {
     @Insert
-    fun insertAll(workstation: List<Workstation>)
+    fun insertAll(workstation: ArrayList<Workstation>)
     @Insert
     fun insert(workstation: Workstation):Long
 
@@ -17,7 +17,7 @@ interface WorkstationDao {
     fun delete(workstation: Workstation)
 
     @Query("SELECT * FROM workstation")
-    fun getWorkstations(): List<Workstation>
+    fun getWorkstations(): ArrayList<Workstation>
 
     @Query("SELECT * FROM workstation where id = :workstationId")
     fun getWorkstation(workstationId: Int): Workstation
