@@ -6,8 +6,8 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.models.Workstation
-import pl.polsl.laboratorioweobecnosci.models.WorkstationsList
+import pl.polsl.laboratorioweobecnosci.database.models.Workstation
+import pl.polsl.laboratorioweobecnosci.database.models.WorkstationsList
 
 class RateActivity : AppCompatActivity() {
 

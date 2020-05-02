@@ -1,4 +1,4 @@
-package pl.polsl.laboratorioweobecnosci.models
+package pl.polsl.laboratorioweobecnosci.database.models
 
 class StudentsList: ArrayList<Student>() {
 

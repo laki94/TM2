@@ -1,15 +1,13 @@
 package pl.polsl.laboratorioweobecnosci.activities.admin
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.models.Workstation
+import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 
 class RateWorkstationDialog(context: Context) : AlertDialog.Builder(context) {
 

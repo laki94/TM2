@@ -5,14 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.button_item.view.*
-import kotlinx.android.synthetic.main.card_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.models.Workstation
-import pl.polsl.laboratorioweobecnosci.models.WorkstationsList
+import pl.polsl.laboratorioweobecnosci.database.models.Workstation
+import pl.polsl.laboratorioweobecnosci.database.models.WorkstationsList
 
 class RateListAdapter(private val context: Context, private val items: WorkstationsList): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
