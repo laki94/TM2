@@ -5,15 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.admin.ExercisesActivity">
+    tools:context=".activities.admin.LaboratoriesActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clLaboratories"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:id="@+id/rvLaboratories"
             tools:listitem="@layout/card_item"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

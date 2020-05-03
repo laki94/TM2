@@ -7,23 +7,24 @@ import androidx.room.ForeignKey
 
 import androidx.room.PrimaryKey
 import pl.polsl.laboratorioweobecnosci.R
+import java.time.LocalDateTime
 import java.util.*
 
 
 @Entity
 data class Laboratory(
-    val major: String,
-    val semester: Int,
+    var major: String,
+    var semester: Int,
     @ColumnInfo(name = "study_type")
-    val studyType: String,
+    var studyType: String,
     @ColumnInfo(name = "number_of_tasks")
-    val numberOfTasks: Int,
+    var numberOfTasks: Int,
     @ColumnInfo(name = "laboratory_start")
-    val laboratoryStart: Date,
+    var laboratoryStart: Date,
     @ColumnInfo(name = "laboratory_end")
-    val laboratoryEnd: Date,
+    var laboratoryEnd: Date,
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L
+    var id: Long = 0L
 ) {
     fun toString(context: Context): String {
         return String.format("%s: %s\n%s: %d\n%s: %s",

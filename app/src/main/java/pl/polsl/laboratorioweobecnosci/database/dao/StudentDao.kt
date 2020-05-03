@@ -2,7 +2,6 @@ package pl.polsl.laboratorioweobecnosci.database.dao
 
 import androidx.room.*
 import pl.polsl.laboratorioweobecnosci.database.models.Student
-import pl.polsl.laboratorioweobecnosci.database.models.StudentsList
 
 @Dao
 interface StudentDao {

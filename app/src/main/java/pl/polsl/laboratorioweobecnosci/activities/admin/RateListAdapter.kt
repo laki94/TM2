@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.button_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationLaboratory
-import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationLaboratoryList
+import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentWorkstationLaboratoryList
 
 class RateListAdapter(private val context: Context, private val items: StudentWorkstationLaboratoryList): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

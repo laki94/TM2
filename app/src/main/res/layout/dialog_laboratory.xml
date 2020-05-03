@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.admin.ExerciseDialog">
+    tools:context=".activities.admin.LaboratoryDialog">
 
     <EditText
         android:id="@+id/etMajor"
@@ -29,13 +29,13 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="@string/Semester"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etMajor" />
 
     <EditText
-        android:id="@+id/etSection"
+        android:id="@+id/etStudyType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -71,19 +71,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bExerciseStartDate" />
-
+    
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTasks"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+        app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bAddTask" />
+        app:layout_constraintTop_toBottomOf="@+id/bAddTask"
+        tools:listitem="@layout/task_item" />
 
     <Button
         android:id="@+id/bAddTask"
@@ -94,7 +96,8 @@
         android:layout_marginEnd="8dp"
         android:text="@string/AddTask"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSection" />
+        app:layout_constraintTop_toBottomOf="@+id/etStudyType" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,6 +24,12 @@
     <string name="AcceptGrade">Accept grade</string>
     <string name="RateWorkstation">Rate workstation %1$d</string>
     <string name="StudyType">Study type</string>
+    <string name="LaboratoryRemoved">Laboratory removed</string>
+    <string name="TaskNr">Task no. %1$d</string>
+    <string name="Remove">Remove</string>
+    <string name="Grade">Grade:</string>
+    <string name="ShortTaskNr">Task no. %1$d</string>
+    <string name="EditExercise">Edit exercise</string>
 
     <string-array name="Grades">
         <item>2</item>

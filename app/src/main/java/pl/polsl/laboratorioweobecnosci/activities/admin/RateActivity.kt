@@ -6,7 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.database.models.*
+import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentWorkstationLaboratoryList
 
 class RateActivity : AppCompatActivity() {
 
@@ -16,7 +16,9 @@ class RateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rate)
 
-        mAdapter = RateListAdapter(this, StudentWorkstationLaboratoryList())
+        mAdapter = RateListAdapter(this,
+            StudentWorkstationLaboratoryList()
+        )
 
         mAdapter.let {
             it.onWorkstationClick = {

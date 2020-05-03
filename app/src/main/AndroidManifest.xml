@@ -10,8 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".activities.admin.RateWorkstationDialog"></activity>
-        <activity android:name=".activities.admin.ExerciseDialog" />
-        <activity android:name=".activities.admin.ExercisesActivity" />
+        <activity android:name=".activities.admin.LaboratoryDialog" />
+        <activity android:name=".activities.admin.LaboratoriesActivity" />
         <activity android:name=".activities.student.StudentsListActivity" />
         <activity android:name=".activities.admin.RateActivity" />
         <activity android:name=".activities.student.StudentDialog" />

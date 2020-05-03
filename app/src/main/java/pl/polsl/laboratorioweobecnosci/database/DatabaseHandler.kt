@@ -9,6 +9,8 @@ import pl.polsl.laboratorioweobecnosci.database.converter.DateConverter
 import pl.polsl.laboratorioweobecnosci.database.converter.StudentListConverter
 import pl.polsl.laboratorioweobecnosci.database.dao.*
 import pl.polsl.laboratorioweobecnosci.database.models.*
+import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentWorkstationLaboratoryList
+import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentList
 
 @Database(
 //    entities = [Class::class, ClassTask::class, Student::class, Workstation::class, WorkstationClassTask::class],
@@ -39,12 +41,15 @@ abstract class DatabaseHandler : RoomDatabase(){
     }
     fun getWorkstationsWithStudents(laboratoryId:Int): StudentWorkstationLaboratoryList {
         var workstations = this.laboratoryDao().getLaboratoryWorkstations(laboratoryId)
-        var workstationStudent = StudentWorkstationLaboratoryList()
+        var workstationStudent =
+            StudentWorkstationLaboratoryList()
         workstations.forEach {
             workstationStudent.add(
                 StudentWorkstationLaboratory(
                     this.workstationDao().getWorkstation(it),
-                    StudentsList(this.studentDao().getStudentsOnWorkstation(laboratoryId, it))
+                    StudentList(
+                        this.studentDao().getStudentsOnWorkstation(laboratoryId, it)
+                    )
                 )
             )
         }

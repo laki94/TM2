@@ -1,12 +1,10 @@
 package pl.polsl.laboratorioweobecnosci.activities.admin
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 
 class AdminActivity : AppCompatActivity() {
 
@@ -16,7 +14,7 @@ class AdminActivity : AppCompatActivity() {
     }
 
     fun onExercisesClick(view: View) {
-        val intent = Intent(this, ExercisesActivity::class.java)
+        val intent = Intent(this, LaboratoriesActivity::class.java)
         startActivity(intent)
     }
 

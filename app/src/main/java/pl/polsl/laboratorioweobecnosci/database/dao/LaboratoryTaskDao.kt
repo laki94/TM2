@@ -2,6 +2,7 @@ package pl.polsl.laboratorioweobecnosci.database.dao
 
 import androidx.room.*
 import pl.polsl.laboratorioweobecnosci.database.models.LaboratoryTask
+import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
 
 @Dao
 interface LaboratoryTaskDao {
@@ -13,8 +14,14 @@ interface LaboratoryTaskDao {
     @Update
     fun update(laboratoryTask: LaboratoryTask)
 
+    @Update
+    fun updateAll(laboratoryTasks: List<LaboratoryTask>)
+
     @Delete
     fun delete(laboratoryTask: LaboratoryTask)
+
+    @Query("DELETE FROM laboratorytask WHERE laboratory_id = :laboratoryId")
+    fun deleteTaskWithLabId(laboratoryId: Long)
 
     @Query("SELECT * FROM laboratorytask")
     fun getAllClassTasks(): List<LaboratoryTask>

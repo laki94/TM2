@@ -24,6 +24,12 @@
     <string name="AcceptGrade">Akceptuj ocenę</string>
     <string name="RateWorkstation">Oceń stanowisko %1$d</string>
     <string name="StudyType">Typ studiów</string>
+    <string name="LaboratoryRemoved">Zajęcia usunięte</string>
+    <string name="TaskNr">Zadanie nr %1$d</string>
+    <string name="Remove">Usuń</string>
+    <string name="Grade">Ocena:</string>
+    <string name="ShortTaskNr">Zad. %1$d</string>
+    <string name="EditExercise">Edytuj ćwiczenie</string>
 
     <string-array name="Grades">
         <item>2</item>
