@@ -13,7 +13,6 @@ import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentWorkstationL
 import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentList
 
 @Database(
-//    entities = [Class::class, ClassTask::class, Student::class, Workstation::class, WorkstationClassTask::class],
     entities = [Laboratory::class, LaboratoryTask::class, Student::class, Workstation::class, WorkstationLaboratoryTask::class],
     version = 1
 

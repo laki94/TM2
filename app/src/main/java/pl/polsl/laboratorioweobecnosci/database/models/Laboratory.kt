@@ -16,6 +16,8 @@ import java.util.*
 @Entity
 data class Laboratory(
     var major: String,
+    @ColumnInfo(name = "laboratory_name")
+    var laboratoryName: String,
     var semester: Int,
     @ColumnInfo(name = "study_type")
     var studyType: String,
@@ -35,7 +37,8 @@ data class Laboratory(
     }
 
     fun getInfoString(context: Context): String {
-        return String.format("%s\n%s: %s\n%s: %d\n%s: %s",
+        return String.format("%s\n%s\n%s: %s\n%s: %d\n%s: %s",
+            laboratoryName,
             context.getString(R.string.BeginExerciseDate, getLaboratoryStartDateString()),
             context.getString(R.string.Major), major, context.getString(R.string.Semester), semester,
             context.getString(R.string.StudyType), studyType)

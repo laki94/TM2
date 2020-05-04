@@ -32,6 +32,7 @@
     <string name="EditExercise">Edytuj ćwiczenie</string>
     <string name="SelectLaboratory">Wybierz ćwiczenie</string>
     <string name="Select">Wybierz</string>
+    <string name="LaboratoryName">Nazwa ćwiczenia laboratoryjnego</string>
 
     <string-array name="Grades">
         <item>2</item>

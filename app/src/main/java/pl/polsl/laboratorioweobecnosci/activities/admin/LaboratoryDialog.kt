@@ -30,6 +30,7 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
 
     private lateinit var buttonStartDate: Button
     private lateinit var buttonEndDate: Button
+    private lateinit var etLaboratoryName: EditText
     private lateinit var etMajor: EditText
     private lateinit var etSemester: EditText
     private lateinit var etStudyType: EditText
@@ -103,6 +104,7 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
             mainLaboratory.laboratory.semester = etSemester.text.toString().toInt()
         mainLaboratory.laboratory.studyType = etStudyType.text.toString()
         mainLaboratory.laboratory.numberOfTasks = mainLaboratory.tasks.count()
+        mainLaboratory.laboratory.laboratoryName = etLaboratoryName.text.toString()
     }
 
     private fun fillInfo() {
@@ -111,6 +113,7 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
         etMajor = dialogLayout.findViewById(R.id.etMajor)
         etSemester = dialogLayout.findViewById(R.id.etSemester)
         etStudyType = dialogLayout.findViewById(R.id.etStudyType)
+        etLaboratoryName = dialogLayout.findViewById(R.id.etLaboratoryName)
 
         buttonStartDate.text = context.getString(R.string.BeginExerciseDate,
             mainLaboratory.laboratory.getLaboratoryStartDateString())
@@ -125,6 +128,7 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
         else
             etSemester.setText(mainLaboratory.laboratory.semester.toString())
         etStudyType.setText(mainLaboratory.laboratory.studyType)
+        etLaboratoryName.setText(mainLaboratory.laboratory.laboratoryName)
     }
 
     fun showEditDialog(inflater: LayoutInflater, laboratory: Laboratory, tasks: LaboratoryTaskList) {
@@ -172,7 +176,7 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
     fun showAddDialog(inflater: LayoutInflater) {
         dialogLayout = inflater.inflate(R.layout.dialog_laboratory, null)
 
-        mainLaboratory.laboratory = Laboratory("", 0, "", 0,
+        mainLaboratory.laboratory = Laboratory("","", 0, "", 0,
             Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()),
             Date.from(LocalDateTime.now().plusHours(1).plusMinutes(30)
                 .atZone(ZoneId.systemDefault()).toInstant()))

@@ -32,6 +32,7 @@
     <string name="EditExercise">Edit exercise</string>
     <string name="SelectLaboratory">Select laboratory</string>
     <string name="Select">Select</string>
+    <string name="LaboratoryName">Laboratory exercise name</string>
 
     <string-array name="Grades">
         <item>2</item>
