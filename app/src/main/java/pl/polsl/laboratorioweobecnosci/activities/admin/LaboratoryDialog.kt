@@ -41,8 +41,7 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
 
     private fun setButtonsOnClicks() {
         buttonStartDate.setOnClickListener {
-            var dateFrom = mainLaboratory.laboratory.laboratoryStart.toInstant()
-                .atZone(ZoneId.systemDefault()).toLocalDateTime()
+            var dateFrom = mainLaboratory.laboratory.getLaboratoryStartDate()
 
             val newYear = dateFrom.year
             val newMonth = dateFrom.month.value
@@ -69,8 +68,7 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
         }
 
         buttonEndDate.setOnClickListener {
-            var dateTo = mainLaboratory.laboratory.laboratoryEnd.toInstant()
-                .atZone(ZoneId.systemDefault()).toLocalDateTime()
+            var dateTo = mainLaboratory.laboratory.getLaboratoryEndDate()
 
             val newYear = dateTo.year
             val newMonth = dateTo.month.value
@@ -114,16 +112,12 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
         etSemester = dialogLayout.findViewById(R.id.etSemester)
         etStudyType = dialogLayout.findViewById(R.id.etStudyType)
 
-        val dateFrom = mainLaboratory.laboratory.laboratoryStart.toInstant()
-            .atZone(ZoneId.systemDefault()).toLocalDateTime()
-        val dateTo = mainLaboratory.laboratory.laboratoryEnd.toInstant()
-            .atZone(ZoneId.systemDefault()).toLocalDateTime()
         buttonStartDate.text = context.getString(R.string.BeginExerciseDate,
-            dateFrom.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")))
+            mainLaboratory.laboratory.getLaboratoryStartDateString())
 
         buttonEndDate.text =
             context.getString(R.string.EndExerciseDate,
-                dateTo.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")))
+                mainLaboratory.laboratory.getLaboratoryEndDateString())
 
         etMajor.setText(mainLaboratory.laboratory.major)
         if (mainLaboratory.laboratory.semester == 0)

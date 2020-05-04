@@ -30,6 +30,8 @@
     <string name="Grade">Grade:</string>
     <string name="ShortTaskNr">Task no. %1$d</string>
     <string name="EditExercise">Edit exercise</string>
+    <string name="SelectLaboratory">Select laboratory</string>
+    <string name="Select">Select</string>
 
     <string-array name="Grades">
         <item>2</item>

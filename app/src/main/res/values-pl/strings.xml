@@ -30,6 +30,8 @@
     <string name="Grade">Ocena:</string>
     <string name="ShortTaskNr">Zad. %1$d</string>
     <string name="EditExercise">Edytuj ćwiczenie</string>
+    <string name="SelectLaboratory">Wybierz ćwiczenie</string>
+    <string name="Select">Wybierz</string>
 
     <string-array name="Grades">
         <item>2</item>

@@ -8,6 +8,8 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import pl.polsl.laboratorioweobecnosci.R
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -30,5 +32,30 @@ data class Laboratory(
         return String.format("%s: %s\n%s: %d\n%s: %s",
             context.getString(R.string.Major), major, context.getString(R.string.Semester), semester,
             context.getString(R.string.StudyType), studyType)
+    }
+
+    fun getInfoString(context: Context): String {
+        return String.format("%s\n%s: %s\n%s: %d\n%s: %s",
+            context.getString(R.string.BeginExerciseDate, getLaboratoryStartDateString()),
+            context.getString(R.string.Major), major, context.getString(R.string.Semester), semester,
+            context.getString(R.string.StudyType), studyType)
+    }
+
+    fun getLaboratoryStartDate(): LocalDateTime {
+        return laboratoryStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+    }
+
+    fun getLaboratoryEndDate(): LocalDateTime {
+        return laboratoryEnd.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+    }
+
+    fun getLaboratoryStartDateString(): String {
+        return getLaboratoryStartDate()
+            .format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
+    }
+
+    fun getLaboratoryEndDateString(): String {
+        return getLaboratoryEndDate()
+            .format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
     }
 }

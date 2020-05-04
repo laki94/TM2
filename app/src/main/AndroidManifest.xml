@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activities.admin.RateWorkstationDialog"></activity>
+        <activity android:name=".activities.admin.LaboratoriesDialog"></activity>
+        <activity android:name=".activities.admin.RateWorkstationDialog" />
         <activity android:name=".activities.admin.LaboratoryDialog" />
         <activity android:name=".activities.admin.LaboratoriesActivity" />
         <activity android:name=".activities.student.StudentsListActivity" />

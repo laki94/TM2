@@ -7,7 +7,10 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.admin.AdminActivity
+import pl.polsl.laboratorioweobecnosci.activities.admin.LaboratoriesDialog
 import pl.polsl.laboratorioweobecnosci.activities.student.StudentsListActivity
+import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
+import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryList
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +25,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onBeginExerciseClick(view: View) {
-        val intent = Intent(this, StudentsListActivity::class.java)
-        startActivity(intent)
+        val dialog = LaboratoriesDialog(this)
+        Thread {
+            val db = DatabaseHandler(this)
+            val laboratories = db.laboratoryDao().getLaboratories()
+            val arrList = LaboratoryList()
+            laboratories.iterator().forEachRemaining {
+                arrList.add(it)
+            }
+            runOnUiThread {
+                dialog.showLaboratories(layoutInflater, arrList)
+            }
+        }.start()
     }
 }
