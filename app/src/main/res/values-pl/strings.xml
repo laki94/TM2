@@ -33,6 +33,8 @@
     <string name="SelectLaboratory">Wybierz ćwiczenie</string>
     <string name="Select">Wybierz</string>
     <string name="LaboratoryName">Nazwa ćwiczenia laboratoryjnego</string>
+    <string name="FillData">Uzupełnij dane</string>
+    <string name="Students">Studenci</string>
 
     <string-array name="Grades">
         <item>2</item>

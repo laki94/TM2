@@ -8,7 +8,7 @@ interface WorkstationDao {
     @Insert
     fun insertAll(workstation: ArrayList<Workstation>)
     @Insert
-    fun insert(workstation: Workstation):Long
+    fun insert(workstation: Workstation): Long
 
     @Update
     fun update(workstation: Workstation)
@@ -21,4 +21,7 @@ interface WorkstationDao {
 
     @Query("SELECT * FROM workstation where id = :workstationId")
     fun getWorkstation(workstationId: Int): Workstation
+
+    @Query("SELECT id FROM workstation where number = :workstationNr")
+    fun getWorkstationId(workstationNr: Int): Int
 }

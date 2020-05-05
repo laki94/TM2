@@ -7,12 +7,17 @@ import pl.polsl.laboratorioweobecnosci.database.converter.StudentListConverter
 @Entity
 data class Student(
     @ColumnInfo(name = "first_name")
-    val firstName: String,
+    var firstName: String,
     @ColumnInfo(name = "last_name")
-    val lastName: String,
+    var lastName: String,
     @ColumnInfo(name = "laboratory_id")
-    val laboratoryId:Int,
+    var laboratoryId:Int,
     @ColumnInfo(name = "workstation_id")
-    val workstationId:Int,
+    var workstationId:Int,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
+) {
+    fun toShortString(): String {
+        return String.format("%s %s", firstName, lastName)
+    }
+}

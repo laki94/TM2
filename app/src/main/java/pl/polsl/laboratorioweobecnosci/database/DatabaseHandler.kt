@@ -38,19 +38,19 @@ abstract class DatabaseHandler : RoomDatabase(){
             .addMigrations()
             .build()
     }
-    fun getWorkstationsWithStudents(laboratoryId:Int): StudentWorkstationLaboratoryList {
+    fun getWorkstationsWithStudents(laboratoryId:Int): StudentWorkstationLaboratoryList {// ????
         var workstations = this.laboratoryDao().getLaboratoryWorkstations(laboratoryId)
         var workstationStudent =
             StudentWorkstationLaboratoryList()
         workstations.forEach {
-            workstationStudent.add(
-                StudentWorkstationLaboratory(
-                    this.workstationDao().getWorkstation(it),
-                    StudentList(
-                        this.studentDao().getStudentsOnWorkstation(laboratoryId, it)
-                    )
-                )
-            )
+            var workstation = this.workstationDao().getWorkstation(it)
+            var list = this.studentDao().getStudentsOnWorkstation(laboratoryId, it)
+            var newStudentWorkstation = StudentWorkstationLaboratory(workstation, StudentList())
+
+            list.iterator().forEachRemaining { student ->
+                newStudentWorkstation.students.add(student)
+            }
+            workstationStudent.add(newStudentWorkstation)
         }
         return workstationStudent
     }
