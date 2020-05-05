@@ -35,6 +35,7 @@
     <string name="LaboratoryName">Nazwa ćwiczenia laboratoryjnego</string>
     <string name="FillData">Uzupełnij dane</string>
     <string name="Students">Studenci</string>
+    <string name="EditStudent">Edytuj studenta</string>
 
     <string-array name="Grades">
         <item>2</item>

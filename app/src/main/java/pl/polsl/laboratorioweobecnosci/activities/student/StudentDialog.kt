@@ -13,21 +13,22 @@ import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.LaboratoryTaskModel
 import pl.polsl.laboratorioweobecnosci.database.models.Student
+import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationModel
 import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 
 class StudentDialog(context: Context) : AlertDialog.Builder(context) {
 
-    var onSaveClick: ((Student) -> Unit)? = null
+    var onSaveClick: ((StudentWorkstationModel) -> Unit)? = null
 
-    private var mainStudent = Student("", "", 0, 0)
+    private var mainStudentWorkstation = StudentWorkstationModel()
+
     private lateinit var dialogLayout: View
-    private lateinit var etWorkstationNr: EditText
 
     fun addStudent(layoutInflater: LayoutInflater, laboratoryId: Int) {
         dialogLayout = layoutInflater.inflate(R.layout.activity_student, null)
-        etWorkstationNr = dialogLayout.findViewById(R.id.etWorkstation)
-        mainStudent.laboratoryId = laboratoryId
-
+        mainStudentWorkstation.student = Student("", "", laboratoryId,0)
+        mainStudentWorkstation.workstation = Workstation(0)
+        fillInfo()
         setTitle(R.string.AddStudent)
         setView(dialogLayout)
         setPositiveButton(R.string.Save) { _, _ -> }
@@ -38,28 +39,67 @@ class StudentDialog(context: Context) : AlertDialog.Builder(context) {
         val btn = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         btn.setOnClickListener {
             fillStudentInfo()
-            if (mainStudent.firstName.isNotEmpty() && mainStudent.lastName.isNotEmpty() && etWorkstationNr.text.isNotEmpty()) {
-                Thread {
-                    val db = DatabaseHandler(context)
-                    var workstationId = db.workstationDao().getWorkstationId(etWorkstationNr.text.toString().toInt())
-                    if (workstationId == 0)
-                        workstationId = db.workstationDao().insert(Workstation(etWorkstationNr.text.toString().toInt())).toInt()
-                    mainStudent.workstationId = workstationId
-                    db.studentDao().insert(mainStudent)
-                    onSaveClick?.invoke(mainStudent)
-                    dialog.dismiss()
-                }.start()
+            if (mainStudentWorkstation.student.firstName.isNotEmpty() && mainStudentWorkstation.student.lastName.isNotEmpty() && (mainStudentWorkstation.workstation.number != 0)) {
+                onSaveClick?.invoke(mainStudentWorkstation)
+                dialog.dismiss()
             } else {
                 Toast.makeText(context, R.string.FillData, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    fun editStudent(student: Student, workstation: Workstation, layoutInflater: LayoutInflater) {
+        dialogLayout = layoutInflater.inflate(R.layout.activity_student, null)
+        mainStudentWorkstation.student = student
+        mainStudentWorkstation.workstation = workstation
+        mainStudentWorkstation.workstation.id = 0
+
+        fillInfo()
+        setTitle(R.string.EditStudent)
+        setView(dialogLayout)
+        setPositiveButton(R.string.Save) { _, _ -> }
+
+        val dialog = create()
+        dialog.show()
+
+        val btn = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        btn.setOnClickListener {
+            fillStudentInfo()
+            if (mainStudentWorkstation.student.firstName.isNotEmpty() && mainStudentWorkstation.student.lastName.isNotEmpty() && (mainStudentWorkstation.workstation.number != 0)) {
+                onSaveClick?.invoke(mainStudentWorkstation)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(context, R.string.FillData, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun fillInfo() {
+        val etFirstName = dialogLayout.findViewById<EditText>(R.id.etName)
+        val etLastName = dialogLayout.findViewById<EditText>(R.id.etLastName)
+        val etWorkstationNr = dialogLayout.findViewById<EditText>(R.id.etWorkstation)
+
+        etFirstName.setText(mainStudentWorkstation.student.firstName)
+        etLastName.setText(mainStudentWorkstation.student.lastName)
+        if (mainStudentWorkstation.workstation.number == 0) {
+            etWorkstationNr.setText("")
+        } else {
+            etWorkstationNr.setText(mainStudentWorkstation.workstation.number.toString())
+        }
+    }
+
     private fun fillStudentInfo() {
         val etStudentFirstName = dialogLayout.findViewById<EditText>(R.id.etName)
         val etStudentLastName = dialogLayout.findViewById<EditText>(R.id.etLastName)
+        val etWorkstationNr = dialogLayout.findViewById<EditText>(R.id.etWorkstation)
 
-        mainStudent.firstName = etStudentFirstName.text.toString()
-        mainStudent.lastName = etStudentLastName.text.toString()
+        mainStudentWorkstation.student.firstName = etStudentFirstName.text.toString()
+        mainStudentWorkstation.student.lastName = etStudentLastName.text.toString()
+
+        if (etWorkstationNr.text.toString().toIntOrNull() == null) {
+            mainStudentWorkstation.workstation.number = 0
+        } else {
+            mainStudentWorkstation.workstation.number = etWorkstationNr.text.toString().toInt()
+        }
     }
 }

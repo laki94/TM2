@@ -7,6 +7,7 @@ import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 interface WorkstationDao {
     @Insert
     fun insertAll(workstation: ArrayList<Workstation>)
+
     @Insert
     fun insert(workstation: Workstation): Long
 

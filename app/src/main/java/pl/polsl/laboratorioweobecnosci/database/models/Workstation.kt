@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Workstation (
     @ColumnInfo(name = "number")
-    val number: Int,
+    var number: Int,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
+    var id: Int = 0
 )

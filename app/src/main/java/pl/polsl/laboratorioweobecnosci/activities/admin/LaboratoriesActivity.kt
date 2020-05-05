@@ -117,7 +117,7 @@ class LaboratoriesActivity : AppCompatActivity() {
                     Thread {
                         val edLaboratory = laboratories[pos]
                         val db = DatabaseHandler(this@LaboratoriesActivity)
-                        val tasks = db.laboratoryTaskDao().getTasksForClass(edLaboratory.id.toInt())
+                        val tasks = db.laboratoryTaskDao().getTasksForClass(edLaboratory.id)
 
                         val arrTasks = LaboratoryTaskList()
 

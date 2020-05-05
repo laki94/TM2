@@ -52,7 +52,7 @@ class StudentsAdapter(private val context: Context, private val items: StudentLi
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val myHolder = holder as MyViewHolder
 
-        myHolder.tvItem.text = items[position].toShortString()
+        myHolder.tvItem.text = String.format("%d. %s", position+1, items[position].toShortString())
     }
 
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {
