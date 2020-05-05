@@ -104,7 +104,7 @@ class LaboratoriesActivity : AppCompatActivity() {
                                 Thread {
                                     val db = DatabaseHandler(this@LaboratoriesActivity)
                                     db.laboratoryDao().delete(delLaboratory)
-                                    if (delLaboratory.id != 0L)
+                                    if (delLaboratory.id != 0)
                                         db.laboratoryTaskDao().deleteTaskWithLabId(delLaboratory.id)
                                 }.start()
                             }
@@ -196,7 +196,7 @@ class LaboratoriesActivity : AppCompatActivity() {
             Thread {
                 val db = DatabaseHandler(this)
                 val labId = db.laboratoryDao().insert(it.laboratory)
-                it.laboratory.id = labId
+                it.laboratory.id = labId.toInt()
                 it.tasks.setLaboratoryId(labId.toInt())
                 db.laboratoryTaskDao().insertAll(it.tasks)
                 runOnUiThread {

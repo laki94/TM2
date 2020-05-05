@@ -18,7 +18,7 @@ data class LaboratoryTask(
     @ColumnInfo(name = "laboratory_id")
     var laboratoryId: Int,
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L
+    val id: Int = 0
 ) {
     fun toString(context: Context): String {
         return context.getString(R.string.ShortTaskNr, taskNumber)

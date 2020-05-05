@@ -15,7 +15,7 @@ import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryList
 class LaboratoriesAdapter(private val context: Context, private val items: LaboratoryList): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onLaboratoryClick: ((Laboratory) -> Unit)? = null
-    private var selectedLabId = 0L
+    private var selectedLabId = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.card_item, parent, false))
@@ -25,7 +25,7 @@ class LaboratoriesAdapter(private val context: Context, private val items: Labor
         return items.size
     }
 
-    fun selectItem(labId: Long) {
+    fun selectItem(labId: Int) {
         selectedLabId = labId
         notifyDataSetChanged()
     }

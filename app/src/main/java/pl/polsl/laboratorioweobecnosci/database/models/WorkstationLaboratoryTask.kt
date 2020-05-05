@@ -12,5 +12,5 @@ data class WorkstationLaboratoryTask (
     @ColumnInfo(name = "workstation_id")
     val workstationId:Int,
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L
+    val id: Int = 0
 )

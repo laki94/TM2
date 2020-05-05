@@ -21,7 +21,7 @@ interface LaboratoryTaskDao {
     fun delete(laboratoryTask: LaboratoryTask)
 
     @Query("DELETE FROM laboratorytask WHERE laboratory_id = :laboratoryId")
-    fun deleteTaskWithLabId(laboratoryId: Long)
+    fun deleteTaskWithLabId(laboratoryId: Int)
 
     @Query("SELECT * FROM laboratorytask")
     fun getAllClassTasks(): List<LaboratoryTask>

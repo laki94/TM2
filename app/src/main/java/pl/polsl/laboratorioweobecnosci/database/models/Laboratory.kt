@@ -28,7 +28,7 @@ data class Laboratory(
     @ColumnInfo(name = "laboratory_end")
     var laboratoryEnd: Date,
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0L
+    var id: Int = 0
 ) {
     fun toString(context: Context): String {
         return String.format("%s: %s\n%s: %d\n%s: %s",

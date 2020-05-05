@@ -11,5 +11,5 @@ data class Workstation (
     @ColumnInfo(name = "number")
     val number: Int,
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L
+    val id: Int = 0
 )
