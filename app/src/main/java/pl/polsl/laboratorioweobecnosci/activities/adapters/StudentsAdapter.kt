@@ -43,6 +43,10 @@ class StudentsAdapter(private val context: Context, private val items: StudentLi
     fun restoreItem(student: Student, position: Int) {
         items.add(position, student)
         notifyItemInserted(position)
+
+        if (position != itemCount - 1)
+            for (pos in position + 1 until itemCount)
+                refreshItem(pos)
     }
 
     override fun getItemCount(): Int {
