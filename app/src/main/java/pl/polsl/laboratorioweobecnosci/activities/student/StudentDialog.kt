@@ -7,6 +7,7 @@ import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import pl.polsl.laboratorioweobecnosci.R
@@ -40,8 +41,18 @@ class StudentDialog(context: Context) : AlertDialog.Builder(context) {
         btn.setOnClickListener {
             fillStudentInfo()
             if (mainStudentWorkstation.student.firstName.isNotEmpty() && mainStudentWorkstation.student.lastName.isNotEmpty() && (mainStudentWorkstation.workstation.number != 0)) {
-                onSaveClick?.invoke(mainStudentWorkstation)
-                dialog.dismiss()
+                val confirmDialog = AlertDialog.Builder(context)
+                val confirmDialogLayout = layoutInflater.inflate(R.layout.card_item, null)
+                confirmDialog.setTitle(R.string.IsDataValid)
+                confirmDialog.setPositiveButton(R.string.Yes) { _, _ ->
+                    onSaveClick?.invoke(mainStudentWorkstation)
+                    dialog.dismiss()
+                }
+                confirmDialog.setNeutralButton(R.string.Cancel) { _, _ -> }
+                confirmDialog.setView(confirmDialogLayout)
+                val tvStudentInfo = confirmDialogLayout.findViewById<TextView>(R.id.tvItem)
+                tvStudentInfo.text = mainStudentWorkstation.toString(context)
+                confirmDialog.show()
             } else {
                 Toast.makeText(context, R.string.FillData, Toast.LENGTH_SHORT).show()
             }

@@ -36,6 +36,10 @@
     <string name="FillData">Fill data</string>
     <string name="Students">Students</string>
     <string name="EditStudent">Edit student</string>
+    <string name="ConfirmData">Confirm data</string>
+    <string name="Yes">Yes</string>
+    <string name="Cancel">Cancel</string>
+    <string name="IsDataValid">Is the data valid?</string>
 
     <string-array name="Grades">
         <item>2</item>

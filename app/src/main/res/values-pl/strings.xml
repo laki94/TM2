@@ -36,6 +36,10 @@
     <string name="FillData">Uzupełnij dane</string>
     <string name="Students">Studenci</string>
     <string name="EditStudent">Edytuj studenta</string>
+    <string name="ConfirmData">Potwierdź dane</string>
+    <string name="Yes">Tak</string>
+    <string name="Cancel">Anuluj</string>
+    <string name="IsDataValid">Czy dane są poprawne?</string>
 
     <string-array name="Grades">
         <item>2</item>
