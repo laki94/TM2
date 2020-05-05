@@ -1,5 +1,6 @@
 package pl.polsl.laboratorioweobecnosci.activities.admin
 
+import android.content.Intent
 import android.graphics.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.adapters.LaboratoryAdapter
+import pl.polsl.laboratorioweobecnosci.activities.student.StudentsListActivity
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.Laboratory
 import pl.polsl.laboratorioweobecnosci.database.models.LaboratoryTask
@@ -31,18 +33,10 @@ class LaboratoriesActivity : AppCompatActivity() {
 
         adapter.let {
             it.onLaboratoryClick = {
-                Thread {
-                    val db = DatabaseHandler(this)
-                    val tasks = db.laboratoryTaskDao().getTasksForClass(it.id.toInt())
-                    val arrListTasks = LaboratoryTaskList()
-                    tasks.iterator().forEachRemaining {
-                        arrListTasks.add(it)
-                    }
-
-                    runOnUiThread {
-                        editLaboratory(it, arrListTasks)
-                    }
-                }.start()
+                val intent = Intent(this, StudentsListActivity::class.java)
+                intent.putExtra("LABID", it.id)
+                intent.putExtra("ADMINMODE", true)
+                startActivity(intent)
             }
         }
         val rvList = findViewById<RecyclerView>(R.id.rvLaboratories)

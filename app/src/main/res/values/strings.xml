@@ -40,6 +40,7 @@
     <string name="Yes">Yes</string>
     <string name="Cancel">Cancel</string>
     <string name="IsDataValid">Is the data valid?</string>
+    <string name="StudentRemoved">Student removed</string>
 
     <string-array name="Grades">
         <item>2</item>

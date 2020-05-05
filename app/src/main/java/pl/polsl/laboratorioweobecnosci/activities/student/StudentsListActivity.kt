@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.adapters.StudentsAdapter
@@ -38,8 +39,11 @@ class StudentsListActivity : AppCompatActivity() {
         val extras = intent.extras
         if (extras != null) {
             laboratoryId = extras.getInt("LABID", 0)
-            if (extras.getBoolean("EDITENABLED", false))
+            if (extras.getBoolean("ADMINMODE", false)) {
                 enableSwipe()
+                val fab = findViewById<FloatingActionButton>(R.id.fabAddStudent)
+                fab.visibility = View.GONE
+            }
         }
 
         Thread {
@@ -118,7 +122,7 @@ class StudentsListActivity : AppCompatActivity() {
                     studentsAtLaboratory.remove(delStudent)
 
                     val snackbar = Snackbar.make(findViewById(R.id.clStudents),
-                        R.string.LaboratoryRemoved, Snackbar.LENGTH_INDEFINITE)
+                        R.string.StudentRemoved, Snackbar.LENGTH_INDEFINITE)
                     snackbar.setAction("UNDO") {
                         studentsAdapter.restoreItem(delStudent, pos)
                     }
