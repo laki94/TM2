@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.button_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.models.*
+import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
 import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfWorkstationsWithStudents
 import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentWorkstationLaboratoryList
 import kotlin.math.roundToInt
@@ -44,7 +45,7 @@ class RateListAdapter(private val context: Context, private val items: ListOfWor
 
         init {
             bItem.setOnClickListener {
-//                onWorkstationClick?.invoke(items[adapterPosition])
+                onWorkstationClick?.invoke(items[adapterPosition])
             }
         }
     }

@@ -6,8 +6,10 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.RateDialog
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.ListOfStudentsAtWorkstation
+import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
 import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfWorkstationsWithStudents
 import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentList
 import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentWorkstationLaboratoryList
@@ -17,6 +19,7 @@ class RateActivity : AppCompatActivity() {
     private lateinit var adapter: RateListAdapter
     private var labId = 0
     private var workstationsWithStudents = ListOfWorkstationsWithStudents()
+    private var tasks = LaboratoryTaskList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +33,10 @@ class RateActivity : AppCompatActivity() {
         adapter = RateListAdapter(this, workstationsWithStudents)
 
         adapter.let {
-            it.onWorkstationClick = {
-                showRateSingleWorkstationDialog();
+            it.onWorkstationClick = { studentsAtWorkstation ->
+
+                val dialog = RateDialog(this)
+                dialog.rate(layoutInflater, studentsAtWorkstation, tasks)
             }
         }
 
@@ -41,6 +46,10 @@ class RateActivity : AppCompatActivity() {
 
         Thread {
             val db = DatabaseHandler(this)
+            db.laboratoryTaskDao().getTasksForClass(labId).forEach {
+                tasks.add(it)
+            }
+
             db.laboratoryDao().getLaboratoryStudents(labId).iterator().forEachRemaining {
                 workstationsWithStudents.addStudentToWorkstation(it, db.workstationDao().getWorkstation(it.workstationId))
             }
