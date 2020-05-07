@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.laboratory_item.view.*
 import kotlinx.android.synthetic.main.students_workstation_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.models.*
