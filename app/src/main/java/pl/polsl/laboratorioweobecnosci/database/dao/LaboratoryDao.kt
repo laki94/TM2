@@ -26,4 +26,6 @@ interface LaboratoryDao {
     @Query("SELECT workstation_id FROM student where laboratory_id = :laboratoryId group by workstation_id")
     fun getLaboratoryWorkstations(laboratoryId: Int): List<Int>
 
+    @Query("SELECT * FROM laboratory WHERE id = :laboratoryId")
+    fun getLaboratory(laboratoryId: Int): Laboratory
 }

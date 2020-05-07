@@ -1,71 +1,40 @@
 package pl.polsl.laboratorioweobecnosci.activities.adapters
 
 import android.content.Context
+import android.graphics.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.card_item.view.*
+import kotlinx.android.synthetic.main.students_workstation_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.database.models.Laboratory
-import pl.polsl.laboratorioweobecnosci.database.models.Student
-import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryList
-import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentList
+import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
+import pl.polsl.laboratorioweobecnosci.database.models.ListOfStudentsAtWorkstation
+import pl.polsl.laboratorioweobecnosci.database.models.StudentListWorkstationModel
+import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationModel
 
-class StudentsAdapter(private val context: Context, private val items: StudentList): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    var onStudentClick: ((Student) -> Unit)? = null
+class StudentsAdapter(private val context: Context, private val items: StudentListWorkstationModel): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.card_item, parent, false))
-    }
-
-    fun removeItem(position: Int) {
-        items.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, itemCount)
-    }
-
-    fun addNewItem(student: Student) {
-        items.add(student)
-        notifyItemChanged(itemCount - 1)
-    }
-
-    fun editItem(student: Student) {
-        notifyItemChanged(items.indexOf(student))
-    }
-
-    fun refreshItem(position: Int) {
-        notifyItemChanged(position)
-    }
-
-    fun restoreItem(student: Student, position: Int) {
-        items.add(position, student)
-        notifyItemInserted(position)
-
-        if (position != itemCount - 1)
-            for (pos in position + 1 until itemCount)
-                refreshItem(pos)
+        return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.card_item_margin, parent, false))
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return items.students.count()
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val myHolder = holder as MyViewHolder
 
-        myHolder.tvItem.text = String.format("%d. %s", position+1, items[position].toShortString())
+        myHolder.tvItem.text = String.format(items.students[position].toShortString())
     }
 
-    inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {
+    inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvItem: TextView = view.tvItem
-
-        init {
-            tvItem.setOnClickListener {
-                onStudentClick?.invoke(items[adapterPosition])
-            }
-        }
     }
 }

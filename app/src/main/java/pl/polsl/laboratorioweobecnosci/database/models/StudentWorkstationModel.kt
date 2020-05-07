@@ -14,4 +14,9 @@ class StudentWorkstationModel {
         context.getString(R.string.LastName), student.lastName,
         context.getString(R.string.Workstation), workstation.number)
     }
+
+    fun compare(studentWorkstation: StudentWorkstationModel): Boolean {
+        return (student.simpleCompare(studentWorkstation.student) &&
+                workstation.simpleCompare(studentWorkstation.workstation))
+    }
 }

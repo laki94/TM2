@@ -41,6 +41,7 @@
     <string name="Cancel">Anuluj</string>
     <string name="IsDataValid">Czy dane są poprawne?</string>
     <string name="StudentRemoved">Student usunięty</string>
+    <string name="WorkstationNr">Stanowisko nr %1$d</string>
 
     <string-array name="Grades">
         <item>2</item>

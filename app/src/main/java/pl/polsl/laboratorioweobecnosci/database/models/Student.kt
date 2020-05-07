@@ -20,4 +20,15 @@ data class Student(
     fun toShortString(): String {
         return String.format("%s %s", firstName, lastName)
     }
+
+    fun compare(student: Student): Boolean {
+        return (id == student.id) && (firstName == student.firstName) &&
+                (lastName == student.lastName) && (laboratoryId == student.laboratoryId) &&
+                (workstationId == student.workstationId)
+    }
+
+    fun simpleCompare(student: Student): Boolean {
+        return (firstName == student.firstName) && (lastName == student.lastName) &&
+                (laboratoryId == student.laboratoryId) && (workstationId == student.workstationId)
+    }
 }
