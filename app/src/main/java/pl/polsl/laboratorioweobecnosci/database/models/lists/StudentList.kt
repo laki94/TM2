@@ -15,4 +15,12 @@ class StudentList: ArrayList<Student>() {
         }
         add(student)
     }
+
+    fun toNewLineSeparatedString(): String {
+        var res = ""
+        forEach {
+            res += it.toShortString() + "\n"
+        }
+        return res.trim()
+    }
 }

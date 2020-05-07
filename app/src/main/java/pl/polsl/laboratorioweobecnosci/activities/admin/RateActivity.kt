@@ -6,21 +6,30 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
+import pl.polsl.laboratorioweobecnosci.database.models.ListOfStudentsAtWorkstation
+import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfWorkstationsWithStudents
+import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentList
 import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentWorkstationLaboratoryList
 
 class RateActivity : AppCompatActivity() {
 
-    private lateinit var mAdapter: RateListAdapter
+    private lateinit var adapter: RateListAdapter
+    private var labId = 0
+    private var workstationsWithStudents = ListOfWorkstationsWithStudents()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rate)
 
-        mAdapter = RateListAdapter(this,
-            StudentWorkstationLaboratoryList()
-        )
+        val extras = intent.extras
+        if (extras != null) {
+            labId = extras.getInt("LABID", 0)
+        }
 
-        mAdapter.let {
+        adapter = RateListAdapter(this, workstationsWithStudents)
+
+        adapter.let {
             it.onWorkstationClick = {
                 showRateSingleWorkstationDialog();
             }
@@ -28,7 +37,17 @@ class RateActivity : AppCompatActivity() {
 
         val list = findViewById<RecyclerView>(R.id.rvWorkstations)
         list.layoutManager = LinearLayoutManager(this)
-        list.adapter = mAdapter
+        list.adapter = adapter
+
+        Thread {
+            val db = DatabaseHandler(this)
+            db.laboratoryDao().getLaboratoryStudents(labId).iterator().forEachRemaining {
+                workstationsWithStudents.addStudentToWorkstation(it, db.workstationDao().getWorkstation(it.workstationId))
+            }
+            runOnUiThread {
+                adapter.notifyDataSetChanged()
+            }
+        }.start()
     }
 
     private fun showRateSingleWorkstationDialog() {
