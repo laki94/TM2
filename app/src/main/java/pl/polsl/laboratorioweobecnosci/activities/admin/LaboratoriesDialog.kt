@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Telephony
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
@@ -45,7 +46,31 @@ class LaboratoriesDialog(context: Context) : AlertDialog.Builder(context) {
         rvList.adapter = laboratoriesAdapter
     }
 
-    fun showLaboratories(inflater: LayoutInflater, allLaboratories: LaboratoryList) {
+    fun showLaboratoriesForRating(inflater: LayoutInflater, allLaboratories: LaboratoryList) {
+        dialogLayout = inflater.inflate(R.layout.dialog_laboratories, null)
+        laboratories = allLaboratories
+
+        setTaskAdapter()
+        setTitle(R.string.SelectLaboratory)
+        setView(dialogLayout)
+        setPositiveButton(R.string.Select) { _, _ -> }
+        val dialog = create()
+        dialog.show()
+
+        val btn = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        btn.setOnClickListener {
+            if (!this::selectedLaboratory.isInitialized)
+                Toast.makeText(context, R.string.SelectLaboratory, Toast.LENGTH_SHORT).show()
+            else {
+                dialog.dismiss()
+                val intent = Intent(context, RateActivity::class.java)
+                intent.putExtra("LABID", selectedLaboratory.id)
+                startActivity(context, intent, null)
+            }
+        }
+    }
+
+    fun showLaboratoriesForStudents(inflater: LayoutInflater, allLaboratories: LaboratoryList) {
         dialogLayout = inflater.inflate(R.layout.dialog_laboratories, null)
         laboratories = allLaboratories
 

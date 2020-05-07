@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
+import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryList
 
 class AdminActivity : AppCompatActivity() {
 
@@ -19,8 +21,17 @@ class AdminActivity : AppCompatActivity() {
     }
 
     fun onRateClick(view: View) {
-        val intent = Intent(this, RateActivity::class.java)
-        startActivity(intent)
+        Thread {
+            val db = DatabaseHandler(this)
+            val laboratories = LaboratoryList()
+            db.laboratoryDao().getLaboratories().iterator().forEachRemaining {
+                laboratories.add(it)
+            }
+            runOnUiThread {
+                val dialog = LaboratoriesDialog(this)
+                dialog.showLaboratoriesForRating(layoutInflater, laboratories)
+            }
+        }.start()
     }
 
     fun onGenerateCSVClick(view: View) {

@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
                 arrList.add(it)
             }
             runOnUiThread {
-                dialog.showLaboratories(layoutInflater, arrList)
+                dialog.showLaboratoriesForStudents(layoutInflater, arrList)
             }
         }.start()
     }
