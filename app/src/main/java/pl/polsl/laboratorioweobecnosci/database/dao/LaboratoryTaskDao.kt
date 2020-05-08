@@ -28,4 +28,7 @@ interface LaboratoryTaskDao {
 
     @Query("SELECT * FROM laboratorytask where laboratory_id = :classId")
     fun getTasksForClass(classId: Int): List<LaboratoryTask>
+
+    @Query("SELECT * FROM laboratorytask where id = :taskId")
+    fun getTaskWithId(taskId: Int): LaboratoryTask
 }

@@ -10,10 +10,10 @@
         android:id="@+id/rvTasks"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/rate_task_item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/rate_task_item" />
 
     <Spinner
         android:id="@+id/sGrade"
@@ -28,7 +28,6 @@
         android:id="@+id/tvProposedGrade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:labelFor="@id/sGrade"
         android:text="@string/ProposedGrade"

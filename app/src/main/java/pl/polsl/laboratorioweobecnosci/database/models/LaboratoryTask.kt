@@ -23,4 +23,9 @@ data class LaboratoryTask(
     fun toString(context: Context): String {
         return context.getString(R.string.ShortTaskNr, taskNumber)
     }
+
+    fun simpleCompare(laboratoryTask: LaboratoryTask): Boolean {
+        return (taskNumber == laboratoryTask.taskNumber) && (degree == laboratoryTask.degree) &&
+                (laboratoryId == laboratoryTask.laboratoryId)
+    }
 }

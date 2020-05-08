@@ -34,9 +34,21 @@ class RateActivity : AppCompatActivity() {
 
         adapter.let {
             it.onWorkstationClick = { studentsAtWorkstation ->
-
-                val dialog = RateDialog(this)
-                dialog.rate(layoutInflater, studentsAtWorkstation, tasks)
+                val tasksDone = LaboratoryTaskList()
+                Thread {
+                    val db = DatabaseHandler(this)
+                    val tmpTasksDone = db.workstationLaboratoryTaskDao()
+                        .getTasksDoneForWorkstationAtLaboratory(studentsAtWorkstation.workstation.id,
+                        studentsAtWorkstation.students[0].laboratoryId)
+                    tmpTasksDone.iterator().forEach {workstationTask ->
+                        val task = db.laboratoryTaskDao().getTaskWithId(workstationTask.laboratoryTaskId)
+                        tasksDone.add(task)
+                    }
+                    runOnUiThread {
+                        val dialog = RateDialog(this)
+                        dialog.rate(layoutInflater, studentsAtWorkstation, tasks, tasksDone)
+                    }
+                }.start()
             }
         }
 

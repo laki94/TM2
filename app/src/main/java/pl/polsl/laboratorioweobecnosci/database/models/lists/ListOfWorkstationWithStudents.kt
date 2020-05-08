@@ -16,6 +16,15 @@ class ListOfWorkstationsWithStudents: ArrayList<StudentListWorkstationModel>() {
         return -1
     }
 
+    fun getSortedItemsByWorkstation(): ListOfWorkstationsWithStudents {
+        val list = sortedWith(compareBy { it.workstation.number })
+        val res = ListOfWorkstationsWithStudents()
+        list.iterator().forEachRemaining {
+            res.add(it)
+        }
+        return res
+    }
+
     fun getSortedWorkstation(): WorkstationList {
         val workstations = WorkstationList()
         forEach {
@@ -41,5 +50,14 @@ class ListOfWorkstationsWithStudents: ArrayList<StudentListWorkstationModel>() {
         newObj.workstation = workstation
         newObj.students.add(student)
         add(newObj)
+    }
+
+    fun getStudentsAtWorkstation(workstation: Workstation): StudentList? {
+        forEach {
+            if (it.workstation.number == workstation.number) {
+                return it.students
+            }
+        }
+        return null
     }
 }

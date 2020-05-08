@@ -35,9 +35,11 @@ class RateListAdapter(private val context: Context, private val items: ListOfWor
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val myHolder = holder as MyViewHolder
 
+        val workstation = items.getSortedWorkstation()[position]
+        val students = items.getStudentsAtWorkstation(workstation)
         myHolder.bItem.text = String.format("%s\n%s",
-            context.getString(R.string.WorkstationNr, items[position].workstation.number),
-            items[position].students.toNewLineSeparatedString())
+            context.getString(R.string.WorkstationNr, workstation.number),
+            students?.toNewLineSeparatedString())
     }
 
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {
@@ -45,7 +47,7 @@ class RateListAdapter(private val context: Context, private val items: ListOfWor
 
         init {
             bItem.setOnClickListener {
-                onWorkstationClick?.invoke(items[adapterPosition])
+                onWorkstationClick?.invoke(items.getSortedItemsByWorkstation()[adapterPosition])
             }
         }
     }

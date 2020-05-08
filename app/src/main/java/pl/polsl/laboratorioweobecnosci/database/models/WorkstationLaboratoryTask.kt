@@ -8,9 +8,11 @@ import androidx.room.PrimaryKey
 @Entity
 data class WorkstationLaboratoryTask (
     @ColumnInfo(name = "laboratory_task_id")
-    val laboratoryTaskId:Int,
+    val laboratoryTaskId: Int,
     @ColumnInfo(name = "workstation_id")
-    val workstationId:Int,
+    val workstationId: Int,
+    @ColumnInfo(name = "laboratory_id")
+    val laboratoryId: Int,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 )

@@ -17,10 +17,10 @@ class StudentList: ArrayList<Student>() {
     }
 
     fun toNewLineSeparatedString(): String {
-        var res = ""
-        forEach {
-            res += it.toShortString() + "\n"
-        }
-        return res.trim()
+        return joinToString(separator = "\n") { it.toShortString() }
+    }
+
+    fun toStringOnlyLastName(): String {
+        return joinToString(separator = ", ") { it.lastName }
     }
 }

@@ -19,8 +19,8 @@ class RateWorkstationDialog(context: Context) : AlertDialog.Builder(context) {
         spinner.adapter = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item,
             context.resources.getStringArray(R.array.Grades))
 
-        val students = dialogLayout.findViewById<TextView>(R.id.tvStudentsInfo)
-        students.text = studentsAtWorkstation.students.toString()
+//        val students = dialogLayout.findViewById<TextView>(R.id.tvStudentsInfo)
+//        students.text = studentsAtWorkstation.students.toString()
 
         setTitle(context.getString(R.string.RateWorkstation, studentsAtWorkstation.workstation.number))
         setView(dialogLayout)
