@@ -13,7 +13,8 @@ import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentWorkstationL
 import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentList
 
 @Database(
-    entities = [Laboratory::class, LaboratoryTask::class, Student::class, Workstation::class, WorkstationLaboratoryTask::class],
+    entities = [Laboratory::class, LaboratoryTask::class, Student::class, Workstation::class,
+        WorkstationLaboratoryTask::class, LaboratoryStudentGradeModel::class],
     version = 1
 
 )
@@ -24,6 +25,7 @@ abstract class DatabaseHandler : RoomDatabase(){
     abstract fun studentDao(): StudentDao
     abstract fun workstationDao(): WorkstationDao
     abstract fun workstationLaboratoryTaskDao(): WorkstationLaboratoryTaskDao
+    abstract fun laboratoryGradeDao(): LaboratoryStudentGradeDao
 
     companion object {
         @Volatile private var instance: DatabaseHandler? = null
