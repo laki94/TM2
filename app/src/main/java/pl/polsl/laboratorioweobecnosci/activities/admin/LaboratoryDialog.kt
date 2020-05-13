@@ -192,15 +192,6 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
         setPositiveButton(R.string.Save) { _, _ ->
             fillLaboratory()
             onSaveClick?.invoke(mainLaboratory)
-
-//            Thread {
-//                val db = DatabaseHandler(context)
-//                db.laboratoryTaskDao().insertAll(list)
-//                List<LaboratoryTask>(0)
-//                laboratoryTasks.iterator().forEachRemaining {
-
-//                }
-//            }
         }
         super.show()
     }

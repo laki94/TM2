@@ -18,9 +18,9 @@ interface WorkstationLaboratoryTaskDao {
     @Delete
     fun delete(workstationClassTask: WorkstationLaboratoryTask)
 
-    @Query("SELECT * FROM workstationlaboratorytask")
-    fun getAllWorkstationLaboratoryTasks(): List<WorkstationLaboratoryTask>
-
     @Query("SELECT * FROM workstationlaboratorytask WHERE workstation_id = :workstationId AND laboratory_id = :laboratoryId")
     fun getTasksDoneForWorkstationAtLaboratory(workstationId: Int, laboratoryId: Int): List<WorkstationLaboratoryTask>
+
+    @Query("SELECT * FROM workstationlaboratorytask WHERE workstation_id = :workstationId AND laboratory_id = :labId AND laboratory_task_id = :taskId")
+    fun getTaskForWorkstationAtLaboratoryWithId(workstationId: Int, labId: Int, taskId: Int): WorkstationLaboratoryTask
 }

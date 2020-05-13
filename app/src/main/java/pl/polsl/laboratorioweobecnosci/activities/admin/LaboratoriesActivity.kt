@@ -22,32 +22,30 @@ import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
 class LaboratoriesActivity : AppCompatActivity() {
 
     private lateinit var adapter: LaboratoryAdapter
-    private var laboratories = LaboratoryList()
+    private lateinit var laboratories: LaboratoryList
     private val p = Paint()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_laboratories)
 
-        adapter = LaboratoryAdapter(this, laboratories)
-
-        adapter.let {
-            it.onLaboratoryClick = {
-                val intent = Intent(this, StudentsListActivity::class.java)
-                intent.putExtra("LABID", it.id)
-                intent.putExtra("ADMINMODE", true)
-                startActivity(intent)
-            }
-        }
-        val rvList = findViewById<RecyclerView>(R.id.rvLaboratories)
-        rvList.layoutManager = LinearLayoutManager(this)
-        rvList.adapter = adapter
-
         Thread {
             val db = DatabaseHandler(this)
-            val list = db.laboratoryDao().getLaboratories()
-            list.iterator().forEachRemaining {
-                laboratories.add(it)
+            laboratories = db.getAllLaboratories()
+            runOnUiThread {
+                adapter = LaboratoryAdapter(this, laboratories)
+
+                adapter.let {
+                    it.onLaboratoryClick = {
+                        val intent = Intent(this, StudentsListActivity::class.java)
+                        intent.putExtra("LABID", it.id)
+                        intent.putExtra("ADMINMODE", true)
+                        startActivity(intent)
+                    }
+                }
+                val rvList = findViewById<RecyclerView>(R.id.rvLaboratories)
+                rvList.layoutManager = LinearLayoutManager(this)
+                rvList.adapter = adapter
             }
         }.start()
         enableSwipe()
@@ -85,7 +83,6 @@ class LaboratoriesActivity : AppCompatActivity() {
                 if (direction == ItemTouchHelper.LEFT) {
                     val delLaboratory = laboratories[pos]
                     adapter.removeItem(pos)
-                    laboratories.remove(delLaboratory)
 
                     val snackbar = Snackbar.make(findViewById(R.id.clLaboratories),
                         R.string.LaboratoryRemoved, Snackbar.LENGTH_INDEFINITE)
@@ -111,16 +108,9 @@ class LaboratoriesActivity : AppCompatActivity() {
                     Thread {
                         val edLaboratory = laboratories[pos]
                         val db = DatabaseHandler(this@LaboratoriesActivity)
-                        val tasks = db.laboratoryTaskDao().getTasksForClass(edLaboratory.id)
-
-                        val arrTasks = LaboratoryTaskList()
-
-                        tasks.iterator().forEachRemaining {
-                            arrTasks.add(it)
-                        }
-
+                        val tasks = db.getTasksForLaboratory(edLaboratory.id)
                         runOnUiThread {
-                            editLaboratory(edLaboratory, arrTasks)
+                            editLaboratory(edLaboratory, tasks)
                             adapter.refreshItem(pos)
                         }
                     }.start()

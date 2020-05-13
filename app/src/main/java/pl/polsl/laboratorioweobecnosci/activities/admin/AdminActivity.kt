@@ -23,10 +23,7 @@ class AdminActivity : AppCompatActivity() {
     fun onRateClick(view: View) {
         Thread {
             val db = DatabaseHandler(this)
-            val laboratories = LaboratoryList()
-            db.laboratoryDao().getLaboratories().iterator().forEachRemaining {
-                laboratories.add(it)
-            }
+            val laboratories = db.getAllLaboratories()
             runOnUiThread {
                 val dialog = LaboratoriesDialog(this)
                 dialog.showLaboratoriesForRating(layoutInflater, laboratories)

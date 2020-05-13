@@ -28,13 +28,9 @@ class MainActivity : AppCompatActivity() {
         val dialog = LaboratoriesDialog(this)
         Thread {
             val db = DatabaseHandler(this)
-            val laboratories = db.laboratoryDao().getLaboratories()
-            val arrList = LaboratoryList()
-            laboratories.iterator().forEachRemaining {
-                arrList.add(it)
-            }
+            val laboratories = db.getAllLaboratories()
             runOnUiThread {
-                dialog.showLaboratoriesForStudents(layoutInflater, arrList)
+                dialog.showLaboratoriesForStudents(layoutInflater, laboratories)
             }
         }.start()
     }

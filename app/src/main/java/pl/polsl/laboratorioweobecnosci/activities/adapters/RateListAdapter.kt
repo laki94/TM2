@@ -1,19 +1,15 @@
-package pl.polsl.laboratorioweobecnosci.activities.admin
+package pl.polsl.laboratorioweobecnosci.activities.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.button_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.models.*
-import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
 import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfWorkstationsWithStudents
-import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentWorkstationLaboratoryList
-import kotlin.math.roundToInt
 
 class RateListAdapter(private val context: Context, private val items: ListOfWorkstationsWithStudents): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
