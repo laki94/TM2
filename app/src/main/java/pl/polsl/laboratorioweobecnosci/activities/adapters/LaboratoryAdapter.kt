@@ -55,7 +55,7 @@ class LaboratoryAdapter(private val context: Context, private val items: Laborat
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val myHolder = holder as MyViewHolder
 
-        myHolder.tvItem.text = items[position].toString(context)
+        myHolder.tvItem.text = items[position].getInfoString(context)
     }
 
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {

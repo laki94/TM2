@@ -8,11 +8,10 @@ import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.dialog_laboratory.view.*
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.adapters.TasksAdapter
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
-import pl.polsl.laboratorioweobecnosci.database.models.LaboratoryStudentGradeModel
+import pl.polsl.laboratorioweobecnosci.database.models.LaboratoryWorkstationGradeModel
 import pl.polsl.laboratorioweobecnosci.database.models.StudentListWorkstationModel
 import pl.polsl.laboratorioweobecnosci.database.models.WorkstationLaboratoryTask
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
@@ -25,6 +24,7 @@ class RateDialog(context: Context) : AlertDialog.Builder(context) {
     private lateinit var mainTasksDone: LaboratoryTaskList
     private lateinit var adapter: TasksAdapter
     private lateinit var spinnerGrade: Spinner
+    private lateinit var mainGrade: LaboratoryWorkstationGradeModel
 
 
     private fun setTaskAdapter() {
@@ -37,7 +37,10 @@ class RateDialog(context: Context) : AlertDialog.Builder(context) {
                 } else {
                     mainTasksDone.remove(task)
                 }
-                spinnerGrade.setSelection(mainTasksDone.getHighestGrade() - 2)
+                if (mainGrade.grade < mainTasksDone.getHighestGrade())
+                    spinnerGrade.setSelection(mainTasksDone.getHighestGrade() - 2)
+                else
+                    spinnerGrade.setSelection(mainGrade.grade - 2)
             }
         }
 
@@ -47,11 +50,12 @@ class RateDialog(context: Context) : AlertDialog.Builder(context) {
     }
 
     fun rate(layoutInflater: LayoutInflater, workstationWithStudents: StudentListWorkstationModel,
-             tasksToDo: LaboratoryTaskList, tasksDone: LaboratoryTaskList) {
+             tasksToDo: LaboratoryTaskList, tasksDone: LaboratoryTaskList, gradeModel: LaboratoryWorkstationGradeModel) {
         dialogLayout = layoutInflater.inflate(R.layout.dialog_rate_workstation, null)
 
         mainTasks = tasksToDo
         mainTasksDone = tasksDone
+        mainGrade = gradeModel
         mainWorkstationWithStudents = workstationWithStudents
         spinnerGrade = dialogLayout.findViewById(R.id.sGrade)
         spinnerGrade.adapter = ArrayAdapter(context,
@@ -91,18 +95,16 @@ class RateDialog(context: Context) : AlertDialog.Builder(context) {
                         db.workstationLaboratoryTaskDao().insert(tmpTask)
                     }
                 }
-
-                mainWorkstationWithStudents.students.forEach {
-                    val oldGrade = db.laboratoryGradeDao().getItemForStudentAtLaboratory(
-                        it.laboratoryId, it.id)
-
-                    if (oldGrade == null) {
-                        val newGrade = LaboratoryStudentGradeModel(it.laboratoryId, it.id, spinnerGrade.selectedItem.toString().toInt())
-                        db.laboratoryGradeDao().insert(newGrade)
-                    } else if (oldGrade.grade != spinnerGrade.selectedItem.toString().toInt()) {
-                        oldGrade.grade = spinnerGrade.selectedItem.toString().toInt()
-                        db.laboratoryGradeDao().update(oldGrade)
-                    }
+                
+                if (mainGrade.id == 0) {
+                    val newGrade = LaboratoryWorkstationGradeModel(
+                        mainWorkstationWithStudents.students[0].laboratoryId,
+                        mainWorkstationWithStudents.workstation.id,
+                        spinnerGrade.selectedItem.toString().toInt())
+                    mainGrade.id = db.laboratoryGradeDao().insert(newGrade).toInt()
+                } else if (mainGrade.grade != spinnerGrade.selectedItem.toString().toInt()) {
+                    mainGrade.grade = spinnerGrade.selectedItem.toString().toInt()
+                    db.laboratoryGradeDao().update(mainGrade)
                 }
             }.start()
             dialog.dismiss()

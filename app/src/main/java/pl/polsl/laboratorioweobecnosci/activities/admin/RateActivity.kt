@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.adapters.RateListAdapter
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
+import pl.polsl.laboratorioweobecnosci.database.models.LaboratoryWorkstationGradeModel
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
 import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfWorkstationsWithStudents
 
@@ -36,9 +37,18 @@ class RateActivity : AppCompatActivity() {
                     val tasksDone = db.getTasksDoneByWorkstationAtLaboratory(
                         studentsAtWorkstation.students[0].laboratoryId,
                         studentsAtWorkstation.workstation.id)
+                    var actGrade = db.laboratoryGradeDao().getGradeForWorkstationAtLaboratory(
+                        studentsAtWorkstation.students[0].laboratoryId,
+                        studentsAtWorkstation.workstation.id
+                    )
+                    if (actGrade == null) {
+                        actGrade = LaboratoryWorkstationGradeModel(
+                            studentsAtWorkstation.students[0].laboratoryId,
+                            studentsAtWorkstation.workstation.id)
+                    }
                     runOnUiThread {
                         val dialog = RateDialog(this)
-                        dialog.rate(layoutInflater, studentsAtWorkstation, tasks, tasksDone)
+                        dialog.rate(layoutInflater, studentsAtWorkstation, tasks, tasksDone, actGrade)
                     }
                 }.start()
             }
