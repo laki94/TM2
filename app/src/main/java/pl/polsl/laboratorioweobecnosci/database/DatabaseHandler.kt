@@ -101,6 +101,14 @@ abstract class DatabaseHandler : RoomDatabase(){
         return res
     }
 
+    fun getLaboratory(id: Int): Laboratory {
+        return laboratoryDao().getLaboratory(id)
+    }
+
+    fun getWorkstationGrade(laboratoryId: Int, workstationId: Int): LaboratoryWorkstationGradeModel? {
+        return laboratoryGradeDao().getGradeForWorkstationAtLaboratory(laboratoryId, workstationId)
+    }
+
 
 //    fun getWorkstationsWithStudents(laboratoryId:Int): StudentWorkstationLaboratoryList {// ????
 //        var workstations = this.laboratoryDao().getLaboratoryWorkstations(laboratoryId)

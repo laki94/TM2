@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.adapters.RateListAdapter
+import pl.polsl.laboratorioweobecnosci.csv.CsvGenerator
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.LaboratoryWorkstationGradeModel
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
@@ -79,6 +80,7 @@ class RateActivity : AppCompatActivity() {
     }
 
     fun onSaveRatesClick(view: View) {
-        /* TODO */
+        val csv = CsvGenerator(this)
+        csv.generate(labId)
     }
 }
