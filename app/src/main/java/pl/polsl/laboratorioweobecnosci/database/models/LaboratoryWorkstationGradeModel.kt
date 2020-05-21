@@ -5,13 +5,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class LaboratoryStudentGradeModel (
+data class LaboratoryWorkstationGradeModel (
     @ColumnInfo(name = "laboratory_id")
     val laboratoryId: Int,
-    @ColumnInfo(name = "student_id")
-    val studentId: Int,
+    @ColumnInfo(name = "workstation_id")
+    val workstationId: Int,
     @ColumnInfo(name = "grade")
-    var grade: Int,
+    var grade: Int = 2,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
+    var id: Int = 0
 )
