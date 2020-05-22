@@ -44,6 +44,7 @@
     <string name="WorkstationNr">Workstation no %1$d</string>
     <string name="SavedFile">Saved file %1$s</string>
     <string name="CouldNotSaveFile">Could not save file, %1$s</string>
+    <string name="Tasks">Tasks</string>
 
     <string-array name="Grades">
         <item>2</item>

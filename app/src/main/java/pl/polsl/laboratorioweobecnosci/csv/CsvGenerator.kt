@@ -31,7 +31,12 @@ class CsvGenerator(context: Context, onGenerated: (isSuccess: Boolean, message: 
                 csvDir.mkdirs()
                 val writer = File(csvDir, csvFileName).bufferedWriter()
                 writer.use {
-                    val csvPrinter = CSVPrinter(it, CSVFormat.DEFAULT)
+                    val csvPrinter = CSVPrinter(it, CSVFormat.DEFAULT
+                        .withHeader(mainContext.getString(R.string.Workstation),
+                            mainContext.getString(R.string.FirstName),
+                            mainContext.getString(R.string.LastName),
+                            mainContext.getString(R.string.Tasks),
+                            mainContext.getString(R.string.Grade)))
 
                     studentListWorkstation.forEach { studentWorkstation ->
                         val tasksDone = db.getTasksDoneByWorkstationAtLaboratory(

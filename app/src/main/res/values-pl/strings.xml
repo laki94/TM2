@@ -44,6 +44,7 @@
     <string name="WorkstationNr">Stanowisko nr %1$d</string>
     <string name="SavedFile">Zapisano plik %1$s</string>
     <string name="CouldNotSaveFile">Nie udało się zapisać pliku, %1$s</string>
+    <string name="Tasks">Zadania</string>
 
     <string-array name="Grades">
         <item>2</item>
