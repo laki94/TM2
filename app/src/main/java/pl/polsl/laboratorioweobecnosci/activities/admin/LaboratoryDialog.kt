@@ -6,10 +6,14 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ScrollView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
@@ -147,7 +151,9 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
             fillLaboratory()
             onSaveClick?.invoke(mainLaboratory)
         }
-        super.show()
+        val dialog = create()
+        dialog.window?.decorView?.clearFocus()
+        dialog.show()
     }
 
     private fun setTaskAdapter() {
@@ -167,10 +173,17 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
         val bAddTask = dialogLayout.findViewById<Button>(R.id.bAddTask)
         bAddTask.setOnClickListener {
             taskAdapter.addNewItem(LaboratoryTask(mainLaboratory.tasks.getNextNr(),
-                2, mainLaboratory.laboratory.id.toInt()))
+                2, mainLaboratory.laboratory.id))
             if (taskAdapter.itemCount > 1)
                 taskAdapter.refreshItem(taskAdapter.itemCount - 2)
+            hideKeyboard()
+            dialogLayout.clearFocus()
         }
+    }
+
+    private fun hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(dialogLayout.windowToken, 0)
     }
 
     fun showAddDialog(inflater: LayoutInflater) {
@@ -193,6 +206,8 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
             fillLaboratory()
             onSaveClick?.invoke(mainLaboratory)
         }
-        super.show()
+        val dialog = create()
+        dialog.window?.decorView?.clearFocus()
+        dialog.show()
     }
 }

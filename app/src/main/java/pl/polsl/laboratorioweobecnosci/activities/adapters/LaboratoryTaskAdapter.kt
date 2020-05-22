@@ -28,7 +28,7 @@ class LaboratoryTaskAdapter(private val context: Context, private val items: Lab
 
     fun addNewItem(task: LaboratoryTask) {
         items.add(task)
-        notifyItemChanged(itemCount - 1)
+        notifyItemInserted(itemCount - 1)
     }
 
     fun refreshItem(position: Int) {
@@ -73,9 +73,6 @@ class LaboratoryTaskAdapter(private val context: Context, private val items: Lab
             ivRemove.setOnClickListener {
                 onRemoveClick?.invoke()
             }
-//            tvItem.setOnClickListener {
-//                onLaboratoryClick?.invoke(items[adapterPosition])
-            }
-//        }
+        }
     }
 }

@@ -1,18 +1,15 @@
 package pl.polsl.laboratorioweobecnosci.activities.student
 
+import android.app.ActionBar
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
-import pl.polsl.laboratorioweobecnosci.database.models.LaboratoryTaskModel
 import pl.polsl.laboratorioweobecnosci.database.models.Student
 import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationModel
 import pl.polsl.laboratorioweobecnosci.database.models.Workstation
@@ -26,7 +23,7 @@ class StudentDialog(context: Context) : AlertDialog.Builder(context) {
     private lateinit var dialogLayout: View
 
     fun addStudent(layoutInflater: LayoutInflater, laboratoryId: Int) {
-        dialogLayout = layoutInflater.inflate(R.layout.activity_student, null)
+        dialogLayout = layoutInflater.inflate(R.layout.dialog_student, null)
         mainStudentWorkstation.student = Student("", "", laboratoryId,0)
         mainStudentWorkstation.workstation = Workstation(0)
         fillInfo()
@@ -35,6 +32,7 @@ class StudentDialog(context: Context) : AlertDialog.Builder(context) {
         setPositiveButton(R.string.Save) { _, _ -> }
 
         val dialog = create()
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         dialog.show()
 
         val btn = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
@@ -60,7 +58,7 @@ class StudentDialog(context: Context) : AlertDialog.Builder(context) {
     }
 
     fun editStudent(studentWorkstation: StudentWorkstationModel, layoutInflater: LayoutInflater) {
-        dialogLayout = layoutInflater.inflate(R.layout.activity_student, null)
+        dialogLayout = layoutInflater.inflate(R.layout.dialog_student, null)
         mainStudentWorkstation = studentWorkstation
         mainStudentWorkstation.workstation.id = 0
 
@@ -70,6 +68,7 @@ class StudentDialog(context: Context) : AlertDialog.Builder(context) {
         setPositiveButton(R.string.Save) { _, _ -> }
 
         val dialog = create()
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         dialog.show()
 
         val btn = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
