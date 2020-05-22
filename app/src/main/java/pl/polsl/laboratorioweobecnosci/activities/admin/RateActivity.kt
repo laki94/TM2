@@ -3,6 +3,7 @@ package pl.polsl.laboratorioweobecnosci.activities.admin
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
@@ -80,7 +81,17 @@ class RateActivity : AppCompatActivity() {
     }
 
     fun onSaveRatesClick(view: View) {
-        val csv = CsvGenerator(this)
+        val csv = CsvGenerator(this, ::onGenerated)
         csv.generate(labId)
+    }
+
+    private fun onGenerated(success: Boolean, message: String) {
+        runOnUiThread {
+            if (success) {
+                Toast.makeText(this, getString(R.string.SavedFile, message), Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, getString(R.string.CouldNotSaveFile, message), Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }

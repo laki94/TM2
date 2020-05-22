@@ -42,6 +42,8 @@
     <string name="IsDataValid">Is the data valid?</string>
     <string name="StudentRemoved">Student removed</string>
     <string name="WorkstationNr">Workstation no %1$d</string>
+    <string name="SavedFile">Saved file %1$s</string>
+    <string name="CouldNotSaveFile">Could not save file, %1$s</string>
 
     <string-array name="Grades">
         <item>2</item>

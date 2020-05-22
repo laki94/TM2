@@ -32,6 +32,7 @@ class AdminActivity : AppCompatActivity() {
     }
 
     fun onGenerateCSVClick(view: View) {
-        /* TODO */
+        val intent = Intent(this, GenerateCSVActivity::class.java)
+        startActivity(intent)
     }
 }
