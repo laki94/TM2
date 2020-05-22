@@ -58,7 +58,7 @@ class CsvGenerator(context: Context, onGenerated: (isSuccess: Boolean, message: 
                             studentWorkstation.student.firstName,
                             studentWorkstation.student.lastName,
                             boolTasks,
-                            gradeModel?.grade
+                            gradeModel.grade
                         )
                     }
                     csvPrinter.flush()
