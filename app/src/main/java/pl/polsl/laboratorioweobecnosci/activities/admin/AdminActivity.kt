@@ -23,7 +23,7 @@ class AdminActivity : AppCompatActivity() {
     fun onRateClick(view: View) {
         Thread {
             val db = DatabaseHandler(this)
-            val laboratories = db.getAllLaboratories()
+            val laboratories = db.getLaboratoriesSortedByStartDate()
             runOnUiThread {
                 val dialog = LaboratoriesDialog(this)
                 dialog.showLaboratoriesForRating(layoutInflater, laboratories)

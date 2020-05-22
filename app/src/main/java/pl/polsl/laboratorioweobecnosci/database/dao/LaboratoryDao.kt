@@ -28,4 +28,7 @@ interface LaboratoryDao {
 
     @Query("SELECT * FROM laboratory WHERE id = :laboratoryId")
     fun getLaboratory(laboratoryId: Int): Laboratory
+
+    @Query("SELECT * FROM laboratory ORDER BY laboratory_start DESC")
+    fun getLaboratoriesSortedDescByStartDate(): List<Laboratory>
 }

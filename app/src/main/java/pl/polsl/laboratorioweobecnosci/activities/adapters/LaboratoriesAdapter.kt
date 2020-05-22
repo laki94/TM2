@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.card_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
@@ -35,14 +36,14 @@ class LaboratoriesAdapter(private val context: Context, private val items: Labor
 
         myHolder.tvItem.text = items[position].getInfoString(context)
         if (items[position].id == selectedLabId)
-            myHolder.tvItem.setBackgroundColor(Color.GREEN)
+            myHolder.cardLayout.setBackgroundColor(Color.YELLOW)
         else
-            myHolder.tvItem.setBackgroundColor(Color.WHITE)
+            myHolder.cardLayout.setBackgroundColor(Color.WHITE)
     }
 
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         val tvItem: TextView = view.tvItem
-
+        val cardLayout: CardView = view.cvItem
         init {
             tvItem.setOnClickListener {
                 onLaboratoryClick?.invoke(items[adapterPosition])

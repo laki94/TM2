@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:isScrollContainer="false"
     android:scrollbars="vertical"
+    android:background="@android:color/white"
     tools:context=".activities.admin.LaboratoryDialog">
 
     <EditText

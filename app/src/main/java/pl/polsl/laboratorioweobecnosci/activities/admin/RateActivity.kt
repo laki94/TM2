@@ -74,12 +74,6 @@ class RateActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun showRateSingleWorkstationDialog() {
-        val dialog = RateWorkstationDialog(this)
-        //Tu jest zły dialog
-//        dialog.rate(layoutInflater, StudentWorkstationLaboratory(Workstation(1), StudentsList(this.studentDao().getStudentsOnWorkstation(laboratoryId, it)))) //TODO
-    }
-
     fun onSaveRatesClick(view: View) {
         val csv = CsvGenerator(this, ::onGenerated)
         csv.generate(labId)

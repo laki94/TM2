@@ -26,7 +26,7 @@ class GenerateCSVActivity : AppCompatActivity() {
 
         Thread {
             val db = DatabaseHandler(this)
-            laboratories = db.getAllLaboratories()
+            laboratories = db.getLaboratoriesSortedByStartDate()
             runOnUiThread {
                 adapter = GenerateCSVAdapter(this, laboratories)
 

@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         val dialog = LaboratoriesDialog(this)
         Thread {
             val db = DatabaseHandler(this)
-            val laboratories = db.getAllLaboratories()
+            val laboratories = db.getLaboratoriesSortedByStartDate()
             runOnUiThread {
                 dialog.showLaboratoriesForStudents(layoutInflater, laboratories)
             }

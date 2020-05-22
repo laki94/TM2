@@ -31,7 +31,7 @@ class LaboratoriesActivity : AppCompatActivity() {
 
         Thread {
             val db = DatabaseHandler(this)
-            laboratories = db.getAllLaboratories()
+            laboratories = db.getLaboratoriesSortedByStartDate()
             runOnUiThread {
                 adapter = LaboratoryAdapter(this, laboratories)
 

@@ -109,6 +109,15 @@ abstract class DatabaseHandler : RoomDatabase(){
         return laboratoryGradeDao().getGradeForWorkstationAtLaboratory(laboratoryId, workstationId)
     }
 
+    fun getLaboratoriesSortedByStartDate(): LaboratoryList {
+        val res = LaboratoryList()
+        val list = laboratoryDao().getLaboratoriesSortedDescByStartDate()
+        list.forEach {
+            res.add(it)
+        }
+        return res
+    }
+
 
 //    fun getWorkstationsWithStudents(laboratoryId:Int): StudentWorkstationLaboratoryList {// ????
 //        var workstations = this.laboratoryDao().getLaboratoryWorkstations(laboratoryId)
