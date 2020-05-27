@@ -14,10 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.adapters.ListOfStudentsAtWorkstationAdapter
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
-import pl.polsl.laboratorioweobecnosci.database.models.Laboratory
-import pl.polsl.laboratorioweobecnosci.database.models.ListOfStudentsAtWorkstation
-import pl.polsl.laboratorioweobecnosci.database.models.Student
-import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationModel
+import pl.polsl.laboratorioweobecnosci.database.models.*
 
 class StudentsListActivity : AppCompatActivity() {
 
@@ -105,7 +102,26 @@ class StudentsListActivity : AppCompatActivity() {
                 if (workstationId == 0)
                     workstationId = db.workstationDao().insert(it.workstation).toInt()
                 it.student.workstationId = workstationId
+
                 db.studentDao().update(it.student)
+
+                if (!it.workstation.compare(studentWorkstation.workstation)) {
+                    val orgTasks = db.workstationLaboratoryTaskDao().getTasksDoneForWorkstationAtLaboratory(studentWorkstation.workstation.id, mainLaboratory.id)
+                    if (orgTasks.isEmpty()) {
+                        /* do nothing */
+                    } else if (db.workstationLaboratoryTaskDao().getTasksDoneForWorkstationAtLaboratory(workstationId, mainLaboratory.id).isEmpty()) {
+                        orgTasks.forEach { task ->
+                            db.workstationLaboratoryTaskDao().insert(WorkstationLaboratoryTask(task.laboratoryTaskId, workstationId, mainLaboratory.id))
+                        }
+                    }
+
+                    if (db.getStudentsAtWorkstation(mainLaboratory.id, studentWorkstation.workstation.id).isEmpty()) {
+                        orgTasks.forEach {task ->
+                            db.workstationLaboratoryTaskDao().delete(task)
+                        }
+                    }
+                }
+
                 runOnUiThread {
                     listOfStudentsAtWorkstationAdapter.editStudent(it)
                 }

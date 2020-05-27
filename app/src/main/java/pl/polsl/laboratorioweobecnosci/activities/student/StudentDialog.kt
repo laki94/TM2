@@ -59,7 +59,7 @@ class StudentDialog(context: Context) : AlertDialog.Builder(context) {
 
     fun editStudent(studentWorkstation: StudentWorkstationModel, layoutInflater: LayoutInflater) {
         dialogLayout = layoutInflater.inflate(R.layout.dialog_student, null)
-        mainStudentWorkstation = studentWorkstation
+        mainStudentWorkstation = studentWorkstation.clone()
         mainStudentWorkstation.workstation.id = 0
 
         fillInfo()

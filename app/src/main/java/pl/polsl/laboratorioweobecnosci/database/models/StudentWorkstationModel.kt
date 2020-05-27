@@ -19,4 +19,12 @@ class StudentWorkstationModel {
         return (student.simpleCompare(studentWorkstation.student) &&
                 workstation.simpleCompare(studentWorkstation.workstation))
     }
+
+    fun clone(): StudentWorkstationModel {
+        val res = StudentWorkstationModel()
+        res.workstation = Workstation(workstation.number, workstation.id)
+        res.student = Student(student.firstName, student.lastName, student.laboratoryId,
+            student.workstationId, student.id)
+        return res
+    }
 }

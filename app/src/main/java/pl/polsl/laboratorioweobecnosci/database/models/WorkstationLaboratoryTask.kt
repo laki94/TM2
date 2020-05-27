@@ -10,9 +10,9 @@ data class WorkstationLaboratoryTask (
     @ColumnInfo(name = "laboratory_task_id")
     val laboratoryTaskId: Int,
     @ColumnInfo(name = "workstation_id")
-    val workstationId: Int,
+    var workstationId: Int,
     @ColumnInfo(name = "laboratory_id")
     val laboratoryId: Int,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
+    var id: Int = 0
 )
