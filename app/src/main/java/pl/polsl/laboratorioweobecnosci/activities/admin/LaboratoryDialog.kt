@@ -139,7 +139,7 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
         dialogLayout = inflater.inflate(R.layout.dialog_laboratory, null)
 
         mainLaboratory.laboratory = laboratory
-        mainLaboratory.tasks = tasks
+        mainLaboratory.tasks = tasks.clone() as LaboratoryTaskList
 
         setTaskAdapter()
         fillInfo()

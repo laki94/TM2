@@ -58,6 +58,16 @@ class LaboratoriesActivity : AppCompatActivity() {
                 val db = DatabaseHandler(this)
                 db.laboratoryDao().update(it.laboratory)
                 db.laboratoryTaskDao().updateAll(it.tasks)
+                tasks.forEach {prevTask ->
+                    if (!it.tasks.haveTask(prevTask)) {
+                        db.laboratoryTaskDao().delete(prevTask)
+                    }
+                }
+                it.tasks.forEach {
+                    if (it.id == 0) {
+                        db.laboratoryTaskDao().insert(it)
+                    }
+                }
                 runOnUiThread {
                     adapter.editItem(it.laboratory)
                 }
