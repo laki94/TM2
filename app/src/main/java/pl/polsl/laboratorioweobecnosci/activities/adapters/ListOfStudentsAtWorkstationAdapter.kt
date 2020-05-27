@@ -29,18 +29,19 @@ class ListOfStudentsAtWorkstationAdapter(private val context: Context, private v
         swipeEnabled = true
     }
 
-    private fun refreshItems() {
+    private fun refreshAll() {
         for (pos in 0..itemCount)
             notifyItemChanged(pos)
     }
 
     fun addNewStudent(studentAtWorkstation: StudentWorkstationModel) {
         items.addStudentWorkstation(studentAtWorkstation.student, studentAtWorkstation.workstation)
-        refreshItems()
+        refreshAll()
     }
 
     fun editStudent(studentAtWorkstation: StudentWorkstationModel) {
-        refreshItems()
+        items.editStudent(studentAtWorkstation)
+        refreshAll()
     }
 
     fun removeStudent(studentAtWorkstation: StudentWorkstationModel) {
