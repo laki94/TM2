@@ -45,6 +45,9 @@
     <string name="SavedFile">Saved file %1$s</string>
     <string name="CouldNotSaveFile">Could not save file, %1$s</string>
     <string name="Tasks">Tasks</string>
+    <string name="AuthorisationNeeded">Authorisation needed</string>
+    <string name="UseAnotherMethod">Use another method</string>
+    <string name="Authorized">Authorized</string>
 
     <string-array name="Grades">
         <item>2</item>

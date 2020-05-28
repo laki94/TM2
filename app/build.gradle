@@ -47,4 +47,5 @@ dependencies {
     implementation 'com.android.support:design:28.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'org.apache.commons:commons-csv:1.5'
+    implementation 'androidx.biometric:biometric:1.0.1'
 }

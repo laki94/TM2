@@ -45,6 +45,9 @@
     <string name="SavedFile">Zapisano plik %1$s</string>
     <string name="CouldNotSaveFile">Nie udało się zapisać pliku, %1$s</string>
     <string name="Tasks">Zadania</string>
+    <string name="AuthorisationNeeded">Potrzebna autoryzacja</string>
+    <string name="UseAnotherMethod">Użyj innego sposobu</string>
+    <string name="Authorized">Zautoryzowano</string>
 
     <string-array name="Grades">
         <item>2</item>

@@ -4,24 +4,62 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.admin.AdminActivity
 import pl.polsl.laboratorioweobecnosci.activities.admin.LaboratoriesDialog
 import pl.polsl.laboratorioweobecnosci.activities.student.StudentsListActivity
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryList
+import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var authManager: FingerprintAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        authManager = FingerprintAuth(this)
+    }
+
+    private fun runAdminActivityIfAuthorized() {
+        if (authManager.isAvailable()) {
+
+            val callback = object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    Toast.makeText(this@MainActivity, errString, Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                }
+
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    Toast.makeText(this@MainActivity, R.string.Authorized, Toast.LENGTH_SHORT).show()
+                    openAdminActivity()
+                }
+            }
+            authManager.authorize(this, callback)
+        }
+    }
+
+    private fun openAdminActivity() {
+        val intent = Intent(this, AdminActivity::class.java)
+        startActivity(intent)
     }
 
     fun onAdminPanelClick(view: View) {
-        val intent = Intent(this, AdminActivity::class.java)
-        startActivity(intent)
+        if (true) {
+            runAdminActivityIfAuthorized()
+        } else {
+            openAdminActivity()
+        }
     }
 
     fun onBeginExerciseClick(view: View) {
