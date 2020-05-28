@@ -122,6 +122,32 @@ abstract class DatabaseHandler : RoomDatabase(){
         return res
     }
 
+    fun removeTaskDoneForLaboratory(task: LaboratoryTask, laboratoryId: Int) {
+        val tasksToDel = workstationLaboratoryTaskDao().getTasksWithIdAtLaboratory(task.id, laboratoryId)
+        tasksToDel.forEach {
+            workstationLaboratoryTaskDao().delete(it)
+        }
+    }
+
+    fun deleteDataWithLabId(laboratoryId: Int) {
+        val tasks = laboratoryTaskDao().getTasksForClass(laboratoryId)
+        tasks.forEach {
+            laboratoryTaskDao().delete(it)
+        }
+        val students = studentDao().getStudentsAtLaboratory(laboratoryId)
+        students.forEach {
+            studentDao().delete(it)
+        }
+        val tasksDone = workstationLaboratoryTaskDao().getTasksDoneAtLaboratory(laboratoryId)
+        tasksDone.forEach {
+            workstationLaboratoryTaskDao().delete(it)
+        }
+        val grades = laboratoryGradeDao().getGradesAtLaboratory(laboratoryId)
+        grades.forEach {
+            laboratoryGradeDao().delete(it)
+        }
+    }
+
 
 //    fun getWorkstationsWithStudents(laboratoryId:Int): StudentWorkstationLaboratoryList {// ????
 //        var workstations = this.laboratoryDao().getLaboratoryWorkstations(laboratoryId)

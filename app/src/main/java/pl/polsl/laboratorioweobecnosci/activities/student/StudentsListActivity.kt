@@ -52,6 +52,17 @@ class StudentsListActivity : AppCompatActivity() {
                             if (event != DISMISS_EVENT_ACTION) {
                                 Thread {
                                     db.studentDao().delete(remModel.student)
+                                    if (db.getStudentsAtWorkstation(mainLaboratory.id, remModel.workstation.id).isEmpty()) {
+                                        val remGrade = db.laboratoryGradeDao().getGradeForWorkstationAtLaboratory(mainLaboratory.id, remModel.workstation.id)
+                                        val remTasks = db.workstationLaboratoryTaskDao().getTasksDoneForWorkstationAtLaboratory(remModel.workstation.id, mainLaboratory.id)
+                                        if (remGrade != null) {
+                                            db.laboratoryGradeDao().delete(remGrade)
+                                        }
+                                        remTasks.forEach {
+                                            db.workstationLaboratoryTaskDao().delete(it)
+                                        }
+                                    }
+
                                 }.start()
                             }
                             super.onDismissed(transientBottomBar, event)
@@ -107,17 +118,14 @@ class StudentsListActivity : AppCompatActivity() {
 
                 if (!it.workstation.compare(studentWorkstation.workstation)) {
                     val orgTasks = db.workstationLaboratoryTaskDao().getTasksDoneForWorkstationAtLaboratory(studentWorkstation.workstation.id, mainLaboratory.id)
-                    if (orgTasks.isEmpty()) {
-                        /* do nothing */
-                    } else if (db.workstationLaboratoryTaskDao().getTasksDoneForWorkstationAtLaboratory(workstationId, mainLaboratory.id).isEmpty()) {
-                        orgTasks.forEach { task ->
-                            db.workstationLaboratoryTaskDao().insert(WorkstationLaboratoryTask(task.laboratoryTaskId, workstationId, mainLaboratory.id))
-                        }
-                    }
 
                     if (db.getStudentsAtWorkstation(mainLaboratory.id, studentWorkstation.workstation.id).isEmpty()) {
                         orgTasks.forEach {task ->
                             db.workstationLaboratoryTaskDao().delete(task)
+                        }
+                        val oldGrade = db.laboratoryGradeDao().getGradeForWorkstationAtLaboratory(mainLaboratory.id, studentWorkstation.workstation.id)
+                        if (oldGrade != null) {
+                            db.laboratoryGradeDao().delete(oldGrade)
                         }
                     }
                 }

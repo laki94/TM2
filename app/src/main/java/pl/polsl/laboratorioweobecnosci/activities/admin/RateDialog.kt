@@ -37,16 +37,21 @@ class RateDialog(context: Context) : AlertDialog.Builder(context) {
                 } else {
                     mainTasksDone.remove(task)
                 }
-                if (mainGrade.grade < mainTasksDone.getHighestGrade())
-                    spinnerGrade.setSelection(mainTasksDone.getHighestGrade() - 2)
-                else
-                    spinnerGrade.setSelection(mainGrade.grade - 2)
+                setGrade(mainTasksDone.getHighestGrade())
             }
         }
 
         val rvTasks = dialogLayout.findViewById<RecyclerView>(R.id.rvTasks)
         rvTasks.layoutManager = LinearLayoutManager(context)
         rvTasks.adapter = adapter
+    }
+
+    private fun setGrade(grade: Int) {
+        if (grade < mainGrade.grade) {
+            spinnerGrade.setSelection(mainGrade.grade - 2)
+        } else {
+            spinnerGrade.setSelection(grade - 2)
+        }
     }
 
     fun rate(layoutInflater: LayoutInflater, workstationWithStudents: StudentListWorkstationModel,
@@ -56,8 +61,8 @@ class RateDialog(context: Context) : AlertDialog.Builder(context) {
         mainTasks = tasksToDo
         mainTasksDone = tasksDone
         mainGrade = gradeModel
-        mainWorkstationWithStudents = workstationWithStudents
         spinnerGrade = dialogLayout.findViewById(R.id.sGrade)
+        mainWorkstationWithStudents = workstationWithStudents
         spinnerGrade.adapter = ArrayAdapter(context,
             R.layout.support_simple_spinner_dropdown_item,
             context.resources.getStringArray(R.array.Grades))
@@ -70,6 +75,8 @@ class RateDialog(context: Context) : AlertDialog.Builder(context) {
         setPositiveButton(R.string.Save) { _, _ -> }
         val dialog = create()
         dialog.show()
+
+        setGrade(mainGrade.grade)
 
         val btn = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         btn.setOnClickListener {

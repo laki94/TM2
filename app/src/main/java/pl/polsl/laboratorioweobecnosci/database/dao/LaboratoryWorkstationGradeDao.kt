@@ -16,4 +16,7 @@ interface LaboratoryWorkstationGradeDao {
 
     @Query("SELECT * FROM laboratoryworkstationgrademodel WHERE laboratory_id = :laboratoryId AND workstation_id = :workstationId")
     fun getGradeForWorkstationAtLaboratory(laboratoryId: Int, workstationId: Int): LaboratoryWorkstationGradeModel?
+
+    @Query("SELECT * FROM laboratoryworkstationgrademodel WHERE laboratory_id = :laboratoryId")
+    fun getGradesAtLaboratory(laboratoryId: Int): List<LaboratoryWorkstationGradeModel>
 }

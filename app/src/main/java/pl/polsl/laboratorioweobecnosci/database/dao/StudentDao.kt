@@ -18,4 +18,7 @@ interface StudentDao {
 
     @Query("SELECT * FROM student WHERE laboratory_id = :laboratoryId and workstation_id = :workstationId")
     fun getStudentsOnWorkstation(laboratoryId: Int, workstationId:Int): List<Student>
+
+    @Query("SELECT * FROM student WHERE laboratory_id = :laboratoryId")
+    fun getStudentsAtLaboratory(laboratoryId: Int): List<Student>
 }

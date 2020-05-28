@@ -58,8 +58,9 @@ class LaboratoriesActivity : AppCompatActivity() {
                 val db = DatabaseHandler(this)
                 db.laboratoryDao().update(it.laboratory)
                 db.laboratoryTaskDao().updateAll(it.tasks)
-                tasks.forEach {prevTask ->
+                tasks.forEach { prevTask ->
                     if (!it.tasks.haveTask(prevTask)) {
+                        db.removeTaskDoneForLaboratory(prevTask, it.laboratory.id)
                         db.laboratoryTaskDao().delete(prevTask)
                     }
                 }
@@ -105,8 +106,9 @@ class LaboratoriesActivity : AppCompatActivity() {
                                 Thread {
                                     val db = DatabaseHandler(this@LaboratoriesActivity)
                                     db.laboratoryDao().delete(delLaboratory)
-                                    if (delLaboratory.id != 0)
-                                        db.laboratoryTaskDao().deleteTaskWithLabId(delLaboratory.id)
+                                    if (delLaboratory.id != 0) {
+                                        db.deleteDataWithLabId(delLaboratory.id)
+                                    }
                                 }.start()
                             }
                             super.onDismissed(transientBottomBar, event)

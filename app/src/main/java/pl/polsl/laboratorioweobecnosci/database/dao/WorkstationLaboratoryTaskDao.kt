@@ -23,4 +23,10 @@ interface WorkstationLaboratoryTaskDao {
 
     @Query("SELECT * FROM workstationlaboratorytask WHERE workstation_id = :workstationId AND laboratory_id = :labId AND laboratory_task_id = :taskId")
     fun getTaskForWorkstationAtLaboratoryWithId(workstationId: Int, labId: Int, taskId: Int): WorkstationLaboratoryTask
+
+    @Query("SELECT * FROM workstationlaboratorytask WHERE laboratory_task_id = :taskId AND laboratory_id = :laboratoryId")
+    fun getTasksWithIdAtLaboratory(taskId: Int, laboratoryId: Int): List<WorkstationLaboratoryTask>
+
+    @Query("SELECT * FROM workstationlaboratorytask WHERE laboratory_id = :laboratoryId")
+    fun getTasksDoneAtLaboratory(laboratoryId: Int): List<WorkstationLaboratoryTask>
 }
