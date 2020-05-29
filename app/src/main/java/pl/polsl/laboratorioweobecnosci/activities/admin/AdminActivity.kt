@@ -35,4 +35,9 @@ class AdminActivity : AppCompatActivity() {
         val intent = Intent(this, GenerateCSVActivity::class.java)
         startActivity(intent)
     }
+
+    fun onAdminPreferencesClick(view: View) {
+        val intent = Intent(this, PreferencesActivity::class.java)
+        startActivity(intent)
+    }
 }

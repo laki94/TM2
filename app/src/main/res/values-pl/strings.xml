@@ -48,6 +48,8 @@
     <string name="AuthorisationNeeded">Potrzebna autoryzacja</string>
     <string name="UseAnotherMethod">Użyj innego sposobu</string>
     <string name="Authorized">Zautoryzowano</string>
+    <string name="Preferences">Ustawienia</string>
+    <string name="AuthorizationMethod">Metoda autoryzacji</string>
 
     <string-array name="Grades">
         <item>2</item>
@@ -55,4 +57,18 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+
+    <string-array name="AuthorisationMethods">
+        <item>Brak</item>
+        <item>PIN</item>
+        <item>Odcisk palca</item>
+    </string-array>
+
+    <string-array name="AuthorisationMethodsValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string name="authorization_method_default">0</string>
 </resources>
