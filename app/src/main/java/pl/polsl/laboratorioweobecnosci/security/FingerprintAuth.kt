@@ -45,4 +45,8 @@ class FingerprintAuth(private val context: Context) {
                 .build()
         )
     }
+
+    companion object {
+        lateinit var instance: FingerprintAuth
+    }
 }

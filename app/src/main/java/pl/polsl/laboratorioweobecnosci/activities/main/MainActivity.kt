@@ -21,42 +21,36 @@ import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var authManager: FingerprintAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        authManager = FingerprintAuth(this)
+        FingerprintAuth.instance = FingerprintAuth(this)
         PreferencesManager.instance = PreferencesManager(this)
     }
 
     private fun runAdminActivityIfAuthorized() {
-        if (PreferencesManager.instance.isAuthorizationNeeded()) {
-            if (authManager.isAvailable()) {
-                val callback = object : BiometricPrompt.AuthenticationCallback() {
-                    override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                        super.onAuthenticationError(errorCode, errString)
-                        if ((errorCode != BiometricConstants.ERROR_CANCELED) && (errorCode != BiometricConstants.ERROR_USER_CANCELED)) {
-                            Toast.makeText(this@MainActivity, errString, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    override fun onAuthenticationFailed() {
-                        super.onAuthenticationFailed()
-                    }
-
-                    override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                        super.onAuthenticationSucceeded(result)
-                        Toast.makeText(this@MainActivity, R.string.Authorized, Toast.LENGTH_SHORT).show()
-                        openAdminActivity()
+        if (FingerprintAuth.instance.isAvailable()) {
+            val callback = object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    if ((errorCode != BiometricConstants.ERROR_CANCELED) && (errorCode != BiometricConstants.ERROR_USER_CANCELED)) {
+                        Toast.makeText(this@MainActivity, errString, Toast.LENGTH_SHORT).show()
                     }
                 }
-                authManager.authorize(this, callback)
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                }
+
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    Toast.makeText(this@MainActivity, R.string.Authorized, Toast.LENGTH_SHORT)
+                        .show()
+                    openAdminActivity()
+                }
             }
-            else {
-                openAdminActivity()
-            }
+            FingerprintAuth.instance.authorize(this, callback)
         } else {
             openAdminActivity()
         }
@@ -68,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onAdminPanelClick(view: View) {
-        if (true) {
+        if (PreferencesManager.instance.isAuthorizationNeeded()) {
             runAdminActivityIfAuthorized()
         } else {
             openAdminActivity()
