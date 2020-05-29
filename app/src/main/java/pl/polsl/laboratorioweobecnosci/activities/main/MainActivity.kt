@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricConstants
 import androidx.biometric.BiometricPrompt
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.admin.AdminActivity
@@ -31,36 +32,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun runAdminActivityIfAuthorized() {
-        when (PreferencesManager.instance.authMode()) {
-            AuthorizationMode.FINGERPRINT -> {
-                if (authManager.isAvailable()) {
-                    val callback = object : BiometricPrompt.AuthenticationCallback() {
-                        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                            super.onAuthenticationError(errorCode, errString)
+        if (PreferencesManager.instance.isAuthorizationNeeded()) {
+            if (authManager.isAvailable()) {
+                val callback = object : BiometricPrompt.AuthenticationCallback() {
+                    override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                        super.onAuthenticationError(errorCode, errString)
+                        if ((errorCode != BiometricConstants.ERROR_CANCELED) && (errorCode != BiometricConstants.ERROR_USER_CANCELED)) {
                             Toast.makeText(this@MainActivity, errString, Toast.LENGTH_SHORT).show()
                         }
-
-                        override fun onAuthenticationFailed() {
-                            super.onAuthenticationFailed()
-                        }
-
-                        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                            super.onAuthenticationSucceeded(result)
-                            Toast.makeText(this@MainActivity, R.string.Authorized, Toast.LENGTH_SHORT).show()
-                            openAdminActivity()
-                        }
                     }
-                    authManager.authorize(this, callback)
+
+                    override fun onAuthenticationFailed() {
+                        super.onAuthenticationFailed()
+                    }
+
+                    override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                        super.onAuthenticationSucceeded(result)
+                        Toast.makeText(this@MainActivity, R.string.Authorized, Toast.LENGTH_SHORT).show()
+                        openAdminActivity()
+                    }
                 }
+                authManager.authorize(this, callback)
             }
-
-            AuthorizationMode.PIN -> {
+            else {
                 openAdminActivity()
             }
-
-            AuthorizationMode.NONE -> {
-                openAdminActivity()
-            }
+        } else {
+            openAdminActivity()
         }
     }
 

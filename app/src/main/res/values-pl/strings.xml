@@ -50,6 +50,9 @@
     <string name="Authorized">Zautoryzowano</string>
     <string name="Preferences">Ustawienia</string>
     <string name="AuthorizationMethod">Metoda autoryzacji</string>
+    <string name="AuthorizationEnabled">Autoryzacja włączona</string>
+    <string name="EnableFingerprintAuthorization">Włącz autoryzację palcem</string>
+    <string name="Security">Bezpieczeństwo</string>
 
     <string-array name="Grades">
         <item>2</item>
@@ -64,11 +67,4 @@
         <item>Odcisk palca</item>
     </string-array>
 
-    <string-array name="AuthorisationMethodsValues">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
-    <string name="authorization_method_default">0</string>
 </resources>

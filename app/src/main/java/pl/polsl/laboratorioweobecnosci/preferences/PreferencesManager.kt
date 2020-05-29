@@ -5,19 +5,14 @@ import android.content.SharedPreferences
 import androidx.preference.DropDownPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
+import pl.polsl.laboratorioweobecnosci.R
 
 class PreferencesManager(private val context: Context) {
 
     private val preferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-    fun authMode(): AuthorizationMode {
-        var res = AuthorizationMode.NONE
-        if (preferences.contains("auth_method")) {
-            val authStr = preferences.getString("auth_method", "")
-            if (authStr != null)
-                res = AuthorizationMode.fromInt(authStr.toInt())
-        }
-        return res
+    fun isAuthorizationNeeded(): Boolean {
+        return preferences.getBoolean(context.getString(R.string.auth_enabled_key), false)
     }
 
     companion object {

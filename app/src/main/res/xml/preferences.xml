@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    
-    <DropDownPreference
-        android:defaultValue="@string/authorization_method_default"
-        android:entries="@array/AuthorisationMethods"
-        android:entryValues="@array/AuthorisationMethodsValues"
-        android:key="auth_method"
-        android:title="@string/AuthorizationMethod"
-        app:iconSpaceReserved="false"
-        app:useSimpleSummaryProvider="true"/>
+
+    <PreferenceCategory
+        android:title="@string/Security">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/auth_enabled_key"
+            android:title="@string/EnableFingerprintAuthorization"
+            android:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true"/>
+    </PreferenceCategory>
 </PreferenceScreen>

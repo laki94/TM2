@@ -41,7 +41,7 @@ class FingerprintAuth(private val context: Context) {
             BiometricPrompt.PromptInfo.Builder()
                 .setTitle(context.getString(R.string.AuthorisationNeeded))
                 .setConfirmationRequired(false)
-                .setNegativeButtonText(context.getString(R.string.UseAnotherMethod))
+                .setDeviceCredentialAllowed(true)
                 .build()
         )
     }

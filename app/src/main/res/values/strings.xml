@@ -50,6 +50,9 @@
     <string name="Authorized">Authorized</string>
     <string name="Preferences">Preferences</string>
     <string name="AuthorizationMethod">Authorization method</string>
+    <string name="AuthorizationEnabled">Authorization enabled</string>
+    <string name="EnableFingerprintAuthorization">Enable fingerprint authorization</string>
+    <string name="Security">Security</string>
 
     <string-array name="Grades">
         <item>2</item>
@@ -70,5 +73,6 @@
         <item>2</item>
     </string-array>
 
-    <string name="authorization_method_default">0</string>
+    <string name="authorization_method_default" translatable="false">0</string>
+    <string name="auth_enabled_key" translatable="false">auth_enabled</string>
 </resources>
