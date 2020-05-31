@@ -1,34 +1,107 @@
 package pl.polsl.laboratorioweobecnosci.activities.admin
 
 import android.os.Bundle
+import android.text.InputType
+import android.util.Log
+import android.widget.Toast
 import androidx.preference.DropDownPreference
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreferenceCompat
+import com.takisoft.preferencex.EditTextPreference
+import com.takisoft.preferencex.PreferenceFragmentCompat
+import org.mindrot.jbcrypt.BCrypt
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.preferences.AuthorizationMode
+import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
 
-class MyPreferencesFragment: PreferenceFragmentCompat() {
+class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener {
 
     private val disabledMethods = ArrayList<AuthorizationMode>()
+    private lateinit var authModes: DropDownPreference
+    private lateinit var passEdit: EditTextPreference
+    private var numericPassword: Boolean = false
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+    override fun onPreferenceChange(
+        preference: Preference?,
+        newValue: Any?
+    ): Boolean {
+        if (preference?.key.equals(getString(R.string.authorization_method_key))) {
+            if (newValue is String) {
+                when (AuthorizationMode.fromInt(newValue.toString().toInt())) {
+                    AuthorizationMode.PASSWORD -> {
+                        passEdit.isVisible = true
+                        numericPassword = false
+                    }
+                    AuthorizationMode.PIN -> {
+                        passEdit.isVisible = true
+                        numericPassword = true
+                    }
+                    else -> passEdit.isVisible = false
+                }
+            }
+        } else if (preference?.key.equals(getString(R.string.user_password_key))) {
+            if (newValue.toString().isEmpty()) {
+                Toast.makeText(context, R.string.PasswordCannotBeEmpty, Toast.LENGTH_LONG).show()
+            } else {
+                passEdit.summary = getString(R.string.Set)
+                val hashed = BCrypt.hashpw(newValue.toString(), BCrypt.gensalt())
+                with (preference?.sharedPreferences?.edit()!!) {
+                    putString(getString(R.string.user_password_key), hashed)
+                    commit()
+                }
+            }
+            return false
+        }
+        return true
+    }
+
+    override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         setAuthenticationMethods()
+
+        authModes.onPreferenceChangeListener = this
+        passEdit = findPreference(getString(R.string.user_password_key))!!
+        passEdit.setOnBindEditTextListener {
+            if (numericPassword) {
+                it.inputType = InputType.TYPE_NUMBER_VARIATION_PASSWORD + InputType.TYPE_CLASS_NUMBER
+            } else {
+                it.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD + InputType.TYPE_CLASS_TEXT
+            }
+            it.setText("")
+        }
+
+        passEdit.onPreferenceChangeListener = this
+
+        if (PreferencesManager.instance.hashedPassword().isEmpty()) {
+            passEdit.summary = getString(R.string.NotSet)
+        } else {
+            passEdit.summary = getString(R.string.Set)
+        }
+
+        when (PreferencesManager.instance.chosenAuthorizationMethod()) {
+            AuthorizationMode.PASSWORD -> {
+                passEdit.isVisible = true
+                numericPassword = false
+            }
+            AuthorizationMode.PIN -> {
+                passEdit.isVisible = true
+                numericPassword = true
+            }
+            else -> passEdit.isVisible = false
+        }
     }
 
     private fun setAuthenticationMethods() {
-        val authModes = findPreference<DropDownPreference>(getString(R.string.authorization_method_key))
+        authModes = findPreference(getString(R.string.authorization_method_key))!!
         val authentication = FingerprintAuth(requireContext())
 
         if (!authentication.isAvailable()) {
             disabledMethods.add(AuthorizationMode.FINGERPRINT)
         }
 
-        authModes?.entries = getAuthorizationMethods()
-        authModes?.entryValues = getAuthorizationMethodsValues()
+        authModes.entries = getAuthorizationMethods()
+        authModes.entryValues = getAuthorizationMethodsValues()
     }
 
     private fun getAuthorizationMethods(): Array<String> {

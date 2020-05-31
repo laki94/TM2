@@ -97,7 +97,7 @@ class StudentsListActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (backButtonNeedAuth) {
-            AuthorizationManager.instance.doAuthorize({ doOnBackPressed() }, this)
+            AuthorizationManager.instance.doAuthorize(this) { doOnBackPressed() }
         } else {
             doOnBackPressed()
         }

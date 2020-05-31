@@ -15,6 +15,10 @@ class PreferencesManager(private val context: Context) {
                 context.getString(R.string.none_value))!!.toInt())
     }
 
+    fun hashedPassword(): String {
+        return preferences.getString(context.getString(R.string.user_password_key), "")!!
+    }
+
     companion object {
         lateinit var instance: PreferencesManager
     }

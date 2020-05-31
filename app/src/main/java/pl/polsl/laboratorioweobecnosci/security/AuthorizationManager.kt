@@ -14,7 +14,7 @@ class AuthorizationManager {
     private lateinit var onAuthorized: () -> Unit
     private lateinit var activityCalling: AppCompatActivity
 
-    fun doAuthorize(doOnAuthorized: (() -> Unit), activity: AppCompatActivity) {
+    fun doAuthorize(activity: AppCompatActivity, doOnAuthorized: (() -> Unit)) {
         onAuthorized = doOnAuthorized
         activityCalling = activity
         when (PreferencesManager.instance.chosenAuthorizationMethod()) {
@@ -25,14 +25,16 @@ class AuthorizationManager {
         }
     }
 
+
+
     private fun authorizeWithPassword() {
         val passwordDialog = PasswordDialog(activityCalling)
-        passwordDialog.askForPassword(activityCalling.layoutInflater)
+        passwordDialog.askForPassword(activityCalling.layoutInflater) { onAuthorized() }
     }
 
     private fun authorizeWithPin() {
         val passwordDialog = PasswordDialog(activityCalling)
-        passwordDialog.askForPin(activityCalling.layoutInflater)
+        passwordDialog.askForPin(activityCalling.layoutInflater) { onAuthorized() }
     }
 
     private fun authorizeWithFingerprint() {

@@ -59,6 +59,10 @@
     <string name="PIN" translatable="false">PIN</string>
     <string name="Fingerprint">Fingerprint</string>
     <string name="Password">Password</string>
+    <string name="WrongPassword">Wrong password</string>
+    <string name="Set">Set</string>
+    <string name="NotSet">Not set</string>
+    <string name="PasswordCannotBeEmpty">Password cannot be empty</string>
 
     <string-array name="Grades">
         <item>2</item>
@@ -83,6 +87,7 @@
 
     <string name="auth_enabled_key" translatable="false">auth_enabled</string>
     <string name="authorization_method_key" translatable="false">auth_method</string>
+    <string name="user_password_key" translatable="false">user_password</string>
 
     <string name="none_value" translatable="false">0</string>
     <string name="pin_value" translatable="false">1</string>

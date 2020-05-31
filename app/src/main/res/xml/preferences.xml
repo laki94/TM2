@@ -8,5 +8,11 @@
             android:key="@string/authorization_method_key"
             android:title="@string/AuthorizationMethod"
             app:useSimpleSummaryProvider="true"/>
+        <EditTextPreference
+            android:key="@string/user_password_key"
+            android:title="@string/Password"/>
+<!--            app:summary="Asdasd"-->
+<!--            app:useSimpleSummaryProvider="true"-->
+            />
     </PreferenceCategory>
 </PreferenceScreen>

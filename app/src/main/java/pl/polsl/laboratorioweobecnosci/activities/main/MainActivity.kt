@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onAdminPanelClick(view: View) {
-        AuthorizationManager.instance.doAuthorize( { openAdminActivity() }, this)
+        AuthorizationManager.instance.doAuthorize(this) { openAdminActivity() }
     }
 
     fun onBeginExerciseClick(view: View) {

@@ -58,6 +58,10 @@
     <string name="None">Brak</string>
     <string name="Fingerprint">Odcisk palca</string>
     <string name="Password">Hasło</string>
+    <string name="WrongPassword">Błędne hasło</string>
+    <string name="Set">Ustawione</string>
+    <string name="NotSet">Nie ustawione</string>
+    <string name="PasswordCannotBeEmpty">Hasło nie może być puste</string>
 
     <string-array name="Grades">
         <item>2</item>
