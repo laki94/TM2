@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
+import androidx.biometric.BiometricConstants
+import androidx.biometric.BiometricPrompt
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +18,10 @@ import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.adapters.ListOfStudentsAtWorkstationAdapter
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.*
+import pl.polsl.laboratorioweobecnosci.preferences.AuthorizationMode
+import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
+import pl.polsl.laboratorioweobecnosci.security.AuthorizationManager
+import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
 
 class StudentsListActivity : AppCompatActivity() {
 
@@ -22,6 +29,7 @@ class StudentsListActivity : AppCompatActivity() {
     private lateinit var studentsAtLaboratory: ListOfStudentsAtWorkstation
     private lateinit var mainLaboratory: Laboratory
     private lateinit var mainRecyclerView: RecyclerView
+    private var backButtonNeedAuth = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,12 +86,25 @@ class StudentsListActivity : AppCompatActivity() {
 
                 tvLaboratory.text = mainLaboratory.laboratoryName
                 if (extras.getBoolean("ADMINMODE", false)) {
-                        listOfStudentsAtWorkstationAdapter.enableSwipe()
-                        val fab = findViewById<FloatingActionButton>(R.id.fabAddStudent)
-                        fab.hide()
+                    backButtonNeedAuth = false
+                    listOfStudentsAtWorkstationAdapter.enableSwipe()
+                    val fab = findViewById<FloatingActionButton>(R.id.fabAddStudent)
+                    fab.hide()
                 }
             }
         }.start()
+    }
+
+    override fun onBackPressed() {
+        if (backButtonNeedAuth) {
+            AuthorizationManager.instance.doAuthorize(this) { doOnBackPressed() }
+        } else {
+            doOnBackPressed()
+        }
+    }
+
+    private fun doOnBackPressed() {
+        super.onBackPressed()
     }
 
     fun onAddStudentClick(view: View) {

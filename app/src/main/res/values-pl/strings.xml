@@ -45,6 +45,23 @@
     <string name="SavedFile">Zapisano plik %1$s</string>
     <string name="CouldNotSaveFile">Nie udało się zapisać pliku, %1$s</string>
     <string name="Tasks">Zadania</string>
+    <string name="AuthorisationNeeded">Potrzebna autoryzacja</string>
+    <string name="UseAnotherMethod">Użyj innego sposobu</string>
+    <string name="Authorized">Zautoryzowano</string>
+    <string name="Preferences">Ustawienia</string>
+    <string name="AuthorizationMethod">Metoda autoryzacji</string>
+    <string name="AuthorizationEnabled">Autoryzacja włączona</string>
+    <string name="EnableFingerprintAuthorization">Włącz autoryzację palcem</string>
+    <string name="Security">Bezpieczeństwo</string>
+    <string name="InputPassword">Wprowadź hasło</string>
+    <string name="RepeatPassword">Powtórz hasło</string>
+    <string name="None">Brak</string>
+    <string name="Fingerprint">Odcisk palca</string>
+    <string name="Password">Hasło</string>
+    <string name="WrongPassword">Błędne hasło</string>
+    <string name="Set">Ustawione</string>
+    <string name="NotSet">Nie ustawione</string>
+    <string name="PasswordCannotBeEmpty">Hasło nie może być puste</string>
 
     <string-array name="Grades">
         <item>2</item>
@@ -52,4 +69,5 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+
 </resources>
