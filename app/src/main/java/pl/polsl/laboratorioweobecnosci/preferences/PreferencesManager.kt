@@ -1,9 +1,6 @@
 package pl.polsl.laboratorioweobecnosci.preferences
 
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.preference.DropDownPreference
-import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import pl.polsl.laboratorioweobecnosci.R
 
@@ -11,8 +8,11 @@ class PreferencesManager(private val context: Context) {
 
     private val preferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-    fun isAuthorizationNeeded(): Boolean {
-        return preferences.getBoolean(context.getString(R.string.auth_enabled_key), false)
+    fun chosenAuthorizationMethod(): AuthorizationMode {
+        return AuthorizationMode.fromInt(
+            preferences.getString(
+                context.getString(R.string.authorization_method_key),
+                context.getString(R.string.none_value))!!.toInt())
     }
 
     companion object {

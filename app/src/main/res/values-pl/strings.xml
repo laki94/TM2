@@ -53,18 +53,17 @@
     <string name="AuthorizationEnabled">Autoryzacja włączona</string>
     <string name="EnableFingerprintAuthorization">Włącz autoryzację palcem</string>
     <string name="Security">Bezpieczeństwo</string>
+    <string name="InputPassword">Wprowadź hasło</string>
+    <string name="RepeatPassword">Powtórz hasło</string>
+    <string name="None">Brak</string>
+    <string name="Fingerprint">Odcisk palca</string>
+    <string name="Password">Hasło</string>
 
     <string-array name="Grades">
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
-    </string-array>
-
-    <string-array name="AuthorisationMethods">
-        <item>Brak</item>
-        <item>PIN</item>
-        <item>Odcisk palca</item>
     </string-array>
 
 </resources>

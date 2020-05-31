@@ -18,7 +18,9 @@ import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.adapters.ListOfStudentsAtWorkstationAdapter
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.*
+import pl.polsl.laboratorioweobecnosci.preferences.AuthorizationMode
 import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
+import pl.polsl.laboratorioweobecnosci.security.AuthorizationManager
 import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
 
 class StudentsListActivity : AppCompatActivity() {
@@ -93,33 +95,9 @@ class StudentsListActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun authorizationNeeded(): Boolean {
-        return (backButtonNeedAuth &&
-                PreferencesManager.instance.isAuthorizationNeeded() &&
-                FingerprintAuth.instance.isAvailable())
-    }
-
     override fun onBackPressed() {
-        if (authorizationNeeded()) {
-            val callback = object : BiometricPrompt.AuthenticationCallback() {
-                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                    super.onAuthenticationError(errorCode, errString)
-                    if ((errorCode != BiometricConstants.ERROR_CANCELED) && (errorCode != BiometricConstants.ERROR_USER_CANCELED)) {
-                        Toast.makeText(this@StudentsListActivity, errString, Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onAuthenticationFailed() {
-                    super.onAuthenticationFailed()
-                }
-
-                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                    super.onAuthenticationSucceeded(result)
-                    Toast.makeText(this@StudentsListActivity, R.string.Authorized, Toast.LENGTH_SHORT).show()
-                    doOnBackPressed()
-                }
-            }
-            FingerprintAuth.instance.authorize(this, callback)
+        if (backButtonNeedAuth) {
+            AuthorizationManager.instance.doAuthorize({ doOnBackPressed() }, this)
         } else {
             doOnBackPressed()
         }

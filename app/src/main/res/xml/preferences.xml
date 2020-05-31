@@ -4,11 +4,9 @@
 
     <PreferenceCategory
         android:title="@string/Security">
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="@string/auth_enabled_key"
-            android:title="@string/EnableFingerprintAuthorization"
-            android:iconSpaceReserved="false"
+        <DropDownPreference
+            android:key="@string/authorization_method_key"
+            android:title="@string/AuthorizationMethod"
             app:useSimpleSummaryProvider="true"/>
     </PreferenceCategory>
 </PreferenceScreen>

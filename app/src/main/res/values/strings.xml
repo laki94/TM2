@@ -53,6 +53,12 @@
     <string name="AuthorizationEnabled">Authorization enabled</string>
     <string name="EnableFingerprintAuthorization">Enable fingerprint authorization</string>
     <string name="Security">Security</string>
+    <string name="InputPassword">Input password</string>
+    <string name="RepeatPassword">Repeat password</string>
+    <string name="None">None</string>
+    <string name="PIN" translatable="false">PIN</string>
+    <string name="Fingerprint">Fingerprint</string>
+    <string name="Password">Password</string>
 
     <string-array name="Grades">
         <item>2</item>
@@ -62,17 +68,24 @@
     </string-array>
 
     <string-array name="AuthorisationMethods">
-        <item>None</item>
-        <item>PIN</item>
-        <item>Fingerprint</item>
+        <item>@string/None</item>
+        <item>@string/PIN</item>
+        <item>@string/Password</item>
+        <item>@string/Fingerprint</item>
     </string-array>
 
     <string-array name="AuthorisationMethodsValues">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
+        <item>@string/none_value</item>
+        <item>@string/pin_value</item>
+        <item>@string/password_value</item>
+        <item>@string/fingerprint_value</item>
     </string-array>
 
-    <string name="authorization_method_default" translatable="false">0</string>
     <string name="auth_enabled_key" translatable="false">auth_enabled</string>
+    <string name="authorization_method_key" translatable="false">auth_method</string>
+
+    <string name="none_value" translatable="false">0</string>
+    <string name="pin_value" translatable="false">1</string>
+    <string name="fingerprint_value" translatable="false">2</string>
+    <string name="password_value" translatable="false">3</string>
 </resources>
