@@ -19,6 +19,10 @@ class PreferencesManager(private val context: Context) {
         return preferences.getString(context.getString(R.string.user_password_key), "")!!
     }
 
+    fun optionalAuthorizationEnabled(): Boolean {
+        return preferences.getBoolean(context.getString(R.string.allow_optional_auth_key), false)
+    }
+
     companion object {
         lateinit var instance: PreferencesManager
     }

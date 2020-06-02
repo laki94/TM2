@@ -6,6 +6,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.preference.DropDownPreference
 import androidx.preference.Preference
+import androidx.preference.PreferenceViewHolder
+import androidx.preference.SwitchPreferenceCompat
 import com.takisoft.preferencex.EditTextPreference
 import com.takisoft.preferencex.PreferenceFragmentCompat
 import org.mindrot.jbcrypt.BCrypt
@@ -19,7 +21,8 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
     private val disabledMethods = ArrayList<AuthorizationMode>()
     private lateinit var authModes: DropDownPreference
     private lateinit var passEdit: EditTextPreference
-    private var numericPassword: Boolean = false
+    private lateinit var optAuth: SwitchPreferenceCompat
+    private var chosenAuthMethod = AuthorizationMode.NONE
 
     override fun onPreferenceChange(
         preference: Preference?,
@@ -27,17 +30,8 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
     ): Boolean {
         if (preference?.key.equals(getString(R.string.authorization_method_key))) {
             if (newValue is String) {
-                when (AuthorizationMode.fromInt(newValue.toString().toInt())) {
-                    AuthorizationMode.PASSWORD -> {
-                        passEdit.isVisible = true
-                        numericPassword = false
-                    }
-                    AuthorizationMode.PIN -> {
-                        passEdit.isVisible = true
-                        numericPassword = true
-                    }
-                    else -> passEdit.isVisible = false
-                }
+                chosenAuthMethod = AuthorizationMode.fromInt(newValue.toString().toInt())
+                 setControlsVisibility()
             }
         } else if (preference?.key.equals(getString(R.string.user_password_key))) {
             if (newValue.toString().isEmpty()) {
@@ -63,10 +57,13 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         authModes.onPreferenceChangeListener = this
         passEdit = findPreference(getString(R.string.user_password_key))!!
         passEdit.setOnBindEditTextListener {
-            if (numericPassword) {
-                it.inputType = InputType.TYPE_NUMBER_VARIATION_PASSWORD + InputType.TYPE_CLASS_NUMBER
-            } else {
-                it.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD + InputType.TYPE_CLASS_TEXT
+            when(chosenAuthMethod) {
+                AuthorizationMode.PIN -> {
+                    it.inputType = InputType.TYPE_NUMBER_VARIATION_PASSWORD + InputType.TYPE_CLASS_NUMBER
+                }
+                else -> {
+                    it.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD + InputType.TYPE_CLASS_TEXT
+                }
             }
             it.setText("")
         }
@@ -79,16 +76,33 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
             passEdit.summary = getString(R.string.Set)
         }
 
-        when (PreferencesManager.instance.chosenAuthorizationMethod()) {
-            AuthorizationMode.PASSWORD -> {
-                passEdit.isVisible = true
-                numericPassword = false
+        optAuth = findPreference(getString(R.string.allow_optional_auth_key))!!
+
+        chosenAuthMethod = PreferencesManager.instance.chosenAuthorizationMethod()
+        setControlsVisibility()
+    }
+
+    private fun setControlsVisibility() {
+        when (chosenAuthMethod) {
+            AuthorizationMode.NONE -> {
+                passEdit.isVisible = false
+                optAuth.isVisible = false
             }
+
             AuthorizationMode.PIN -> {
                 passEdit.isVisible = true
-                numericPassword = true
+                optAuth.isVisible = false
             }
-            else -> passEdit.isVisible = false
+
+            AuthorizationMode.PASSWORD -> {
+                passEdit.isVisible = true
+                optAuth.isVisible = false
+            }
+
+            AuthorizationMode.FINGERPRINT -> {
+                passEdit.isVisible = false
+                optAuth.isVisible = true
+            }
         }
     }
 

@@ -63,6 +63,7 @@
     <string name="Set">Set</string>
     <string name="NotSet">Not set</string>
     <string name="PasswordCannotBeEmpty">Password cannot be empty</string>
+    <string name="AllowOptionalAuthorizationMethod">Allow optional authorization method</string>
 
     <string-array name="Grades">
         <item>2</item>
@@ -88,6 +89,7 @@
     <string name="auth_enabled_key" translatable="false">auth_enabled</string>
     <string name="authorization_method_key" translatable="false">auth_method</string>
     <string name="user_password_key" translatable="false">user_password</string>
+    <string name="allow_optional_auth_key" translatable="false">optional_auth_enabled</string>
 
     <string name="none_value" translatable="false">0</string>
     <string name="pin_value" translatable="false">1</string>

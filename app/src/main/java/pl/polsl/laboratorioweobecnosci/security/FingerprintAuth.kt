@@ -8,6 +8,7 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import java.util.concurrent.Executor
 
 
@@ -37,13 +38,22 @@ class FingerprintAuth(private val context: Context) {
         executor = ContextCompat.getMainExecutor(context)
 
         val prompt = BiometricPrompt(activity, executor, callbackObject)
-        prompt.authenticate(
-            BiometricPrompt.PromptInfo.Builder()
-                .setTitle(context.getString(R.string.AuthorisationNeeded))
-                .setConfirmationRequired(false)
-                .setDeviceCredentialAllowed(true)
-                .build()
-        )
+
+        if(PreferencesManager.instance.optionalAuthorizationEnabled()) {
+            prompt.authenticate(
+                BiometricPrompt.PromptInfo.Builder()
+                    .setTitle(context.getString(R.string.AuthorisationNeeded))
+                    .setConfirmationRequired(false)
+                    .setDeviceCredentialAllowed(true)
+                    .build())
+        } else {
+            prompt.authenticate(
+                BiometricPrompt.PromptInfo.Builder()
+                    .setTitle(context.getString(R.string.AuthorisationNeeded))
+                    .setConfirmationRequired(false)
+                    .setNegativeButtonText(context.getString(R.string.Cancel))
+                    .build())
+        }
     }
 
     companion object {

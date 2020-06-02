@@ -62,6 +62,7 @@
     <string name="Set">Ustawione</string>
     <string name="NotSet">Nie ustawione</string>
     <string name="PasswordCannotBeEmpty">Hasło nie może być puste</string>
+    <string name="AllowOptionalAuthorizationMethod">Zezwól na opcjonalną metodę autoryzacji</string>
 
     <string-array name="Grades">
         <item>2</item>

@@ -25,8 +25,6 @@ class AuthorizationManager {
         }
     }
 
-
-
     private fun authorizeWithPassword() {
         val passwordDialog = PasswordDialog(activityCalling)
         passwordDialog.askForPassword(activityCalling.layoutInflater) { onAuthorized() }
@@ -41,7 +39,9 @@ class AuthorizationManager {
         val callback = object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                 super.onAuthenticationError(errorCode, errString)
-                if ((errorCode != BiometricConstants.ERROR_CANCELED) && (errorCode != BiometricConstants.ERROR_USER_CANCELED)) {
+                if ((errorCode != BiometricConstants.ERROR_CANCELED) &&
+                    (errorCode != BiometricConstants.ERROR_USER_CANCELED) &&
+                    (errorCode != BiometricConstants.ERROR_NEGATIVE_BUTTON)) {
                     Toast.makeText(activityCalling, errString, Toast.LENGTH_SHORT).show()
                 }
             }

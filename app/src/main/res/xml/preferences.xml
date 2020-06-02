@@ -11,8 +11,9 @@
         <EditTextPreference
             android:key="@string/user_password_key"
             android:title="@string/Password"/>
-<!--            app:summary="Asdasd"-->
-<!--            app:useSimpleSummaryProvider="true"-->
-            />
+        <SwitchPreferenceCompat
+            android:key="@string/allow_optional_auth_key"
+            android:title="@string/AllowOptionalAuthorizationMethod"
+            app:singleLineTitle="false"/>
     </PreferenceCategory>
 </PreferenceScreen>
