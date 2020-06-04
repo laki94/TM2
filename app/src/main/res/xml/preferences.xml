@@ -16,4 +16,10 @@
             android:title="@string/AllowOptionalAuthorizationMethod"
             app:singleLineTitle="false"/>
     </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/General">
+        <Preference
+            android:key="@string/save_csv_path_key"
+            android:title="@string/SaveCsvFilesPath"/>
+    </PreferenceCategory>
 </PreferenceScreen>

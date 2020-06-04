@@ -1,20 +1,26 @@
 package pl.polsl.laboratorioweobecnosci.activities.admin
 
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.storage.StorageManager
+import android.provider.DocumentsContract
 import android.text.InputType
 import android.util.Log
 import android.widget.Toast
-import androidx.preference.DropDownPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceViewHolder
-import androidx.preference.SwitchPreferenceCompat
+import androidx.core.app.ActivityCompat
+import androidx.preference.*
 import com.takisoft.preferencex.EditTextPreference
 import com.takisoft.preferencex.PreferenceFragmentCompat
+import com.zaphlabs.filechooser.KnotFileChooser
 import org.mindrot.jbcrypt.BCrypt
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.preferences.AuthorizationMode
+import pl.polsl.laboratorioweobecnosci.preferences.PermissionsManager
 import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
+import java.io.File
 
 class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener {
 
@@ -22,6 +28,7 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
     private lateinit var authModes: DropDownPreference
     private lateinit var passEdit: EditTextPreference
     private lateinit var optAuth: SwitchPreferenceCompat
+    private lateinit var csvSavePath: Preference
     private var chosenAuthMethod = AuthorizationMode.NONE
 
     override fun onPreferenceChange(
@@ -49,12 +56,92 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         return true
     }
 
+
+
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         setAuthenticationMethods()
 
         authModes.onPreferenceChangeListener = this
+
+        preparePasswordEdit()
+        prepareOptionalAuthorization()
+        prepareCSVSavePath()
+
+        chosenAuthMethod = PreferencesManager.instance.chosenAuthorizationMethod()
+        setControlsVisibility()
+    }
+
+    private fun canShowDirectoriesDialog(): Boolean {
+        return PermissionsManager.instance.haveReadExternalPermission(requireActivity()) &&
+                PermissionsManager.instance.haveWriteExternalPermission(requireActivity())
+    }
+
+    private fun processShowDirectoriesDialog() {
+        if (canShowDirectoriesDialog()) {
+            openSelectDirectoryDialog()
+        } else if (!PermissionsManager.instance.haveReadExternalPermission(requireActivity())) {
+            PermissionsManager.instance.askForReadExternalPermission(requireActivity())
+        } else if (!PermissionsManager.instance.haveWriteExternalPermission(requireActivity())) {
+            PermissionsManager.instance.askForWriteExternalPermission(requireActivity())
+        }
+    }
+
+    private fun prepareCSVSavePath() {
+        csvSavePath = findPreference(getString(R.string.save_csv_path_key))!!
+        csvSavePath.summary = PreferencesManager.instance.saveCSVPath()
+        csvSavePath.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            processShowDirectoriesDialog()
+            return@OnPreferenceClickListener true
+        }
+    }
+
+    fun onReadExternalPermissionGranted() {
+        Handler().postDelayed({
+            processShowDirectoriesDialog()
+        }, 500)
+    }
+
+    fun onReadExternalPermissionCanceled() {
+        showCouldNotChangeSavePathToast()
+    }
+
+    private fun showCouldNotChangeSavePathToast() {
+        Toast.makeText(requireContext(), R.string.CannotChangeSavePath, Toast.LENGTH_LONG).show()
+    }
+
+    fun onWriteExternalPermissionGranted() {
+        Handler().postDelayed({
+            processShowDirectoriesDialog()
+        }, 500)
+    }
+
+    fun onWriteExternalPermissionCanceled() {
+        showCouldNotChangeSavePathToast()
+    }
+
+    private fun openSelectDirectoryDialog() {
+        val iniFile = File(PreferencesManager.instance.saveCSVPath())
+        KnotFileChooser(requireContext(),
+            showFiles = false,
+            allowCreateFolder = true,
+            restoreFolder = false,
+            initialFolder = iniFile)
+            .onSelectedFileUriListener {
+                with(csvSavePath.sharedPreferences.edit()) {
+                    putString(getString(R.string.save_csv_path_key), it.first().path)
+                    apply()
+                }
+                csvSavePath.summary = it.first().path
+            }.show()
+    }
+
+    private fun prepareOptionalAuthorization() {
+        optAuth = findPreference(getString(R.string.allow_optional_auth_key))!!
+    }
+
+    private fun preparePasswordEdit() {
         passEdit = findPreference(getString(R.string.user_password_key))!!
         passEdit.setOnBindEditTextListener {
             when(chosenAuthMethod) {
@@ -69,17 +156,11 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         }
 
         passEdit.onPreferenceChangeListener = this
-
         if (PreferencesManager.instance.hashedPassword().isEmpty()) {
             passEdit.summary = getString(R.string.NotSet)
         } else {
             passEdit.summary = getString(R.string.Set)
         }
-
-        optAuth = findPreference(getString(R.string.allow_optional_auth_key))!!
-
-        chosenAuthMethod = PreferencesManager.instance.chosenAuthorizationMethod()
-        setControlsVisibility()
     }
 
     private fun setControlsVisibility() {

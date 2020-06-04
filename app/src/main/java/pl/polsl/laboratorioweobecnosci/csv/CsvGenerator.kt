@@ -6,6 +6,8 @@ import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVPrinter
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
+import pl.polsl.laboratorioweobecnosci.preferences.PermissionsManager
+import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import java.io.File
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -24,10 +26,10 @@ class CsvGenerator(context: Context, onGenerated: (isSuccess: Boolean, message: 
                     db.getStudentsAssignedToWorkstationsAtLaboratory(laboratoryId)
                 val allTasks = db.getTasksForLaboratory(laboratoryId)
                 val csvFileName = LocalDateTime.now().atZone(ZoneId.systemDefault()).format(
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss")
                 ) + ".csv"
 
-                val csvDir = File(mainContext.filesDir.path + "/csv/")
+                val csvDir = File(PreferencesManager.instance.saveCSVPath())
                 csvDir.mkdirs()
                 val writer = File(csvDir, csvFileName).bufferedWriter()
                 writer.use {

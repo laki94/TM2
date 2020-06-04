@@ -63,6 +63,9 @@
     <string name="NotSet">Nie ustawione</string>
     <string name="PasswordCannotBeEmpty">Hasło nie może być puste</string>
     <string name="AllowOptionalAuthorizationMethod">Zezwól na opcjonalną metodę autoryzacji</string>
+    <string name="SaveCsvFilesPath">Ścieżka zapisu plików .csv</string>
+    <string name="General">Ogólne</string>
+    <string name="CannotChangeSavePath">Nie można zmienić ścieżki zapisu</string>
 
     <string-array name="Grades">
         <item>2</item>
