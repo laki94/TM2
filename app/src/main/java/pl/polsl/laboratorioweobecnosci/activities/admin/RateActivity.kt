@@ -1,5 +1,6 @@
 package pl.polsl.laboratorioweobecnosci.activities.admin
 
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,6 +14,7 @@ import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.LaboratoryWorkstationGradeModel
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
 import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfWorkstationsWithStudents
+import pl.polsl.laboratorioweobecnosci.preferences.PermissionsManager
 
 class RateActivity : AppCompatActivity() {
 
@@ -75,8 +77,31 @@ class RateActivity : AppCompatActivity() {
     }
 
     fun onSaveRatesClick(view: View) {
-        val csv = CsvGenerator(this, ::onGenerated)
-        csv.generate(labId)
+        generateCsvFile()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            PermissionsManager.WRITE_EXTERNAL_STORAGE_REQ_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    generateCsvFile()
+                }
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun generateCsvFile() {
+        if (PermissionsManager.instance.haveWriteExternalPermission(this)) {
+            val csv = CsvGenerator(this, ::onGenerated)
+            csv.generate(labId)
+        } else {
+            PermissionsManager.instance.askForWriteExternalPermission(this)
+        }
     }
 
     private fun onGenerated(success: Boolean, message: String) {
