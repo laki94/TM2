@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 import pl.polsl.laboratorioweobecnosci.activities.adapters.GenerateCSVAdapter
 import pl.polsl.laboratorioweobecnosci.activities.adapters.LaboratoryAdapter
 import pl.polsl.laboratorioweobecnosci.activities.student.StudentsListActivity
@@ -17,7 +18,7 @@ import pl.polsl.laboratorioweobecnosci.database.models.Laboratory
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryList
 import pl.polsl.laboratorioweobecnosci.preferences.PermissionsManager
 
-class GenerateCSVActivity : AppCompatActivity() {
+class GenerateCSVActivity : BaseActivity() {
 
     private lateinit var adapter: GenerateCSVAdapter
     private lateinit var laboratories: LaboratoryList

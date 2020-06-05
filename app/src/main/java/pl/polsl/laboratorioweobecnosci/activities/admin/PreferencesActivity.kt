@@ -5,9 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 import pl.polsl.laboratorioweobecnosci.preferences.PermissionsManager
 
-class PreferencesActivity : AppCompatActivity() {
+class PreferencesActivity : BaseActivity() {
 
     private val preferencesFragment = MyPreferencesFragment()
 

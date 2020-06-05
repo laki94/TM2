@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricConstants
 import androidx.biometric.BiometricPrompt
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 import pl.polsl.laboratorioweobecnosci.activities.admin.AdminActivity
 import pl.polsl.laboratorioweobecnosci.activities.admin.LaboratoriesDialog
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
@@ -16,14 +17,11 @@ import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import pl.polsl.laboratorioweobecnosci.security.AuthorizationManager
 import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        FingerprintAuth.instance = FingerprintAuth(this)
-        PreferencesManager.instance = PreferencesManager(this)
     }
 
     private fun openAdminActivity() {

@@ -58,5 +58,6 @@ class FingerprintAuth(private val context: Context) {
 
     companion object {
         lateinit var instance: FingerprintAuth
+        fun isInitialized(): Boolean { return this::instance.isInitialized }
     }
 }

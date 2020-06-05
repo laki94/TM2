@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 import pl.polsl.laboratorioweobecnosci.activities.adapters.RateListAdapter
 import pl.polsl.laboratorioweobecnosci.csv.CsvGenerator
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
@@ -16,7 +17,7 @@ import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
 import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfWorkstationsWithStudents
 import pl.polsl.laboratorioweobecnosci.preferences.PermissionsManager
 
-class RateActivity : AppCompatActivity() {
+class RateActivity : BaseActivity() {
 
     private lateinit var adapter: RateListAdapter
     private var labId = 0

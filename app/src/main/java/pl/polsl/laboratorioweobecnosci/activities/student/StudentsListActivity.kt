@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import pl.polsl.laboratorioweobecnosci.R
+import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 import pl.polsl.laboratorioweobecnosci.activities.adapters.ListOfStudentsAtWorkstationAdapter
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.*
@@ -23,7 +24,7 @@ import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import pl.polsl.laboratorioweobecnosci.security.AuthorizationManager
 import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
 
-class StudentsListActivity : AppCompatActivity() {
+class StudentsListActivity : BaseActivity() {
 
     private lateinit var listOfStudentsAtWorkstationAdapter: ListOfStudentsAtWorkstationAdapter
     private lateinit var studentsAtLaboratory: ListOfStudentsAtWorkstation

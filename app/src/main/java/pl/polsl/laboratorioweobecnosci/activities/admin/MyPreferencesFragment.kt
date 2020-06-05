@@ -56,8 +56,6 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         return true
     }
 
-
-
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
@@ -189,9 +187,8 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
 
     private fun setAuthenticationMethods() {
         authModes = findPreference(getString(R.string.authorization_method_key))!!
-        val authentication = FingerprintAuth(requireContext())
 
-        if (!authentication.isAvailable()) {
+        if (!FingerprintAuth.instance.isAvailable()) {
             disabledMethods.add(AuthorizationMode.FINGERPRINT)
         }
 

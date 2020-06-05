@@ -37,5 +37,6 @@ class PreferencesManager(private val context: Context) {
 
     companion object {
         lateinit var instance: PreferencesManager
+        fun isInitialized(): Boolean { return this::instance.isInitialized }
     }
 }
