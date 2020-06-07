@@ -1,9 +1,7 @@
 package pl.polsl.laboratorioweobecnosci.activities.admin
 
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.preference.PreferenceFragmentCompat
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 import pl.polsl.laboratorioweobecnosci.preferences.PermissionsManager

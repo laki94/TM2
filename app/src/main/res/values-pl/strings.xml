@@ -67,5 +67,5 @@
     <string name="General">Ogólne</string>
     <string name="CannotChangeSavePath">Nie można zmienić ścieżki zapisu</string>
     <string name="NoLaboratoriesToShow">Brak zajęć do pokazania</string>
-    No laboratories to show
+    <string name="PleaseSelectDirectory">Proszę wybrać folder</string>
 </resources>

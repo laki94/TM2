@@ -1,19 +1,18 @@
 package pl.polsl.laboratorioweobecnosci.activities.admin
 
+import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
-import android.os.storage.StorageManager
-import android.provider.DocumentsContract
 import android.text.InputType
 import android.util.Log
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.preference.*
+import com.aditya.filebrowser.Constants
+import com.aditya.filebrowser.FolderChooser
 import com.takisoft.preferencex.EditTextPreference
 import com.takisoft.preferencex.PreferenceFragmentCompat
-import com.zaphlabs.filechooser.KnotFileChooser
 import org.mindrot.jbcrypt.BCrypt
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.preferences.AuthorizationMode
@@ -30,6 +29,7 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
     private lateinit var optAuth: SwitchPreferenceCompat
     private lateinit var csvSavePath: Preference
     private var chosenAuthMethod = AuthorizationMode.NONE
+    private val CHANGE_CSV_PATH_REQ_CODE = 123
 
     override fun onPreferenceChange(
         preference: Preference?,
@@ -119,20 +119,27 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         showCouldNotChangeSavePathToast()
     }
 
-    private fun openSelectDirectoryDialog() {
-        val iniFile = File(PreferencesManager.instance.saveCSVPath())
-        KnotFileChooser(requireContext(),
-            showFiles = false,
-            allowCreateFolder = true,
-            restoreFolder = false,
-            initialFolder = iniFile)
-            .onSelectedFileUriListener {
-                with(csvSavePath.sharedPreferences.edit()) {
-                    putString(getString(R.string.save_csv_path_key), it.first().path)
-                    apply()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            CHANGE_CSV_PATH_REQ_CODE -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val newPath = data?.data?.path
+                    with(csvSavePath.sharedPreferences.edit()) {
+                        putString(getString(R.string.save_csv_path_key), newPath)
+                        apply()
+                    }
+                    csvSavePath.summary = newPath
                 }
-                csvSavePath.summary = it.first().path
-            }.show()
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun openSelectDirectoryDialog() {
+        val intent = Intent(requireContext(), FolderChooser::class.java)
+        intent.putExtra(Constants.SELECTION_MODE, Constants.SELECTION_MODES.SINGLE_SELECTION.ordinal)
+        intent.putExtra(Constants.INITIAL_DIRECTORY, File(PreferencesManager.instance.saveCSVPath()).absolutePath)
+        startActivityForResult(intent, CHANGE_CSV_PATH_REQ_CODE)
     }
 
     private fun prepareOptionalAuthorization() {

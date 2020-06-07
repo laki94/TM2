@@ -6,23 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="kfc_theme_background">@color/kfc_theme_background</item>
-        <item name="kfc_theme_foreground">@color/kfc_theme_foreground</item>
-        <item name="kfc_theme_title">@color/kfc_theme_title</item>
-        <item name="kfc_theme_breadcrumb">@color/kfc_theme_breadcrumb</item>
-        <item name="kfc_theme_toolbox">@color/kfc_theme_toolbox</item>
-        <item name="kfc_theme_search_text">@color/kfc_theme_search_text</item>
-        <item name="kfc_theme_search_hint">@color/kfc_theme_search_hint</item>
-        <item name="kfc_theme_status">@color/kfc_theme_status</item>
-        <item name="kfc_theme_file_icon">@color/kfc_theme_file_icon</item>
-        <item name="kfc_theme_file_name">@color/kfc_theme_file_name</item>
-        <item name="kfc_theme_file_information">@color/kfc_theme_file_information</item>
-        <item name="kfc_theme_file_flag">@color/kfc_theme_file_flag</item>
-        <item name="kfc_theme_file_asterisk">@color/kfc_theme_file_asterisk</item>
-        <item name="kfc_theme_checkbox">@color/colorAccent</item>
-        <item name="kfc_theme_cancel_button">@color/colorAccent</item>
-        <item name="kfc_theme_ok_button">@color/colorAccent</item>
-        <item name="kfc_theme_create_folder_button">@color/kfc_theme_create_folder_button</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
