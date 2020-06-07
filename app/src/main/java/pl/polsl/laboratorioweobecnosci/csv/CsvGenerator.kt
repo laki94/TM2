@@ -24,6 +24,8 @@ class CsvGenerator(context: Context, onGenerated: (isSuccess: Boolean, message: 
                 val db = DatabaseHandler(mainContext)
                 val studentListWorkstation =
                     db.getStudentsAssignedToWorkstationsAtLaboratory(laboratoryId)
+
+                studentListWorkstation.sortByWorkstationNr()
                 val allTasks = db.getTasksForLaboratory(laboratoryId)
                 val csvFileName = LocalDateTime.now().atZone(ZoneId.systemDefault()).format(
                     DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss")

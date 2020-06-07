@@ -23,6 +23,12 @@ class ListOfStudentsAtWorkstation: ArrayList<StudentWorkstationModel>() {
         return res
     }
 
+    fun sortByWorkstationNr() {
+        this.sortBy {
+            it.workstation.number
+        }
+    }
+
     fun sortedWorkstationPosition(workstationNr: Int): Int {
         val sortedWorkstations = getSortedWorkstation()
 
