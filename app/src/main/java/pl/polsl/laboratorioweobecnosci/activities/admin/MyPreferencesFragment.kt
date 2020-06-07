@@ -2,11 +2,8 @@ package pl.polsl.laboratorioweobecnosci.activities.admin
 
 import android.app.Activity
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
-import android.os.Handler
 import android.text.InputType
-import android.util.Log
 import android.widget.Toast
 import androidx.preference.*
 import com.aditya.filebrowser.Constants
@@ -16,7 +13,6 @@ import com.takisoft.preferencex.PreferenceFragmentCompat
 import org.mindrot.jbcrypt.BCrypt
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.preferences.AuthorizationMode
-import pl.polsl.laboratorioweobecnosci.preferences.PermissionsManager
 import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
 import java.io.File
@@ -71,52 +67,13 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         setControlsVisibility()
     }
 
-    private fun canShowDirectoriesDialog(): Boolean {
-        return PermissionsManager.instance.haveReadExternalPermission(requireActivity()) &&
-                PermissionsManager.instance.haveWriteExternalPermission(requireActivity())
-    }
-
-    private fun processShowDirectoriesDialog() {
-        if (canShowDirectoriesDialog()) {
-            openSelectDirectoryDialog()
-        } else if (!PermissionsManager.instance.haveReadExternalPermission(requireActivity())) {
-            PermissionsManager.instance.askForReadExternalPermission(requireActivity())
-        } else if (!PermissionsManager.instance.haveWriteExternalPermission(requireActivity())) {
-            PermissionsManager.instance.askForWriteExternalPermission(requireActivity())
-        }
-    }
-
     private fun prepareCSVSavePath() {
         csvSavePath = findPreference(getString(R.string.save_csv_path_key))!!
         csvSavePath.summary = PreferencesManager.instance.saveCSVPath()
         csvSavePath.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            processShowDirectoriesDialog()
+            openSelectDirectoryDialog()
             return@OnPreferenceClickListener true
         }
-    }
-
-    fun onReadExternalPermissionGranted() {
-        Handler().postDelayed({
-            processShowDirectoriesDialog()
-        }, 500)
-    }
-
-    fun onReadExternalPermissionCanceled() {
-        showCouldNotChangeSavePathToast()
-    }
-
-    private fun showCouldNotChangeSavePathToast() {
-        Toast.makeText(requireContext(), R.string.CannotChangeSavePath, Toast.LENGTH_LONG).show()
-    }
-
-    fun onWriteExternalPermissionGranted() {
-        Handler().postDelayed({
-            processShowDirectoriesDialog()
-        }, 500)
-    }
-
-    fun onWriteExternalPermissionCanceled() {
-        showCouldNotChangeSavePathToast()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
