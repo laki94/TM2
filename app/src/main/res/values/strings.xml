@@ -67,6 +67,7 @@
     <string name="SaveCsvFilesPath">Save .csv files path</string>
     <string name="General">General</string>
     <string name="CannotChangeSavePath">Cannot change save path</string>
+    <string name="NoLaboratoriesToShow">No laboratories to show</string>
 
     <string-array name="Grades">
         <item>2</item>

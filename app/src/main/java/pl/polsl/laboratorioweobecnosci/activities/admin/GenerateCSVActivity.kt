@@ -34,17 +34,22 @@ class GenerateCSVActivity : BaseActivity() {
             val db = DatabaseHandler(this)
             laboratories = db.getLaboratoriesSortedByStartDate()
             runOnUiThread {
-                adapter = GenerateCSVAdapter(this, laboratories)
+                if (laboratories.isEmpty()) {
+                    Toast.makeText(this, R.string.NoLaboratoriesToShow, Toast.LENGTH_LONG).show()
+                    finish()
+                } else {
+                    adapter = GenerateCSVAdapter(this, laboratories)
 
-                adapter.let {
-                    it.onGenerateClick = {lab ->
-                        tempLaboratory = lab
-                        generateCSVFile()
+                    adapter.let {
+                        it.onGenerateClick = { lab ->
+                            tempLaboratory = lab
+                            generateCSVFile()
+                        }
                     }
+                    val rvList = findViewById<RecyclerView>(R.id.rvLabListCSV)
+                    rvList.layoutManager = LinearLayoutManager(this)
+                    rvList.adapter = adapter
                 }
-                val rvList = findViewById<RecyclerView>(R.id.rvLabListCSV)
-                rvList.layoutManager = LinearLayoutManager(this)
-                rvList.adapter = adapter
             }
         }.start()
     }

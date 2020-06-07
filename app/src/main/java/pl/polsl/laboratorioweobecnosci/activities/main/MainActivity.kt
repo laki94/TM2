@@ -39,7 +39,11 @@ class MainActivity : BaseActivity() {
             val db = DatabaseHandler(this)
             val laboratories = db.getLaboratoriesSortedByStartDate()
             runOnUiThread {
-                dialog.showLaboratoriesForStudents(layoutInflater, laboratories)
+                if (laboratories.isEmpty()) {
+                    Toast.makeText(this, R.string.NoLaboratoriesToShow, Toast.LENGTH_LONG).show()
+                } else {
+                    dialog.showLaboratoriesForStudents(layoutInflater, laboratories)
+                }
             }
         }.start()
     }
