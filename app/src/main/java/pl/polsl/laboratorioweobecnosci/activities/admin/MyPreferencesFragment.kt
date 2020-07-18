@@ -17,6 +17,15 @@ import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
 import java.io.File
 
+/**
+ * Fragment wyświetlający ustawienia aplikacji
+ * @property disabledMethods tablica typów autoryzacji które nie są dostępne
+ * @property authModes ustawienie typu autoryzacji
+ * @property passEdit ustawienie hasła autoryzacji
+ * @property optAuth ustawienie alternatywnej autoryzacji dla autoryzacji palcem
+ * @property csvSavePath ustawienie domyślnej ścieżki zapisu plików CSV
+ * @property chosenAuthMethod aktualnie wybrana metoda autoryzacji
+ */
 class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener {
 
     private val disabledMethods = ArrayList<AuthorizationMode>()
@@ -67,6 +76,9 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         setControlsVisibility()
     }
 
+    /**
+     * Przygotowanie ustawienia ścieżki zapisu plików CSV
+     */
     private fun prepareCSVSavePath() {
         csvSavePath = findPreference(getString(R.string.save_csv_path_key))!!
         csvSavePath.summary = PreferencesManager.instance.saveCSVPath()
@@ -92,6 +104,9 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         super.onActivityResult(requestCode, resultCode, data)
     }
 
+    /**
+     * Otworzenie dialogu z wyborem katalogu, w którym mają być zapisane pliki CSV
+     */
     private fun openSelectDirectoryDialog() {
         val intent = Intent(requireContext(), FolderChooser::class.java)
         intent.putExtra(Constants.SELECTION_MODE, Constants.SELECTION_MODES.SINGLE_SELECTION.ordinal)
@@ -99,10 +114,16 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         startActivityForResult(intent, CHANGE_CSV_PATH_REQ_CODE)
     }
 
+    /**
+     * Przygotowanie ustawienia opcjonalnej autoryzacji
+     */
     private fun prepareOptionalAuthorization() {
         optAuth = findPreference(getString(R.string.allow_optional_auth_key))!!
     }
 
+    /**
+     * Przygotowanie ustawienia hasła autoryzacji
+     */
     private fun preparePasswordEdit() {
         passEdit = findPreference(getString(R.string.user_password_key))!!
         passEdit.setOnBindEditTextListener {
@@ -125,6 +146,9 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         }
     }
 
+    /**
+     * Ustawienie widoczności ustawień
+     */
     private fun setControlsVisibility() {
         when (chosenAuthMethod) {
             AuthorizationMode.NONE -> {
@@ -149,6 +173,9 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         }
     }
 
+    /**
+     * Przygotowanie metod autoryzacji
+     */
     private fun setAuthenticationMethods() {
         authModes = findPreference(getString(R.string.authorization_method_key))!!
 
@@ -160,6 +187,10 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         authModes.entryValues = getAuthorizationMethodsValues()
     }
 
+    /**
+     * Pobranie dostępnych metod autoryzacji
+     * @return tablica metod autoryzacji
+     */
     private fun getAuthorizationMethods(): Array<String> {
         val res = ArrayList<String>()
         res.add(getString(R.string.None))
@@ -171,6 +202,10 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         return res.toTypedArray()
     }
 
+    /**
+     * Pobranie wartości przypisanych metodom autoryzacji
+     * @return tablica wartości odpowiadających metodom autoryzacji
+     */
     private fun getAuthorizationMethodsValues(): Array<String> {
         val res = ArrayList<String>()
         res.add(getString(R.string.none_value))

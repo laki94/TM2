@@ -1,7 +1,6 @@
 package pl.polsl.laboratorioweobecnosci.activities.admin
 
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -17,6 +16,13 @@ import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
 import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfWorkstationsWithStudents
 import pl.polsl.laboratorioweobecnosci.preferences.PermissionsManager
 
+/**
+ * Aktywność z ocenianiem stanowisk na laboratorium
+ * @property adapter adapter do RecyclerView aktywności
+ * @property labId Id ocenianego laboratorium
+ * @property workstationsWithStudents lista stanowisk ze studentami
+ * @property tasks zadania do wykonania na laboratorium
+ */
 class RateActivity : BaseActivity() {
 
     private lateinit var adapter: RateListAdapter
@@ -42,7 +48,7 @@ class RateActivity : BaseActivity() {
                     val tasksDone = db.getTasksDoneByWorkstationAtLaboratory(
                         studentsAtWorkstation.students[0].laboratoryId,
                         studentsAtWorkstation.workstation.id)
-                    var actGrade = db.laboratoryGradeDao().getGradeForWorkstationAtLaboratory(
+                    var actGrade = db.laboratoryWorkstationGradeDao().getGradeForWorkstationAtLaboratory(
                         studentsAtWorkstation.students[0].laboratoryId,
                         studentsAtWorkstation.workstation.id
                     )
@@ -77,6 +83,9 @@ class RateActivity : BaseActivity() {
         }.start()
     }
 
+    /**
+     * Funkcja wywołana po wciśnięciu przycisku zapisania ocen generująca plik CSV
+     */
     fun onSaveRatesClick(view: View) {
         generateCsvFile()
     }
@@ -96,6 +105,9 @@ class RateActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    /**
+     * Generowanie pliku CSV
+     */
     private fun generateCsvFile() {
         if (PermissionsManager.instance.haveWriteExternalPermission(this)) {
             val csv = CsvGenerator(this, ::onGenerated)
@@ -105,6 +117,9 @@ class RateActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Callback wywołany po wygenerowaniu pliku CSV
+     */
     private fun onGenerated(success: Boolean, message: String) {
         runOnUiThread {
             if (success) {

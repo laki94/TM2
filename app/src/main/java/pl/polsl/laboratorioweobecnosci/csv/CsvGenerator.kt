@@ -13,11 +13,17 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-class CsvGenerator(context: Context, onGenerated: (isSuccess: Boolean, message: String) -> Unit) {
+/**
+ * Klasa generująca plik CSV
+ * @param mainContext context wywołującej aktywności
+ * @param doOnGenerated callback wywołany po zakończeniu generowania pliku
+ */
+class CsvGenerator(private val mainContext: Context, private val doOnGenerated: (isSuccess: Boolean, message: String) -> Unit) {
 
-    private val mainContext = context
-    private val doOnGenerated = onGenerated
-
+    /**
+     * funkcja generująca plik CSV dla laboratorium
+     * @param laboratoryId Id laboratorium
+     */
     fun generate(laboratoryId: Int) {
         Thread {
             try {

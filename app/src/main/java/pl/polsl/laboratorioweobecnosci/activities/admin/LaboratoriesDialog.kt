@@ -23,6 +23,14 @@ import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.Laboratory
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryList
 
+/**
+ * Dialog z wszystkimi laboratoriami
+ * @param context context aktywności
+ * @property laboratoriesAdapter adapter dla RecyclerView w dialogu
+ * @property laboratories wszystkie laboratoria
+ * @property dialogLayout dialog, który zostanie wyświetlony
+ * @property selectedLaboratory zaznaczone laboratorium
+ */
 class LaboratoriesDialog(context: Context) : AlertDialog.Builder(context) {
 
     private lateinit var laboratoriesAdapter: LaboratoriesAdapter
@@ -30,12 +38,14 @@ class LaboratoriesDialog(context: Context) : AlertDialog.Builder(context) {
     private lateinit var dialogLayout: View
     private lateinit var selectedLaboratory: Laboratory
 
-
+    /**
+     * Przypisanie adaptera do RecyclerView dialogu
+     */
     private fun setTaskAdapter() {
         laboratoriesAdapter = LaboratoriesAdapter(context, laboratories)
 
         laboratoriesAdapter.let {
-            it.onLaboratoryClick = {singleLab ->
+            it.onLaboratoryClick = { singleLab ->
                 selectedLaboratory = singleLab
                 it.selectItem(selectedLaboratory.id)
             }
@@ -46,6 +56,11 @@ class LaboratoriesDialog(context: Context) : AlertDialog.Builder(context) {
         rvList.adapter = laboratoriesAdapter
     }
 
+    /**
+     * Wyświetlenie dialogu z wyborem laboratorium do oceny
+     * @param inflater LayoutInflater aktywności wywołującej
+     * @param allLaboratories wszystkie laboratoria
+     */
     fun showLaboratoriesForRating(inflater: LayoutInflater, allLaboratories: LaboratoryList) {
         dialogLayout = inflater.inflate(R.layout.dialog_laboratories, null)
         laboratories = allLaboratories
@@ -70,6 +85,11 @@ class LaboratoriesDialog(context: Context) : AlertDialog.Builder(context) {
         }
     }
 
+    /**
+     * Wyświetlenie dialogu z wyborem laboratorium dla pokazania obecnych studentów
+     * @param inflater LayoutInflater aktywności wywołującej
+     * @param allLaboratories wszystkie laboratoria
+     */
     fun showLaboratoriesForStudents(inflater: LayoutInflater, allLaboratories: LaboratoryList) {
         dialogLayout = inflater.inflate(R.layout.dialog_laboratories, null)
         laboratories = allLaboratories

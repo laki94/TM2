@@ -4,6 +4,10 @@ import android.os.Bundle
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 
+/**
+ * Aktywność z ustawieniami aplikacji
+ * @property preferencesFragment fragment z ustawieniami
+ */
 class PreferencesActivity : BaseActivity() {
 
     private val preferencesFragment = MyPreferencesFragment()

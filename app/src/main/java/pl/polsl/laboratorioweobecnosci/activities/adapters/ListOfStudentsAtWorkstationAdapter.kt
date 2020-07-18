@@ -13,46 +13,75 @@ import kotlinx.android.synthetic.main.students_workstation_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.models.*
 
+/**
+ * Adapter dla aktywności wyświetlających informacje o studentach na danym stanowisku
+ * @param context context aktywności
+ * @param items lista studentów na danym stanowisku
+ * @property onStudentRemove Callback, który zostaje wywołany po przesunięciu studenta w lewo
+ * @property onStudentEdit Callback, który zostaje wywołany po przesunięciu studenta w prawo
+ * @property swipeEnabled Zmienna określająca czy można usuwać/edytować studentów przez przesuwanie
+ */
 class ListOfStudentsAtWorkstationAdapter(private val context: Context, private val items: ListOfStudentsAtWorkstation): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onStudentRemove: ((StudentWorkstationModel) -> Unit)? = null
     var onStudentEdit: ((StudentWorkstationModel) -> Unit)? = null
-
-    val p = Paint()
+    private val p = Paint()
     var swipeEnabled = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.students_workstation_item, parent, false))
     }
 
+    /**
+     * Włączenie usuwania/edycji przez swipowanie
+     */
     fun enableSwipe() {
         swipeEnabled = true
     }
 
+    /**
+     * Odświeżenie wszystkich studentów
+     */
     private fun refreshAll() {
         for (pos in 0..itemCount)
             notifyItemChanged(pos)
     }
 
+    /**
+     * Dodanie nowego studenta do stanowiska
+     * @param studentAtWorkstation obiekt przechowujący dane studenta i jego stanowiska
+     */
     fun addNewStudent(studentAtWorkstation: StudentWorkstationModel) {
         items.addStudentWorkstation(studentAtWorkstation.student, studentAtWorkstation.workstation)
         refreshAll()
     }
 
+    /**
+     * Edycja wybranego studenta na stanowisku
+     * @param studentAtWorkstation student na stanowisku, który będzie edytowany
+     */
     fun editStudent(studentAtWorkstation: StudentWorkstationModel) {
         items.editStudent(studentAtWorkstation)
         refreshAll()
     }
 
+    /**
+     * Usunięcie wybranego studenta na stanowisku
+     * @param studentAtWorkstation student na stanowisku, który będzie usunięty
+     */
     fun removeStudent(studentAtWorkstation: StudentWorkstationModel) {
         items.removeStudent(studentAtWorkstation)
         if (items.getStudentsAtWorkstationNr(studentAtWorkstation.workstation.number).count() > 0) {
-            notifyItemChanged(items.sortedWorkstationPosition(studentAtWorkstation.workstation.number))
+            refreshItem(items.sortedWorkstationPosition(studentAtWorkstation.workstation.number))
         } else {
             notifyDataSetChanged()
         }
     }
 
+    /**
+     * Odświeżenie pojedyńczego studenta na stanowisku
+     * @param position pozycja na liście do odświeżenia
+     */
     fun refreshItem(position: Int) {
         notifyItemChanged(position)
     }
@@ -76,7 +105,12 @@ class ListOfStudentsAtWorkstationAdapter(private val context: Context, private v
             }
     }
 
+    /**
+     * @property tvWorkstation Element interfejsu wyświetlacjący informacje o stanowisku
+     * @property rvStudents Element interfejsu wyświetlający listę studentów
+     */
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {
+
         val tvWorkstation: TextView = view.tvWorkstation
         val rvStudents: RecyclerView = view.rvStudents
 
@@ -85,6 +119,9 @@ class ListOfStudentsAtWorkstationAdapter(private val context: Context, private v
                 enableSwipe()
         }
 
+        /**
+         * Włączenie możliwości przesuwania studentów dla ich edycji i usuwania
+         */
         private fun enableSwipe() {
             val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
                 override fun onMove(

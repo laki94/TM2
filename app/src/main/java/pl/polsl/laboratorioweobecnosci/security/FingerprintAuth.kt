@@ -11,12 +11,20 @@ import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import java.util.concurrent.Executor
 
-
+/**
+ * Klasa do przetwarzania autoryzacji odciskiem palca
+ * @param context context aktywności wywołującej
+ * @property biometricManager menadżer biometryczny
+ * @property instance zmienna przechowująca globalny obiekt menadżera
+ */
 class FingerprintAuth(private val context: Context) {
     private val TAG = "FINGERPRINTAUTH"
     private val biometricManager = BiometricManager.from(context)
-    private lateinit var executor: Executor
 
+    /**
+     * Sprawdzenie czy autoryzacja odciskiem palca jest możliwa
+     * @return True jeśli autoryzacja odciskiem palca jest możliwa
+     */
     fun isAvailable(): Boolean {
         when (biometricManager.canAuthenticate()) {
             BiometricManager.BIOMETRIC_SUCCESS -> {
@@ -34,8 +42,13 @@ class FingerprintAuth(private val context: Context) {
         return false
     }
 
+    /**
+     * Wywołanie okna z autoryzacją użytkownika poprzez odcisk palca
+     * @param activity aktywność wywołująca funkcję
+     * @param callbackObject callback wywołany po zautoryzowaniu użytkownika
+     */
     fun authorize(activity: AppCompatActivity, callbackObject: BiometricPrompt.AuthenticationCallback) {
-        executor = ContextCompat.getMainExecutor(context)
+        val executor = ContextCompat.getMainExecutor(context)
 
         val prompt = BiometricPrompt(activity, executor, callbackObject)
 
@@ -58,6 +71,11 @@ class FingerprintAuth(private val context: Context) {
 
     companion object {
         lateinit var instance: FingerprintAuth
+
+        /**
+         * funkcja zwracająca czy zmienna przechowująca globalny obiekt menadżera jest zainicjowana
+         * @return True jeśli zmienna przechowująca globalny obiekt menadżera jest zainicjowana
+         */
         fun isInitialized(): Boolean { return this::instance.isInitialized }
     }
 }

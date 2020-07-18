@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
 
+/**
+ * Bazowa aktywność inicjalizująca zmienne globalne
+ */
 @SuppressLint("Registered")
 open class BaseActivity: AppCompatActivity() {
 

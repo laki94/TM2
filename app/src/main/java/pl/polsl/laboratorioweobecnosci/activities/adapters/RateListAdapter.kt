@@ -11,6 +11,12 @@ import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.models.*
 import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfWorkstationsWithStudents
 
+/**
+ * Adapter dla aktywności wyświetlających ocenianie stanowisk
+ * @param context context aktywności
+ * @param items lista stanowisk ze studentami
+ * @property onWorkstationClick callback, który zostanie wywołany po wciśnięciu przycisku określającego dane stanowisko
+ */
 class RateListAdapter(private val context: Context, private val items: ListOfWorkstationsWithStudents): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onWorkstationClick: ((StudentListWorkstationModel) -> Unit)? = null
@@ -23,11 +29,6 @@ class RateListAdapter(private val context: Context, private val items: ListOfWor
         return items.size
     }
 
-    fun addStudent(student: Student, workstation: Workstation) {
-        items.addStudentToWorkstation(student, workstation)
-        notifyItemInserted(items.sortedWorkstationPosition(workstation.number))
-    }
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val myHolder = holder as MyViewHolder
 
@@ -38,6 +39,9 @@ class RateListAdapter(private val context: Context, private val items: ListOfWor
             students?.toNewLineSeparatedString())
     }
 
+    /**
+     * @property bItem element interfejsu wyświetlający informacje o stanowisku i studentach
+     */
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         val bItem: Button = view.bButtonItem
 

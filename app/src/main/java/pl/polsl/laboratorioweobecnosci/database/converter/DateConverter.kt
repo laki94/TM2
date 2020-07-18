@@ -4,21 +4,28 @@ import androidx.room.TypeConverter
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+/**
+ * Klasa konwertująca datę w bazie
+ */
 class DateConverter {
     companion object {
+        /**
+         * Funkcja tworząca datę z timestampu
+         * @return datę utworzoną z timestampu
+         */
         @TypeConverter
         @JvmStatic
         fun fromTimestamp(value: Long?): Date? {
-            val dateFormat = SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
-            )
             return when (value) {
                 null -> null
                 else -> Date(value)
             }
         }
 
+        /**
+         * Funkcja tworząca timestamp z daty
+         * @return timestamp utworzony z daty
+         */
         @TypeConverter
         @JvmStatic
         fun toTimestamp(date: Date?): Long? {

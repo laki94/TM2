@@ -16,7 +16,6 @@
         <activity android:name=".activities.admin.GenerateCSVActivity" />
         <activity android:name=".activities.admin.RateDialog" />
         <activity android:name=".activities.admin.LaboratoriesDialog" />
-        <activity android:name=".activities.admin.RateWorkstationDialog" />
         <activity android:name=".activities.admin.LaboratoryDialog" />
         <activity android:name=".activities.admin.LaboratoriesActivity" />
         <activity android:name=".activities.student.StudentsListActivity" />

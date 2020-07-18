@@ -11,26 +11,43 @@ import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.models.LaboratoryTask
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
 
+/**
+ * Adapter dla aktywności wyświetlających zadania na laboratorium
+ * @param context context aktywności
+ * @param items lista zadań dla określonego laboratorium
+ * @property onRemoveClick Callback, który zostanie wywołany po wciśnięciu przycisku usuwania
+ */
 class LaboratoryTaskAdapter(private val context: Context, private val items: LaboratoryTaskList): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var onTaskClick: ((LaboratoryTask) -> Unit)? = null
     var onRemoveClick: (() -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.task_item, parent, false))
     }
 
+    /**
+     * Usunięcie zadania
+     * @param position pozycja zadania do usunięcia na liście
+     */
     fun removeItem(position: Int) {
         items.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, itemCount)
     }
 
+    /**
+     * Dodanie nowego zadania
+     * @param task zadanie do dodania
+     */
     fun addNewItem(task: LaboratoryTask) {
         items.add(task)
         notifyItemInserted(itemCount - 1)
     }
 
+    /**
+     * Odświeżenie pojedynczego zadania
+     * @param position pozycja zadania na liście
+     */
     fun refreshItem(position: Int) {
         notifyItemChanged(position)
     }
@@ -61,7 +78,13 @@ class LaboratoryTaskAdapter(private val context: Context, private val items: Lab
         }
     }
 
+    /**
+     * @property tvTaskNr Element interfejsu przechowujący nr zadania
+     * @property sTaskGrade Element interfejsu przechowujący ocenę z zadanie
+     * @property ivRemove Element interfejsu, po kliknięciu którego zadanie jest usuwane
+     */
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {
+
         val tvTaskNr: TextView = view.tvTaskNr
         val sTaskGrade: Spinner = view.sTaskGrade
         val ivRemove: ImageView = view.ivRemove

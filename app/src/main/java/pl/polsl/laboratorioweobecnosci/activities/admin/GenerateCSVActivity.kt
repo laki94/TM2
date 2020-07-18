@@ -1,8 +1,6 @@
 package pl.polsl.laboratorioweobecnosci.activities.admin
 
-import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,26 +8,36 @@ import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 import pl.polsl.laboratorioweobecnosci.activities.adapters.GenerateCSVAdapter
-import pl.polsl.laboratorioweobecnosci.activities.adapters.LaboratoryAdapter
-import pl.polsl.laboratorioweobecnosci.activities.student.StudentsListActivity
 import pl.polsl.laboratorioweobecnosci.csv.CsvGenerator
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.Laboratory
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryList
 import pl.polsl.laboratorioweobecnosci.preferences.PermissionsManager
 
+/**
+ * Aktywność wyświetlająca laboratoria dla których można wygenerować pliki CSV
+ * @property adapter adapter dla RecyclerView aktywności
+ * @property laboratories lista stworzonych laboratoriów
+ * @property tempLaboratory laboratorium dla którego zostanie stworzony plik CSV
+ */
 class GenerateCSVActivity : BaseActivity() {
 
     private lateinit var adapter: GenerateCSVAdapter
     private lateinit var laboratories: LaboratoryList
-
     private var tempLaboratory: Laboratory? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_generate_csv)
 
+        doInitialize()
+    }
+
+    /**
+     * Pobranie stworzonych laboratoriów posortowanych po dacie, aktywność jest zamykana jeśli nie
+     * ma żadnego.
+     */
+    private fun doInitialize() {
         Thread {
             val db = DatabaseHandler(this)
             laboratories = db.getLaboratoriesSortedByStartDate()
@@ -54,6 +62,9 @@ class GenerateCSVActivity : BaseActivity() {
         }.start()
     }
 
+    /**
+     * Sprawdzenie uprawnień do zapisu i wygenerowanie pliku CSV
+     */
     private fun generateCSVFile() {
         with (tempLaboratory) {
             if (this != null) {
@@ -82,6 +93,10 @@ class GenerateCSVActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    /**
+     * Funkcja, która zostaje wywołana po wygenerowaniu pliku CSV informująca użytkownika o statusie
+     * pliku.
+     */
     private fun doOnGenerated(success: Boolean, message: String) {
         runOnUiThread {
             if (success) {

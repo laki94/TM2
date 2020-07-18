@@ -10,18 +10,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.activities.adapters.LaboratoryAdapter
+import pl.polsl.laboratorioweobecnosci.activities.adapters.LaboratoriesAdapter
 import pl.polsl.laboratorioweobecnosci.activities.student.StudentsListActivity
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.Laboratory
-import pl.polsl.laboratorioweobecnosci.database.models.LaboratoryTask
-import pl.polsl.laboratorioweobecnosci.database.models.LaboratoryTaskModel
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryList
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
 
+/**
+ * Aktywność z wszystkimi laboratoriami
+ * @property adapter adapter dla RecyclerView w aktywności
+ * @property laboratories lista wszystkich laboratoriów
+ */
 class LaboratoriesActivity : AppCompatActivity() {
 
-    private lateinit var adapter: LaboratoryAdapter
+    private lateinit var adapter: LaboratoriesAdapter
     private lateinit var laboratories: LaboratoryList
     private val p = Paint()
 
@@ -29,11 +32,18 @@ class LaboratoriesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_laboratories)
 
+        doInitialize()
+    }
+
+    /**
+     * Pobranie dostępnych laboratoriów
+     */
+    private fun doInitialize() {
         Thread {
             val db = DatabaseHandler(this)
             laboratories = db.getLaboratoriesSortedByStartDate()
             runOnUiThread {
-                adapter = LaboratoryAdapter(this, laboratories)
+                adapter = LaboratoriesAdapter(this, laboratories)
 
                 adapter.let {
                     it.onLaboratoryClick = {
@@ -51,6 +61,11 @@ class LaboratoriesActivity : AppCompatActivity() {
         enableSwipe()
     }
 
+    /**
+     * Edycja wybranego laboratorium
+     * @param laboratory laboratorium do edycji
+     * @param tasks zadania do wykonania na laboratorium
+     */
     private fun editLaboratory(laboratory: Laboratory, tasks: LaboratoryTaskList) {
         val dialog = LaboratoryDialog(this)
         dialog.onSaveClick = { it ->
@@ -77,6 +92,9 @@ class LaboratoriesActivity : AppCompatActivity() {
         dialog.showEditDialog(layoutInflater, laboratory, tasks)
     }
 
+    /**
+     * Włączenie edycji/usuwania laboratoriów przez przesuwanie
+     */
     private fun enableSwipe() {
         val rvLaboratories = findViewById<RecyclerView>(R.id.rvLaboratories)
         val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
@@ -186,6 +204,9 @@ class LaboratoriesActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(rvLaboratories)
     }
 
+    /**
+     * Funkcja wywołana po wciśnięciu przycisku dodania laboratorium
+     */
     fun onAddExerciseClick(view: View) {
         val dialog = LaboratoryDialog(this)
         dialog.onSaveClick = { it ->

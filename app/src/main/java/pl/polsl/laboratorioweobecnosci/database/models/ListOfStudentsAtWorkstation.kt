@@ -3,8 +3,15 @@ package pl.polsl.laboratorioweobecnosci.database.models
 import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentList
 import pl.polsl.laboratorioweobecnosci.database.models.lists.WorkstationList
 
+/**
+ * Lista studentów na stanowiskach
+ */
 class ListOfStudentsAtWorkstation: ArrayList<StudentWorkstationModel>() {
 
+    /**
+     * Pobiera liczbę używanych stanowisk
+     * @return liczba używanych stanowisk
+     */
     fun getWorkstationsCount(): Int {
         val workstations = ArrayList<Int>()
         forEach {
@@ -14,6 +21,11 @@ class ListOfStudentsAtWorkstation: ArrayList<StudentWorkstationModel>() {
         return workstations.size
     }
 
+    /**
+     * Pobiera studentów przy stanowisku
+     * @param workstationNr numer stanowiska
+     * @return lista studentów przy stanowisku
+     */
     fun getStudentsAtWorkstationNr(workstationNr: Int): StudentList {
         val res = StudentList()
         forEach {
@@ -23,12 +35,20 @@ class ListOfStudentsAtWorkstation: ArrayList<StudentWorkstationModel>() {
         return res
     }
 
+    /**
+     * Sortowanie listy po numerze stanowiska
+     */
     fun sortByWorkstationNr() {
         this.sortBy {
             it.workstation.number
         }
     }
 
+    /**
+     * Pobranie pozycji na liście stanowiska
+     * @param workstationNr numer stanowiska
+     * @return pozycja stanowiska na liście
+     */
     fun sortedWorkstationPosition(workstationNr: Int): Int {
         val sortedWorkstations = getSortedWorkstation()
 
@@ -40,6 +60,10 @@ class ListOfStudentsAtWorkstation: ArrayList<StudentWorkstationModel>() {
         return -1
     }
 
+    /**
+     * Pobranie listy stanowisk posortowanej po numerze stanowiska
+     * @return lista stanowisk
+     */
     fun getSortedWorkstation(): WorkstationList {
         val workstations = WorkstationList()
         forEach {
@@ -54,6 +78,10 @@ class ListOfStudentsAtWorkstation: ArrayList<StudentWorkstationModel>() {
         return workstations
     }
 
+    /**
+     * Edycja studenta na liście
+     * @param studentWorkstation student na stanowisku
+     */
     fun editStudent(studentWorkstation: StudentWorkstationModel) {
         forEach {
             if (it.student.id == studentWorkstation.student.id) {
@@ -64,6 +92,10 @@ class ListOfStudentsAtWorkstation: ArrayList<StudentWorkstationModel>() {
         }
     }
 
+    /**
+     * Usunięcie studenta z listy
+     * @param studentWorkstation student na stanowisku
+     */
     fun removeStudent(studentWorkstation: StudentWorkstationModel) {
         forEach {
             if (it.compare(studentWorkstation)) {
@@ -73,6 +105,11 @@ class ListOfStudentsAtWorkstation: ArrayList<StudentWorkstationModel>() {
         }
     }
 
+    /**
+     * Dodanie student na stanowisku na listę
+     * @param student student do dodania
+     * @param workstation stanowisko do dodania
+     */
     fun addStudentWorkstation(student: Student, workstation: Workstation) {
         forEach {
             if ((student.compare(it.student)) && (workstation.number == it.workstation.number))

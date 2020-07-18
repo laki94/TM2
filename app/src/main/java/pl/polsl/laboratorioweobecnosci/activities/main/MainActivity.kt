@@ -17,6 +17,9 @@ import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import pl.polsl.laboratorioweobecnosci.security.AuthorizationManager
 import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
 
+/**
+ * Główna aktywność aplikacji
+ */
 class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,15 +27,25 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
     }
 
+    /**
+     * Otwiera aktywność z panelem administratora
+     */
     private fun openAdminActivity() {
         val intent = Intent(this, AdminActivity::class.java)
         startActivity(intent)
     }
 
+    /**
+     * Funkcja wywołana po wciśnięciu przycisku z panelem adminstratora
+     */
     fun onAdminPanelClick(view: View) {
         AuthorizationManager.instance.doAuthorize(this) { openAdminActivity() }
     }
 
+    /**
+     * Funkcja wywołana po wciśnięciu przycisku rozpoczęcia zajęć. Otwiera dialog z wyborem
+     * laboratorium.
+     */
     fun onBeginExerciseClick(view: View) {
         val dialog = LaboratoriesDialog(this)
         Thread {

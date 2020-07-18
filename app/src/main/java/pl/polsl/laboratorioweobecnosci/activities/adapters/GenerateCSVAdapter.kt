@@ -14,6 +14,12 @@ import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.models.Laboratory
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryList
 
+/**
+ * Adapter dla aktywności związanych z generowaniem plików CSV
+ * @param context context aktywności
+ * @param items lista laboratoriów dla których można wygenerować podsumowanie
+ * @property onGenerateClick Callback, który zostanie wywołany po wciśnięciu przycisku z itemu.
+ */
 class GenerateCSVAdapter(private val context: Context, private val items: LaboratoryList): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onGenerateClick: ((Laboratory) -> Unit)? = null
@@ -32,9 +38,14 @@ class GenerateCSVAdapter(private val context: Context, private val items: Labora
         myHolder.tvItem.text = items[position].getInfoString(context)
     }
 
+    /**
+     * @property tvItem Element interfejsu wyświetlający informacje o laboratorium
+     * @property bGenerate Element interfejsu generujący plik CSV
+     */
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         val tvItem: TextView = view.tvCSVItem
         private val bGenerate: Button = view.bGenerateCSVItem
+
         init {
             bGenerate.setOnClickListener {
                 onGenerateClick?.invoke(items[adapterPosition])

@@ -30,6 +30,20 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+/**
+ * Dialog służący do edycji i dodawania pojedynczego laboratorium
+ * @param context context aktywności
+ * @property buttonStartDate Przycisk z datą rozpoczęcia laboratorium
+ * @property buttonEndDate Przycisk z datą zakończenia laboratorium
+ * @property etLaboratoryName Nazwa laboratorium
+ * @property etMajor Specjalność kierunku
+ * @property etSemester Semestr kierunku
+ * @property etStudyType Typ kierunku
+ * @property dialogLayout dialog, który zostanie wyświetlony
+ * @property taskAdapter adapter przypisany do RecyclerView dialogu
+ * @property mainLaboratory edytowane/dodawane laboratorium
+ * @property onSaveClick Callback, który zostanie wywołany po wciśnięciu przycisku zapisz
+ */
 class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
 
     private lateinit var buttonStartDate: Button
@@ -44,6 +58,9 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
 
     var onSaveClick: ((LaboratoryTaskModel) -> Unit)? = null
 
+    /**
+     * Przypisanie funkcji onClick przycisków wyboru dat w dialogu
+     */
     private fun setButtonsOnClicks() {
         buttonStartDate.setOnClickListener {
             var dateFrom = mainLaboratory.laboratory.getLaboratoryStartDate()
@@ -100,6 +117,9 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
         }
     }
 
+    /**
+     * Uzupełnienie dodawanego/edytowanego laboratorium danymi z interfejsu
+     */
     private fun fillLaboratory() {
         mainLaboratory.laboratory.major = etMajor.text.toString()
         if (etSemester.text.toString().isEmpty())
@@ -111,6 +131,9 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
         mainLaboratory.laboratory.laboratoryName = etLaboratoryName.text.toString()
     }
 
+    /**
+     *  Uzupełnienie interfejsu danymi z dodawanego/edytowanego laboratorium
+     */
     private fun fillInfo() {
         buttonStartDate = dialogLayout.findViewById(R.id.bExerciseStartDate)
         buttonEndDate = dialogLayout.findViewById(R.id.bExerciseEndDate)
@@ -135,6 +158,12 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
         etLaboratoryName.setText(mainLaboratory.laboratory.laboratoryName)
     }
 
+    /**
+     * Wyświetlenie dialogu z edycją laboratorium
+     * @param inflater LayoutInflater aktywności wywołującej
+     * @param laboratory edytowane laboratorium
+     * @param tasks zadania edytowanego laboratorium
+     */
     fun showEditDialog(inflater: LayoutInflater, laboratory: Laboratory, tasks: LaboratoryTaskList) {
         dialogLayout = inflater.inflate(R.layout.dialog_laboratory, null)
 
@@ -156,6 +185,9 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
         dialog.show()
     }
 
+    /**
+     * Przypisanie adaptera do RecyclerView dialogu
+     */
     private fun setTaskAdapter() {
         taskAdapter = LaboratoryTaskAdapter(context, mainLaboratory.tasks)
         taskAdapter.let {
@@ -181,11 +213,18 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
         }
     }
 
+    /**
+     * Ukrycie klawiatury
+     */
     private fun hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(dialogLayout.windowToken, 0)
     }
 
+    /**
+     * Wyświetlenie dialgu z dodaniem laboratorium
+     * @param inflater LayoutInflater aktywności wywołującej
+     */
     fun showAddDialog(inflater: LayoutInflater) {
         dialogLayout = inflater.inflate(R.layout.dialog_laboratory, null)
 

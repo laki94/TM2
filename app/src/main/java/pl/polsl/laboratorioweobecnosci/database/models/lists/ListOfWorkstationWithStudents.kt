@@ -4,18 +4,15 @@ import pl.polsl.laboratorioweobecnosci.database.models.Student
 import pl.polsl.laboratorioweobecnosci.database.models.StudentListWorkstationModel
 import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 
+/**
+ * Lista stanowisk ze studentami
+ */
 class ListOfWorkstationsWithStudents: ArrayList<StudentListWorkstationModel>() {
 
-    fun sortedWorkstationPosition(workstationNr: Int): Int {
-        val workstations = getSortedWorkstation()
-        for (pos in 0 until workstations.count()) {
-            if (workstations[pos].number == workstationNr) {
-                return pos
-            }
-        }
-        return -1
-    }
-
+    /**
+     * Pobranie listy stanowisk ze studentami posortowana po numerze stanowiska
+     * @return lista stanowisk ze studentami posortowana po numerze stanowiska
+     */
     fun getSortedItemsByWorkstation(): ListOfWorkstationsWithStudents {
         val list = sortedWith(compareBy { it.workstation.number })
         val res = ListOfWorkstationsWithStudents()
@@ -25,6 +22,10 @@ class ListOfWorkstationsWithStudents: ArrayList<StudentListWorkstationModel>() {
         return res
     }
 
+    /**
+     * Pobranie listy stanowisk posortowanych po numerze stanowiska
+     * @return lista stanowisk posortowanych po numerze stanowiska
+     */
     fun getSortedWorkstation(): WorkstationList {
         val workstations = WorkstationList()
         forEach {
@@ -39,6 +40,11 @@ class ListOfWorkstationsWithStudents: ArrayList<StudentListWorkstationModel>() {
         return workstations
     }
 
+    /**
+     * Dodanie studenta do stanowiska
+     * @param student student do dodania
+     * @param workstation stanowisko, do którego ma zostać dodany student
+     */
     fun addStudentToWorkstation(student: Student, workstation: Workstation) {
         forEach{
             if (it.workstation.number == workstation.number) {
@@ -52,6 +58,11 @@ class ListOfWorkstationsWithStudents: ArrayList<StudentListWorkstationModel>() {
         add(newObj)
     }
 
+    /**
+     * Pobranie studentów będących na stanowisku
+     * @param workstation stanowisko
+     * @return lista studentów będących na stanowisku lub null jeśli nie ma takiego stanowiska
+     */
     fun getStudentsAtWorkstation(workstation: Workstation): StudentList? {
         forEach {
             if (it.workstation.number == workstation.number) {

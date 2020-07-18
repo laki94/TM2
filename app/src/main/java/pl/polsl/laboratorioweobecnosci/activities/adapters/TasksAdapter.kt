@@ -17,6 +17,13 @@ import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
 import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfWorkstationsWithStudents
 
+/**
+ * Adapter dla aktywności wyświetlających zadania do wykonania przez studentów
+ * @param context context aktywności
+ * @param tasksToDo zadania do wykonania przez studentów na stanowisku
+ * @param tasksDone zadania wykonane przez studentów na stanowisku
+ * @property onTaskClick callback, który zostaje wywołany po wybraniu zadania
+ */
 class TasksAdapter(private val context: Context, private val tasksToDo: LaboratoryTaskList, private val tasksDone: LaboratoryTaskList): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onTaskClick: ((LaboratoryTask, Boolean) -> Unit)? = null
@@ -36,6 +43,9 @@ class TasksAdapter(private val context: Context, private val tasksToDo: Laborato
         myHolder.cbTask.isChecked = tasksDone.haveTask(tasksToDo[position])
     }
 
+    /**
+     * @property cbTask element interfejsu wyświetlający zadanie
+     */
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         val cbTask: CheckBox = view.cbGrade
 

@@ -1,6 +1,5 @@
 package pl.polsl.laboratorioweobecnosci.activities.student
 
-import android.app.ActionBar
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -14,14 +13,24 @@ import pl.polsl.laboratorioweobecnosci.database.models.Student
 import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationModel
 import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 
+/**
+ * Dialog z danymi studenta
+ * @param context context aktywności wywołującej
+ * @property onSaveClick Callback wywołany po wciśnięciu zapisz
+ * @property mainStudentWorkstation dodawany/edytowany student przypisany do stanowiska
+ * @property dialogLayout dialog, który zostanie wywołany
+ */
 class StudentDialog(context: Context) : AlertDialog.Builder(context) {
 
     var onSaveClick: ((StudentWorkstationModel) -> Unit)? = null
-
     private var mainStudentWorkstation = StudentWorkstationModel()
-
     private lateinit var dialogLayout: View
 
+    /**
+     * Wyświetlenie dialogu z dodaniem studenta
+     * @param layoutInflater LayoutInflater aktywności wywołującej
+     * @param laboratoryId Id laboratorium do którego student ma zostać przypisany
+     */
     fun addStudent(layoutInflater: LayoutInflater, laboratoryId: Int) {
         dialogLayout = layoutInflater.inflate(R.layout.dialog_student, null)
         mainStudentWorkstation.student = Student("", "", laboratoryId,0)
@@ -57,6 +66,11 @@ class StudentDialog(context: Context) : AlertDialog.Builder(context) {
         }
     }
 
+    /**
+     * Wyświetlenie edycji studenta
+     * @param studentWorkstation edytowany student
+     * @param layoutInflater LayoutInflater aktywności wywołującej
+     */
     fun editStudent(studentWorkstation: StudentWorkstationModel, layoutInflater: LayoutInflater) {
         dialogLayout = layoutInflater.inflate(R.layout.dialog_student, null)
         mainStudentWorkstation = studentWorkstation.clone()
@@ -83,6 +97,9 @@ class StudentDialog(context: Context) : AlertDialog.Builder(context) {
         }
     }
 
+    /**
+     * Uzupełnienie interfejsu danymi studenta
+     */
     private fun fillInfo() {
         val etFirstName = dialogLayout.findViewById<EditText>(R.id.etName)
         val etLastName = dialogLayout.findViewById<EditText>(R.id.etLastName)
@@ -97,6 +114,9 @@ class StudentDialog(context: Context) : AlertDialog.Builder(context) {
         }
     }
 
+    /**
+     * Uzupełnienie dodawanego/edytowanego studenta danymi z intefrejsu
+     */
     private fun fillStudentInfo() {
         val etStudentFirstName = dialogLayout.findViewById<EditText>(R.id.etName)
         val etStudentLastName = dialogLayout.findViewById<EditText>(R.id.etLastName)

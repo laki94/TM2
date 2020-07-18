@@ -1,15 +1,9 @@
 package pl.polsl.laboratorioweobecnosci.activities.student
 
 import android.graphics.*
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
-import androidx.biometric.BiometricConstants
-import androidx.biometric.BiometricPrompt
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -19,11 +13,16 @@ import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 import pl.polsl.laboratorioweobecnosci.activities.adapters.ListOfStudentsAtWorkstationAdapter
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.*
-import pl.polsl.laboratorioweobecnosci.preferences.AuthorizationMode
-import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import pl.polsl.laboratorioweobecnosci.security.AuthorizationManager
-import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
 
+/**
+ * Aktywność ze studentami dla laboratorium
+ * @property listOfStudentsAtWorkstationAdapter adapter dla RecyclerView aktywności
+ * @property studentsAtLaboratory lista studentów na laboratorium
+ * @property mainLaboratory laboratorium na którym są studenci
+ * @property mainRecyclerView RecyclerView na aktywności
+ * @property backButtonNeedAuth określa czy trzeba autoryzować się po próbie powrotu do ekranu głównego
+ */
 class StudentsListActivity : BaseActivity() {
 
     private lateinit var listOfStudentsAtWorkstationAdapter: ListOfStudentsAtWorkstationAdapter
@@ -62,10 +61,10 @@ class StudentsListActivity : BaseActivity() {
                                 Thread {
                                     db.studentDao().delete(remModel.student)
                                     if (db.getStudentsAtWorkstation(mainLaboratory.id, remModel.workstation.id).isEmpty()) {
-                                        val remGrade = db.laboratoryGradeDao().getGradeForWorkstationAtLaboratory(mainLaboratory.id, remModel.workstation.id)
+                                        val remGrade = db.laboratoryWorkstationGradeDao().getGradeForWorkstationAtLaboratory(mainLaboratory.id, remModel.workstation.id)
                                         val remTasks = db.workstationLaboratoryTaskDao().getTasksDoneForWorkstationAtLaboratory(remModel.workstation.id, mainLaboratory.id)
                                         if (remGrade != null) {
-                                            db.laboratoryGradeDao().delete(remGrade)
+                                            db.laboratoryWorkstationGradeDao().delete(remGrade)
                                         }
                                         remTasks.forEach {
                                             db.workstationLaboratoryTaskDao().delete(it)
@@ -108,6 +107,9 @@ class StudentsListActivity : BaseActivity() {
         super.onBackPressed()
     }
 
+    /**
+     * Funkcja wywołana po wciśnięciu przycisku dodawania studenta. Wyświetla dialog z dodaniem studenta
+     */
     fun onAddStudentClick(view: View) {
         val dialog = StudentDialog(this)
         dialog.onSaveClick = {
@@ -126,6 +128,10 @@ class StudentsListActivity : BaseActivity() {
         dialog.addStudent(layoutInflater, mainLaboratory.id)
     }
 
+    /**
+     * Wyświetla dialog z edycją studenta
+     * @param studentWorkstation edytowany student
+     */
     private fun editStudent(studentWorkstation: StudentWorkstationModel) {
         val dialog = StudentDialog(this)
         dialog.onSaveClick = {
@@ -145,9 +151,9 @@ class StudentsListActivity : BaseActivity() {
                         orgTasks.forEach {task ->
                             db.workstationLaboratoryTaskDao().delete(task)
                         }
-                        val oldGrade = db.laboratoryGradeDao().getGradeForWorkstationAtLaboratory(mainLaboratory.id, studentWorkstation.workstation.id)
+                        val oldGrade = db.laboratoryWorkstationGradeDao().getGradeForWorkstationAtLaboratory(mainLaboratory.id, studentWorkstation.workstation.id)
                         if (oldGrade != null) {
-                            db.laboratoryGradeDao().delete(oldGrade)
+                            db.laboratoryWorkstationGradeDao().delete(oldGrade)
                         }
                     }
                 }

@@ -9,7 +9,13 @@ import androidx.room.PrimaryKey
 import pl.polsl.laboratorioweobecnosci.R
 import java.util.*
 
-
+/**
+ * Zadanie na laboratorium
+ * @param taskNumber numer zadania
+ * @param degree ocena za zadanie
+ * @param laboratoryId Id laboratorium
+ * @param id Id zadania w tabeli
+ */
 @Entity
 data class LaboratoryTask(
     @ColumnInfo(name = "task_number")
@@ -20,10 +26,20 @@ data class LaboratoryTask(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 ) {
+    /**
+     * Pobranie informacji o zadaniu
+     * @param context context aplikacji
+     * @return informacja o zadaniu
+     */
     fun toString(context: Context): String {
         return context.getString(R.string.ShortTaskNr, taskNumber)
     }
 
+    /**
+     * Porównanie z innym zadaniem
+     * @param laboratoryTask zadanie do porównania
+     * @return True jeśli zadanie jest takie samo jak w parametrze
+     */
     fun simpleCompare(laboratoryTask: LaboratoryTask): Boolean {
         return (taskNumber == laboratoryTask.taskNumber) && (degree == laboratoryTask.degree) &&
                 (laboratoryId == laboratoryTask.laboratoryId)

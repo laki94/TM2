@@ -4,6 +4,13 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * Ocena przypisana do stanowiska na laboratorium
+ * @param laboratoryId Id laboratorium
+ * @param workstationId Id stanowiska
+ * @param grade ocena
+ * @param id Id modelu w tabeli
+ */
 @Entity
 data class LaboratoryWorkstationGradeModel (
     @ColumnInfo(name = "laboratory_id")

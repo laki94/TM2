@@ -5,6 +5,13 @@ import androidx.room.Entity
 
 import androidx.room.PrimaryKey
 
+/**
+ * Zadanie wykonane przez stanowisko na laboratorium
+ * @param laboratoryTaskId Id zadania
+ * @param workstationId Id stanowiska
+ * @param laboratoryId Id laboratorium
+ * @param id Id modelu w tabeli
+ */
 @Entity
 data class WorkstationLaboratoryTask (
     @ColumnInfo(name = "laboratory_task_id")

@@ -13,6 +13,13 @@ import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.models.Laboratory
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryList
 
+/**
+ * Adapter dla aktywności związanych z wyświetlaniem laboratoriów
+ * @param context context aktywności
+ * @param items lista laboratoriów które mają zostać wyświetlone
+ * @property onLaboratoryClick Callback, który zostanie wywołany po wciśnięciu pojedynczego laboratorium.
+ * @property selectedLabId Zmienna przechowująca ID aktualnie wybranego laboratorium
+ */
 class LaboratoriesAdapter(private val context: Context, private val items: LaboratoryList): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onLaboratoryClick: ((Laboratory) -> Unit)? = null
@@ -26,9 +33,58 @@ class LaboratoriesAdapter(private val context: Context, private val items: Labor
         return items.size
     }
 
+    /**
+     * Zaznacza wybrane laboratorium
+     * @param labId Id aktualnie wybranego laboratorium
+     */
     fun selectItem(labId: Int) {
         selectedLabId = labId
         notifyDataSetChanged()
+    }
+
+    /**
+     * Usuwa laboratorium z listy
+     * @param position pozycja laboratorium na liście
+     */
+    fun removeItem(position: Int) {
+        items.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, itemCount)
+    }
+
+    /**
+     * Dodaje laboratorium na listę
+     * @param laboratory laboratorium do dodania
+     */
+    fun addNewItem(laboratory: Laboratory) {
+        items.add(laboratory)
+        refreshItem(itemCount - 1)
+    }
+
+    /**
+     * Odświeżenie edytowanego laboratorium
+     * @param laboratory laboratorium do odświeżenia
+     */
+    fun editItem(laboratory: Laboratory) {
+        refreshItem(items.indexOf(laboratory))
+    }
+
+    /**
+     * Odświeża pojedyncze laboratorium
+     * @param position pozycja laboratorium do odświeżenia
+     */
+    fun refreshItem(position: Int) {
+        notifyItemChanged(position)
+    }
+
+    /**
+     * Przywraca laboratorium
+     * @param laboratory laboratorium do przywrócenia
+     * @param position pozycja na którą laboratorium ma zostać przywrócone
+     */
+    fun restoreItem(laboratory: Laboratory, position: Int) {
+        items.add(position, laboratory)
+        notifyItemInserted(position)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -41,9 +97,15 @@ class LaboratoriesAdapter(private val context: Context, private val items: Labor
             myHolder.cardLayout.setBackgroundColor(Color.WHITE)
     }
 
+    /**
+     * @property tvItem Element interfejsu wyświetlający informacje o laboratorium
+     * @property cardLayout Element interfejsu przechowujący wszystkie laboratoria
+     */
     inner class MyViewHolder (view: View) : RecyclerView.ViewHolder(view) {
+
         val tvItem: TextView = view.tvItem
         val cardLayout: CardView = view.cvItem
+
         init {
             tvItem.setOnClickListener {
                 onLaboratoryClick?.invoke(items[adapterPosition])

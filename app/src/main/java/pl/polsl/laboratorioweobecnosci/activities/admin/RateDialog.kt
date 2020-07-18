@@ -16,6 +16,17 @@ import pl.polsl.laboratorioweobecnosci.database.models.StudentListWorkstationMod
 import pl.polsl.laboratorioweobecnosci.database.models.WorkstationLaboratoryTask
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
 
+/**
+ * Dialog wyświetlający ocenianie stanowiska
+ * @param context context aktywności wywołującej
+ * @property dialogLayout dialog, który zostanie wyświetlony
+ * @property mainTasks zadania do wykonania na laboratorium
+ * @property mainWorkstationWithStudents oceniane stanowisko ze studentami
+ * @property mainTasksDone zadania wykonane przez stanowisko
+ * @property adapter adapter to RecyclerView w dialogu
+ * @property spinnerGrade Spinner z oceną dla stanowiska
+ * @property mainGrade ocena zapisana dla stanowiska
+ */
 class RateDialog(context: Context) : AlertDialog.Builder(context) {
 
     private lateinit var dialogLayout: View
@@ -26,7 +37,9 @@ class RateDialog(context: Context) : AlertDialog.Builder(context) {
     private lateinit var spinnerGrade: Spinner
     private lateinit var mainGrade: LaboratoryWorkstationGradeModel
 
-
+    /**
+     * Ustawienie adaptera klasy
+     */
     private fun setTaskAdapter() {
         adapter = TasksAdapter(context, mainTasks, mainTasksDone)
 
@@ -46,6 +59,10 @@ class RateDialog(context: Context) : AlertDialog.Builder(context) {
         rvTasks.adapter = adapter
     }
 
+    /**
+     * Wyświetlenie wybranej oceny
+     * @param grade wybrana socena
+     */
     private fun setGrade(grade: Int) {
         if (grade < mainGrade.grade) {
             spinnerGrade.setSelection(mainGrade.grade - 2)
@@ -54,6 +71,14 @@ class RateDialog(context: Context) : AlertDialog.Builder(context) {
         }
     }
 
+    /**
+     * Wyświetlenie dialogu oceniającego stanowisko
+     * @param layoutInflater LayoutInflater aktywności wywołującej
+     * @param workstationWithStudents stanowisko ze studentami
+     * @param tasksToDo zadania do wykonania
+     * @param tasksDone zadania wykonane
+     * @param gradeModel ocena zapisana wcześniej dla stanowiska
+     */
     fun rate(layoutInflater: LayoutInflater, workstationWithStudents: StudentListWorkstationModel,
              tasksToDo: LaboratoryTaskList, tasksDone: LaboratoryTaskList, gradeModel: LaboratoryWorkstationGradeModel) {
         dialogLayout = layoutInflater.inflate(R.layout.dialog_rate_workstation, null)
@@ -108,10 +133,10 @@ class RateDialog(context: Context) : AlertDialog.Builder(context) {
                         mainWorkstationWithStudents.students[0].laboratoryId,
                         mainWorkstationWithStudents.workstation.id,
                         spinnerGrade.selectedItem.toString().toInt())
-                    mainGrade.id = db.laboratoryGradeDao().insert(newGrade).toInt()
+                    mainGrade.id = db.laboratoryWorkstationGradeDao().insert(newGrade).toInt()
                 } else if (mainGrade.grade != spinnerGrade.selectedItem.toString().toInt()) {
                     mainGrade.grade = spinnerGrade.selectedItem.toString().toInt()
-                    db.laboratoryGradeDao().update(mainGrade)
+                    db.laboratoryWorkstationGradeDao().update(mainGrade)
                 }
             }.start()
             dialog.dismiss()

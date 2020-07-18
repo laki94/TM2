@@ -15,35 +15,47 @@ import org.mindrot.jbcrypt.BCrypt
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 
+/**
+ * Dialog z zapytaniem o hasło autoryzacji
+ * @param context context aktywności
+ * @property dialogLayout dialog który zostanie wyświetlony
+ * @property mainPasswordEdit pole tekstowe z hasłem
+ * @property onAuthorized callback, który zostaje wywołany po zautoryzowaniu użytkownika
+ */
 class PasswordDialog(context: Context): AlertDialog.Builder(context) {
 
     private lateinit var dialogLayout: View
     private lateinit var mainPasswordEdit: EditText
-    private lateinit var secondPasswordEdit: EditText
 
     private lateinit var onAuthorized: () -> Unit
 
+    /**
+     * Przypisanie pola tekstowego do zmiennej
+     */
     private fun getPasswordEdits() {
         mainPasswordEdit = dialogLayout.findViewById(R.id.etMainPassword)
-        secondPasswordEdit = dialogLayout.findViewById(R.id.etSecondPassword)
     }
 
+    /**
+     * Zapytanie użytkownika o PIN
+     * @param inflater LayoutInflater aktywności wywołującej
+     * @param doOnPasswordValid Callback do wywołania po zautoryzowaniu
+     */
     fun askForPin(inflater: LayoutInflater, doOnPasswordValid: () -> (Unit)) {
         if (PreferencesManager.instance.hashedPassword().isEmpty()) {
             doOnPasswordValid()
         } else {
             dialogLayout = inflater.inflate(R.layout.dialog_password, null)
             onAuthorized = doOnPasswordValid
-
             getPasswordEdits()
-
             mainPasswordEdit.inputType = InputType.TYPE_NUMBER_VARIATION_PASSWORD + InputType.TYPE_CLASS_NUMBER
-            secondPasswordEdit.visibility = View.GONE
-
             doShowDialog()
         }
     }
 
+    /**
+     * Wyświetlenie dialogu z wymaganą autoryzacją
+     */
     private fun doShowDialog() {
         setTitle(R.string.AuthorisationNeeded)
         setView(dialogLayout)
@@ -65,6 +77,11 @@ class PasswordDialog(context: Context): AlertDialog.Builder(context) {
         }
     }
 
+    /**
+     * Zapytanie użytkownika o hasło
+     * @param inflater LayoutInflater aktywności wywołującej
+     * @param doOnPasswordValid Callback do wywołania po zautoryzowaniu
+     */
     fun askForPassword(inflater: LayoutInflater, doOnPasswordValid: () -> Unit) {
         if (PreferencesManager.instance.hashedPassword().isEmpty()) {
             doOnPasswordValid()
@@ -73,12 +90,14 @@ class PasswordDialog(context: Context): AlertDialog.Builder(context) {
             onAuthorized = doOnPasswordValid
 
             getPasswordEdits()
-            secondPasswordEdit.visibility = View.GONE
-
             doShowDialog()
         }
     }
 
+    /**
+     * Sprawdzanie poprawności wprowadzonego hasła
+     * @return True jeśli hasło jest poprawne
+     */
     private fun comparePassword(): Boolean {
         return BCrypt.checkpw(mainPasswordEdit.text.toString(), PreferencesManager.instance.hashedPassword())
     }

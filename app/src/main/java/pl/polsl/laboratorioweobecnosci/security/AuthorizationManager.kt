@@ -9,11 +9,22 @@ import pl.polsl.laboratorioweobecnosci.activities.admin.PasswordDialog
 import pl.polsl.laboratorioweobecnosci.preferences.AuthorizationMode
 import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 
+/**
+ * Menadżer autoryzacji
+ * @property onAuthorized callback, wywołany po zautoryzowaniu użytkownika
+ * @property activityCalling aktywność, która wywołała menadżera
+ * @property instance zmienna przechowująca globalny obiekt menadżera
+ */
 class AuthorizationManager {
 
     private lateinit var onAuthorized: () -> Unit
     private lateinit var activityCalling: AppCompatActivity
 
+    /**
+     * Funkcja autoryzująca użytkownika
+     * @param activity aktywność wywołująca funkcję
+     * @param doOnAuthorized callback, który zostanie wywołany po zautoryzowaniu użytkownika
+     */
     fun doAuthorize(activity: AppCompatActivity, doOnAuthorized: (() -> Unit)) {
         onAuthorized = doOnAuthorized
         activityCalling = activity
@@ -25,16 +36,25 @@ class AuthorizationManager {
         }
     }
 
+    /**
+     * Wyświetlenie zapytania o hasło do autoryzacji
+     */
     private fun authorizeWithPassword() {
         val passwordDialog = PasswordDialog(activityCalling)
         passwordDialog.askForPassword(activityCalling.layoutInflater) { onAuthorized() }
     }
 
+    /**
+     * Wyświetlenie zapytania o pin do autoryzacji
+     */
     private fun authorizeWithPin() {
         val passwordDialog = PasswordDialog(activityCalling)
         passwordDialog.askForPin(activityCalling.layoutInflater) { onAuthorized() }
     }
 
+    /**
+     * Wyświetlenie zapytania o zautoryzowanie palcem
+     */
     private fun authorizeWithFingerprint() {
         val callback = object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -44,10 +64,6 @@ class AuthorizationManager {
                     (errorCode != BiometricConstants.ERROR_NEGATIVE_BUTTON)) {
                     Toast.makeText(activityCalling, errString, Toast.LENGTH_SHORT).show()
                 }
-            }
-
-            override fun onAuthenticationFailed() {
-                super.onAuthenticationFailed()
             }
 
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {

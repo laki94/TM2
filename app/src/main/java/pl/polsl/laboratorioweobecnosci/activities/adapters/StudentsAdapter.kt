@@ -18,6 +18,11 @@ import pl.polsl.laboratorioweobecnosci.database.models.ListOfStudentsAtWorkstati
 import pl.polsl.laboratorioweobecnosci.database.models.StudentListWorkstationModel
 import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationModel
 
+/**
+ * Adapter dla aktywności wyświetlających studentów na danym stanowisku
+ * @param context context aktywności
+ * @param items lista studentów na danym stanowisku
+ */
 class StudentsAdapter(private val context: Context, private val items: StudentListWorkstationModel): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -34,6 +39,9 @@ class StudentsAdapter(private val context: Context, private val items: StudentLi
         myHolder.tvItem.text = String.format(items.students[position].toShortString())
     }
 
+    /**
+     * @property tvItem element interfejsu wyświetlający studentów
+     */
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvItem: TextView = view.tvItem
     }
