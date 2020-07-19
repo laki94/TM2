@@ -1,14 +1,14 @@
 package pl.polsl.laboratorioweobecnosci.activities.admin
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 
 /**
  * Aktywność z ustawieniami aplikacji
  * @property preferencesFragment fragment z ustawieniami
  */
-class PreferencesActivity : BaseActivity() {
+class PreferencesActivity : AppCompatActivity() {
 
     private val preferencesFragment = MyPreferencesFragment()
 

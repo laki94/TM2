@@ -11,6 +11,7 @@ import pl.polsl.laboratorioweobecnosci.R
  * @param context context aktywności wywołującej
  * @property preferences obiekt zapisujący i odczytujący ustawienia aplikacji z urządzenia
  * @property instance zmienna przechowująca globalny obiekt menadżera
+ * @property LOCK blokada zmiennej globalnej
  */
 class PreferencesManager(private val context: Context) {
 
@@ -58,12 +59,15 @@ class PreferencesManager(private val context: Context) {
     }
 
     companion object {
-        lateinit var instance: PreferencesManager
+        @Volatile private var instance: PreferencesManager? = null
+        private val LOCK = Any()
 
         /**
-         * Funkcja zwracająca informację czy globalny obiekt menadżera został zainicjalizowany
-         * @return True jeśli globalny obiekt menadżera został zainicjalizowany
+         * Funkcja zwracająca i generująca obiekt menadżera
+         * @return menadżer ustawień
          */
-        fun isInitialized(): Boolean { return this::instance.isInitialized }
+        fun getInstance(context: Context) = instance ?: synchronized(LOCK){
+            instance ?: PreferencesManager(context).also { instance = it}
+        }
     }
 }

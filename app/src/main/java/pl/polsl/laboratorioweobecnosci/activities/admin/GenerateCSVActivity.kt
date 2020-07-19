@@ -3,10 +3,10 @@ package pl.polsl.laboratorioweobecnosci.activities.admin
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 import pl.polsl.laboratorioweobecnosci.activities.adapters.GenerateCSVAdapter
 import pl.polsl.laboratorioweobecnosci.csv.CsvGenerator
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
@@ -20,7 +20,7 @@ import pl.polsl.laboratorioweobecnosci.preferences.PermissionsManager
  * @property laboratories lista stworzonych laboratoriów
  * @property tempLaboratory laboratorium dla którego zostanie stworzony plik CSV
  */
-class GenerateCSVActivity : BaseActivity() {
+class GenerateCSVActivity : AppCompatActivity() {
 
     private lateinit var adapter: GenerateCSVAdapter
     private lateinit var laboratories: LaboratoryList
@@ -68,11 +68,11 @@ class GenerateCSVActivity : BaseActivity() {
     private fun generateCSVFile() {
         with (tempLaboratory) {
             if (this != null) {
-                if (PermissionsManager.instance.haveWriteExternalPermission(this@GenerateCSVActivity)) {
+                if (PermissionsManager.getInstance().haveWriteExternalPermission(this@GenerateCSVActivity)) {
                     val generator = CsvGenerator(this@GenerateCSVActivity, ::doOnGenerated)
                     generator.generate(this.id)
                 } else {
-                    PermissionsManager.instance.askForWriteExternalPermission(this@GenerateCSVActivity)
+                    PermissionsManager.getInstance().askForWriteExternalPermission(this@GenerateCSVActivity)
                 }
             }
         }

@@ -37,7 +37,7 @@ class CsvGenerator(private val mainContext: Context, private val doOnGenerated: 
                     DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss")
                 ) + ".csv"
 
-                val csvDir = File(PreferencesManager.instance.saveCSVPath())
+                val csvDir = File(PreferencesManager.getInstance(mainContext).saveCSVPath())
                 csvDir.mkdirs()
                 val writer = File(csvDir, csvFileName).bufferedWriter()
                 writer.use {

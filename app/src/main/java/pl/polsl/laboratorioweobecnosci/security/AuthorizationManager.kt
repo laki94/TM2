@@ -14,6 +14,7 @@ import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
  * @property onAuthorized callback, wywołany po zautoryzowaniu użytkownika
  * @property activityCalling aktywność, która wywołała menadżera
  * @property instance zmienna przechowująca globalny obiekt menadżera
+ * @property LOCK blokada zmiennej globalnej
  */
 class AuthorizationManager {
 
@@ -28,7 +29,7 @@ class AuthorizationManager {
     fun doAuthorize(activity: AppCompatActivity, doOnAuthorized: (() -> Unit)) {
         onAuthorized = doOnAuthorized
         activityCalling = activity
-        when (PreferencesManager.instance.chosenAuthorizationMethod()) {
+        when (PreferencesManager.getInstance(activityCalling).chosenAuthorizationMethod()) {
             AuthorizationMode.NONE -> onAuthorized()
             AuthorizationMode.PASSWORD -> authorizeWithPassword()
             AuthorizationMode.PIN -> authorizeWithPin()
@@ -72,10 +73,19 @@ class AuthorizationManager {
                 onAuthorized()
             }
         }
-        FingerprintAuth.instance.authorize(activityCalling, callback)
+        FingerprintAuth.getInstance(activityCalling).authorize(activityCalling, callback)
     }
 
     companion object {
-        val instance = AuthorizationManager()
+        @Volatile private var instance: AuthorizationManager? = null
+        private val LOCK = Any()
+
+        /**
+         * Funkcja zwracająca i generująca obiekt menadżera
+         * @return menadżer autoryzacji
+         */
+        fun getInstance() = instance ?: synchronized(LOCK){
+            instance ?: AuthorizationManager().also { instance = it}
+        }
     }
 }

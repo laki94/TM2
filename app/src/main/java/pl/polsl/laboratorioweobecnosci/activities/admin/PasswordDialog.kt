@@ -42,7 +42,7 @@ class PasswordDialog(context: Context): AlertDialog.Builder(context) {
      * @param doOnPasswordValid Callback do wywołania po zautoryzowaniu
      */
     fun askForPin(inflater: LayoutInflater, doOnPasswordValid: () -> (Unit)) {
-        if (PreferencesManager.instance.hashedPassword().isEmpty()) {
+        if (PreferencesManager.getInstance(context).hashedPassword().isEmpty()) {
             doOnPasswordValid()
         } else {
             dialogLayout = inflater.inflate(R.layout.dialog_password, null)
@@ -83,7 +83,7 @@ class PasswordDialog(context: Context): AlertDialog.Builder(context) {
      * @param doOnPasswordValid Callback do wywołania po zautoryzowaniu
      */
     fun askForPassword(inflater: LayoutInflater, doOnPasswordValid: () -> Unit) {
-        if (PreferencesManager.instance.hashedPassword().isEmpty()) {
+        if (PreferencesManager.getInstance(context).hashedPassword().isEmpty()) {
             doOnPasswordValid()
         } else {
             dialogLayout = inflater.inflate(R.layout.dialog_password, null)
@@ -99,6 +99,6 @@ class PasswordDialog(context: Context): AlertDialog.Builder(context) {
      * @return True jeśli hasło jest poprawne
      */
     private fun comparePassword(): Boolean {
-        return BCrypt.checkpw(mainPasswordEdit.text.toString(), PreferencesManager.instance.hashedPassword())
+        return BCrypt.checkpw(mainPasswordEdit.text.toString(), PreferencesManager.getInstance(context).hashedPassword())
     }
 }

@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat
 /**
  * Menadżer uprawnień sprawdzający czy aplikacja posiada wymagane uprawnienia
  * @property instance zmienna przechowująca globalny obiekt menadżera
+ * @property LOCK blokada zmiennej globalnej
  */
 class PermissionsManager {
 
@@ -32,8 +33,16 @@ class PermissionsManager {
     }
 
     companion object {
-        val instance = PermissionsManager()
+        @Volatile private var instance: PermissionsManager? = null
+        private val LOCK = Any()
 
+        /**
+         * Funkcja zwracająca i generująca obiekt menadżera
+         * @return menadżer uprawnień
+         */
+        fun getInstance() = instance ?: synchronized(LOCK){
+            instance ?: PermissionsManager().also { instance = it}
+        }
         const val WRITE_EXTERNAL_STORAGE_REQ_CODE = 2
     }
 }

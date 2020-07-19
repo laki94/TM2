@@ -4,12 +4,12 @@ import android.graphics.*
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 import pl.polsl.laboratorioweobecnosci.activities.adapters.ListOfStudentsAtWorkstationAdapter
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.*
@@ -23,7 +23,7 @@ import pl.polsl.laboratorioweobecnosci.security.AuthorizationManager
  * @property mainRecyclerView RecyclerView na aktywności
  * @property backButtonNeedAuth określa czy trzeba autoryzować się po próbie powrotu do ekranu głównego
  */
-class StudentsListActivity : BaseActivity() {
+class StudentsListActivity : AppCompatActivity() {
 
     private lateinit var listOfStudentsAtWorkstationAdapter: ListOfStudentsAtWorkstationAdapter
     private lateinit var studentsAtLaboratory: ListOfStudentsAtWorkstation
@@ -97,7 +97,7 @@ class StudentsListActivity : BaseActivity() {
 
     override fun onBackPressed() {
         if (backButtonNeedAuth) {
-            AuthorizationManager.instance.doAuthorize(this) { doOnBackPressed() }
+            AuthorizationManager.getInstance().doAuthorize(this) { doOnBackPressed() }
         } else {
             doOnBackPressed()
         }

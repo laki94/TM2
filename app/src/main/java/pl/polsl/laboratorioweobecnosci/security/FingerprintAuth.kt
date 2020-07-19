@@ -16,6 +16,7 @@ import java.util.concurrent.Executor
  * @param context context aktywności wywołującej
  * @property biometricManager menadżer biometryczny
  * @property instance zmienna przechowująca globalny obiekt menadżera
+ * @property LOCK blokada zmiennej globalnej
  */
 class FingerprintAuth(private val context: Context) {
     private val TAG = "FINGERPRINTAUTH"
@@ -52,7 +53,7 @@ class FingerprintAuth(private val context: Context) {
 
         val prompt = BiometricPrompt(activity, executor, callbackObject)
 
-        if(PreferencesManager.instance.optionalAuthorizationEnabled()) {
+        if(PreferencesManager.getInstance(context).optionalAuthorizationEnabled()) {
             prompt.authenticate(
                 BiometricPrompt.PromptInfo.Builder()
                     .setTitle(context.getString(R.string.AuthorisationNeeded))
@@ -70,12 +71,15 @@ class FingerprintAuth(private val context: Context) {
     }
 
     companion object {
-        lateinit var instance: FingerprintAuth
+        @Volatile private var instance: FingerprintAuth? = null
+        private val LOCK = Any()
 
         /**
-         * funkcja zwracająca czy zmienna przechowująca globalny obiekt menadżera jest zainicjowana
-         * @return True jeśli zmienna przechowująca globalny obiekt menadżera jest zainicjowana
+         * Funkcja zwracająca i generująca obiekt menadżera
+         * @return menadżer autoryzacji odciskiem palca
          */
-        fun isInitialized(): Boolean { return this::instance.isInitialized }
+        fun getInstance(context: Context) = instance ?: synchronized(LOCK){
+            instance ?: FingerprintAuth(context).also { instance = it}
+        }
     }
 }

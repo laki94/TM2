@@ -5,22 +5,16 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.biometric.BiometricConstants
-import androidx.biometric.BiometricPrompt
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 import pl.polsl.laboratorioweobecnosci.activities.admin.AdminActivity
 import pl.polsl.laboratorioweobecnosci.activities.admin.LaboratoriesDialog
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
-import pl.polsl.laboratorioweobecnosci.preferences.AuthorizationMode
-import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import pl.polsl.laboratorioweobecnosci.security.AuthorizationManager
-import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
 
 /**
  * Główna aktywność aplikacji
  */
-class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +33,7 @@ class MainActivity : BaseActivity() {
      * Funkcja wywołana po wciśnięciu przycisku z panelem adminstratora
      */
     fun onAdminPanelClick(view: View) {
-        AuthorizationManager.instance.doAuthorize(this) { openAdminActivity() }
+        AuthorizationManager.getInstance().doAuthorize(this) { openAdminActivity() }
     }
 
     /**

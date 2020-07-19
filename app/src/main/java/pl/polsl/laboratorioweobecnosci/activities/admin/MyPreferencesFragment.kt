@@ -72,7 +72,7 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         prepareOptionalAuthorization()
         prepareCSVSavePath()
 
-        chosenAuthMethod = PreferencesManager.instance.chosenAuthorizationMethod()
+        chosenAuthMethod = PreferencesManager.getInstance(requireContext()).chosenAuthorizationMethod()
         setControlsVisibility()
     }
 
@@ -81,7 +81,7 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
      */
     private fun prepareCSVSavePath() {
         csvSavePath = findPreference(getString(R.string.save_csv_path_key))!!
-        csvSavePath.summary = PreferencesManager.instance.saveCSVPath()
+        csvSavePath.summary = PreferencesManager.getInstance(requireContext()).saveCSVPath()
         csvSavePath.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             openSelectDirectoryDialog()
             return@OnPreferenceClickListener true
@@ -110,7 +110,7 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
     private fun openSelectDirectoryDialog() {
         val intent = Intent(requireContext(), FolderChooser::class.java)
         intent.putExtra(Constants.SELECTION_MODE, Constants.SELECTION_MODES.SINGLE_SELECTION.ordinal)
-        intent.putExtra(Constants.INITIAL_DIRECTORY, File(PreferencesManager.instance.saveCSVPath()).absolutePath)
+        intent.putExtra(Constants.INITIAL_DIRECTORY, File(PreferencesManager.getInstance(requireContext()).saveCSVPath()).absolutePath)
         startActivityForResult(intent, CHANGE_CSV_PATH_REQ_CODE)
     }
 
@@ -139,7 +139,7 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         }
 
         passEdit.onPreferenceChangeListener = this
-        if (PreferencesManager.instance.hashedPassword().isEmpty()) {
+        if (PreferencesManager.getInstance(requireContext()).hashedPassword().isEmpty()) {
             passEdit.summary = getString(R.string.NotSet)
         } else {
             passEdit.summary = getString(R.string.Set)
@@ -179,7 +179,7 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
     private fun setAuthenticationMethods() {
         authModes = findPreference(getString(R.string.authorization_method_key))!!
 
-        if (!FingerprintAuth.instance.isAvailable()) {
+        if (!FingerprintAuth.getInstance(requireContext()).isAvailable()) {
             disabledMethods.add(AuthorizationMode.FINGERPRINT)
         }
 

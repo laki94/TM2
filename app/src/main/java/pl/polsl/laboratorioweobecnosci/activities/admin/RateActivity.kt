@@ -4,10 +4,10 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.activities.BaseActivity
 import pl.polsl.laboratorioweobecnosci.activities.adapters.RateListAdapter
 import pl.polsl.laboratorioweobecnosci.csv.CsvGenerator
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
@@ -23,7 +23,7 @@ import pl.polsl.laboratorioweobecnosci.preferences.PermissionsManager
  * @property workstationsWithStudents lista stanowisk ze studentami
  * @property tasks zadania do wykonania na laboratorium
  */
-class RateActivity : BaseActivity() {
+class RateActivity : AppCompatActivity() {
 
     private lateinit var adapter: RateListAdapter
     private var labId = 0
@@ -109,11 +109,11 @@ class RateActivity : BaseActivity() {
      * Generowanie pliku CSV
      */
     private fun generateCsvFile() {
-        if (PermissionsManager.instance.haveWriteExternalPermission(this)) {
+        if (PermissionsManager.getInstance().haveWriteExternalPermission(this)) {
             val csv = CsvGenerator(this, ::onGenerated)
             csv.generate(labId)
         } else {
-            PermissionsManager.instance.askForWriteExternalPermission(this)
+            PermissionsManager.getInstance().askForWriteExternalPermission(this)
         }
     }
 
