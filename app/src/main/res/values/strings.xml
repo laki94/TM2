@@ -69,6 +69,7 @@
     <string name="CannotChangeSavePath">Cannot change save path</string>
     <string name="NoLaboratoriesToShow">No laboratories to show</string>
     <string name="PleaseSelectDirectory">Please select a directory</string>
+    <string name="NoStudentsToRate">No students to rate</string>
 
     <string-array name="Grades">
         <item>2</item>

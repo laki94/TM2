@@ -5,6 +5,7 @@ import android.graphics.*
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -101,10 +102,16 @@ class StudentsListActivity : AppCompatActivity() {
      * Funkcja wywołana po kliknięciu oceniaj
      */
     fun onRateClick(view: View) {
-        if (rateButtonNeedAuth) {
-            AuthorizationManager.getInstance().doAuthorize(this) { openRateActivity() }
-        } else {
-            openRateActivity()
+        when {
+            studentsAtLaboratory.isEmpty() -> {
+                Toast.makeText(this, R.string.NoStudentsToRate, Toast.LENGTH_SHORT).show()
+            }
+            rateButtonNeedAuth -> {
+                AuthorizationManager.getInstance().doAuthorize(this) { openRateActivity() }
+            }
+            else -> {
+                openRateActivity()
+            }
         }
     }
 
