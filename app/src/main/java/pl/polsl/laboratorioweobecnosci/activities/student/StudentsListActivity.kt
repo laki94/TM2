@@ -1,5 +1,6 @@
 package pl.polsl.laboratorioweobecnosci.activities.student
 
+import android.content.Intent
 import android.graphics.*
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.activities.adapters.ListOfStudentsAtWorkstationAdapter
+import pl.polsl.laboratorioweobecnosci.activities.admin.RateActivity
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.*
 import pl.polsl.laboratorioweobecnosci.security.AuthorizationManager
@@ -21,7 +23,7 @@ import pl.polsl.laboratorioweobecnosci.security.AuthorizationManager
  * @property studentsAtLaboratory lista studentów na laboratorium
  * @property mainLaboratory laboratorium na którym są studenci
  * @property mainRecyclerView RecyclerView na aktywności
- * @property backButtonNeedAuth określa czy trzeba autoryzować się po próbie powrotu do ekranu głównego
+ * @property rateButtonNeedAuth określa czy trzeba autoryzować się po wciśnięciu przycisku oceniania
  */
 class StudentsListActivity : AppCompatActivity() {
 
@@ -29,7 +31,7 @@ class StudentsListActivity : AppCompatActivity() {
     private lateinit var studentsAtLaboratory: ListOfStudentsAtWorkstation
     private lateinit var mainLaboratory: Laboratory
     private lateinit var mainRecyclerView: RecyclerView
-    private var backButtonNeedAuth = true
+    private var rateButtonNeedAuth = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +88,7 @@ class StudentsListActivity : AppCompatActivity() {
 
                 tvLaboratory.text = mainLaboratory.laboratoryName
                 if (extras.getBoolean("ADMINMODE", false)) {
-                    backButtonNeedAuth = false
+                    rateButtonNeedAuth = false
                     listOfStudentsAtWorkstationAdapter.enableSwipe()
                     val fab = findViewById<FloatingActionButton>(R.id.fabAddStudent)
                     fab.hide()
@@ -95,16 +97,24 @@ class StudentsListActivity : AppCompatActivity() {
         }.start()
     }
 
-    override fun onBackPressed() {
-        if (backButtonNeedAuth) {
-            AuthorizationManager.getInstance().doAuthorize(this) { doOnBackPressed() }
+    /**
+     * Funkcja wywołana po kliknięciu oceniaj
+     */
+    fun onRateClick(view: View) {
+        if (rateButtonNeedAuth) {
+            AuthorizationManager.getInstance().doAuthorize(this) { openRateActivity() }
         } else {
-            doOnBackPressed()
+            openRateActivity()
         }
     }
 
-    private fun doOnBackPressed() {
-        super.onBackPressed()
+    /**
+     * Otwarcie aktywności z oceną stanowisk
+     */
+    private fun openRateActivity() {
+        val intent = Intent(this, RateActivity::class.java)
+        intent.putExtra("LABID", mainLaboratory.id)
+        startActivity(intent)
     }
 
     /**

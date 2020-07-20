@@ -37,10 +37,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Funkcja wywołana po wciśnięciu przycisku rozpoczęcia zajęć. Otwiera dialog z wyborem
-     * laboratorium.
+     * Funkcja wywołana po wciśnięciu przycisku rozpoczęcia zajęć.
      */
     fun onBeginExerciseClick(view: View) {
+        AuthorizationManager.getInstance().doAuthorize(this) { openExerciesDialog() }
+    }
+
+    /**
+     * Otwarcie dialogu z dostępnymi laboratoriami
+     */
+    private fun openExerciesDialog() {
         val dialog = LaboratoriesDialog(this)
         Thread {
             val db = DatabaseHandler(this)
