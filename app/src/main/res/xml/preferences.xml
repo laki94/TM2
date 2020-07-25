@@ -22,4 +22,16 @@
             android:key="@string/save_csv_path_key"
             android:title="@string/SaveCsvFilesPath"/>
     </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/Rating">
+        <Preference
+            android:key="@string/unrated_workstation_key"
+            android:title="@string/UnratedWorkstationColor"/>
+        <Preference
+            android:key="@string/rated_workstation_key"
+            android:title="@string/RatedWorkstationColor"/>
+        <Preference
+            android:key="@string/forced_grade_key"
+            android:title="@string/ForcedGradeColor"/>
+    </PreferenceCategory>
 </PreferenceScreen>

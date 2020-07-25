@@ -69,4 +69,8 @@
     <string name="NoLaboratoriesToShow">Brak zajęć do pokazania</string>
     <string name="PleaseSelectDirectory">Proszę wybrać folder</string>
     <string name="NoStudentsToRate">Brak studentów do oceny</string>
+    <string name="Rating">Ocenianie</string>
+    <string name="UnratedWorkstationColor">Kolor nieocenionego stanowiska</string>
+    <string name="RatedWorkstationColor">Kolor ocenionego stanowiska</string>
+    <string name="ForcedGradeColor">Kolor stanowiska z wymuszoną oceną</string>
 </resources>

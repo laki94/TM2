@@ -70,6 +70,10 @@
     <string name="NoLaboratoriesToShow">No laboratories to show</string>
     <string name="PleaseSelectDirectory">Please select a directory</string>
     <string name="NoStudentsToRate">No students to rate</string>
+    <string name="Rating">Rating</string>
+    <string name="UnratedWorkstationColor">Unrated workstation color</string>
+    <string name="RatedWorkstationColor">Rated workstation color</string>
+    <string name="ForcedGradeColor">Forced grade color</string>
 
     <string-array name="Grades">
         <item>2</item>
@@ -97,6 +101,9 @@
     <string name="user_password_key" translatable="false">user_password</string>
     <string name="allow_optional_auth_key" translatable="false">optional_auth_enabled</string>
     <string name="save_csv_path_key" translatable="false">save_csv_path</string>
+    <string name="unrated_workstation_key" translatable="false">unrated_workstation_key</string>
+    <string name="rated_workstation_key" translatable="false">rated_workstation_key</string>
+    <string name="forced_grade_key" translatable="false">forced_grade_key</string>
 
     <string name="none_value" translatable="false">0</string>
     <string name="pin_value" translatable="false">1</string>

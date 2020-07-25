@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.button_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.models.*
 import pl.polsl.laboratorioweobecnosci.database.models.lists.WorkstationWithLabDetailsList
+import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 
 /**
  * Adapter dla aktywności wyświetlających ocenianie stanowisk
@@ -40,9 +41,12 @@ class RateListAdapter(private val context: Context, private val items: Workstati
             students.toNewLineSeparatedString())
 
         when {
-            items[position].forcedGrade != null -> myHolder.bItem.setBackgroundColor(Color.YELLOW)
-            items[position].haveAllTasksDone() -> myHolder.bItem.setBackgroundColor(Color.GREEN)
-            else -> myHolder.bItem.setBackgroundColor(Color.LTGRAY)
+            items[position].forcedGrade != null ->
+                myHolder.bItem.setBackgroundColor(PreferencesManager.getInstance(context).forcedGradeIntColor())
+            items[position].haveAllTasksDone() ->
+                myHolder.bItem.setBackgroundColor(PreferencesManager.getInstance(context).ratedWorkstationIntColor())
+            else ->
+                myHolder.bItem.setBackgroundColor(PreferencesManager.getInstance(context).unratedWorkstationIntColor())
         }
     }
 

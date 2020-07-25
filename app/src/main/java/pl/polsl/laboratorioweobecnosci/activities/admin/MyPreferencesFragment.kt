@@ -15,6 +15,7 @@ import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.preferences.AuthorizationMode
 import pl.polsl.laboratorioweobecnosci.preferences.PreferencesManager
 import pl.polsl.laboratorioweobecnosci.security.FingerprintAuth
+import yuku.ambilwarna.AmbilWarnaDialog
 import java.io.File
 
 /**
@@ -24,6 +25,9 @@ import java.io.File
  * @property passEdit ustawienie hasła autoryzacji
  * @property optAuth ustawienie alternatywnej autoryzacji dla autoryzacji palcem
  * @property csvSavePath ustawienie domyślnej ścieżki zapisu plików CSV
+ * @property unratedWorkstationColor ustawienie koloru dla nieocenionych stanowisk
+ * @property ratedWorkstationColor ustawienie koloru dla ocenionych stanowisk
+ * @property forcedGradeColor ustawienie koloru dla stanowisk z wymuszoną oceną
  * @property chosenAuthMethod aktualnie wybrana metoda autoryzacji
  */
 class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener {
@@ -33,6 +37,9 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
     private lateinit var passEdit: EditTextPreference
     private lateinit var optAuth: SwitchPreferenceCompat
     private lateinit var csvSavePath: Preference
+    private lateinit var unratedWorkstationColor: Preference
+    private lateinit var ratedWorkstationColor: Preference
+    private lateinit var forcedGradeColor: Preference
     private var chosenAuthMethod = AuthorizationMode.NONE
     private val CHANGE_CSV_PATH_REQ_CODE = 123
 
@@ -71,6 +78,9 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
         preparePasswordEdit()
         prepareOptionalAuthorization()
         prepareCSVSavePath()
+        prepareUnratedWorkstationColor()
+        prepareRatedWorkstationColor()
+        prepareForcedGradeColor()
 
         chosenAuthMethod = PreferencesManager.getInstance(requireContext()).chosenAuthorizationMethod()
         setControlsVisibility()
@@ -86,6 +96,59 @@ class MyPreferencesFragment: PreferenceFragmentCompat(), Preference.OnPreference
             openSelectDirectoryDialog()
             return@OnPreferenceClickListener true
         }
+    }
+
+    /**
+     * Przygotowanie ustawienia koloru dla nieocenionego stanowiska
+     */
+    private fun prepareUnratedWorkstationColor() {
+        unratedWorkstationColor = findPreference(getString(R.string.unrated_workstation_key))!!
+        unratedWorkstationColor.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            openSelectColorDialog(unratedWorkstationColor, PreferencesManager.getInstance(requireContext()).unratedWorkstationIntColor())
+            return@OnPreferenceClickListener true
+        }
+    }
+
+    /**
+     * Przygotowanie koloru dla ocenionego stanowiska
+     */
+    private fun prepareRatedWorkstationColor() {
+        ratedWorkstationColor = findPreference(getString(R.string.rated_workstation_key))!!
+        ratedWorkstationColor.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            openSelectColorDialog(ratedWorkstationColor, PreferencesManager.getInstance(requireContext()).ratedWorkstationIntColor())
+            return@OnPreferenceClickListener true
+        }
+    }
+
+    /**
+     * Przygotowanie koloru dla stanowiska z wymuszoną oceną
+     */
+    private fun prepareForcedGradeColor() {
+        forcedGradeColor = findPreference(getString(R.string.forced_grade_key))!!
+        forcedGradeColor.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            openSelectColorDialog(forcedGradeColor, PreferencesManager.getInstance(requireContext()).forcedGradeIntColor())
+            return@OnPreferenceClickListener true
+        }
+    }
+
+    /**
+     * Funkcja otwierająca dialog z wyborem koloru dla ustawienia
+     * @param mainPreference ustawienie dla którego jest zmieniany kolor
+     * @param mainIntColor domyślny kolor w dialogu
+     */
+    private fun openSelectColorDialog(mainPreference: Preference, mainIntColor: Int) {
+        AmbilWarnaDialog(requireContext(), mainIntColor, object : AmbilWarnaDialog.OnAmbilWarnaListener {
+            override fun onCancel(dialog: AmbilWarnaDialog?) {
+
+            }
+
+            override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
+                with (mainPreference.sharedPreferences?.edit()!!) {
+                    putInt(mainPreference.key, color)
+                    commit()
+                }
+            }
+        }).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
