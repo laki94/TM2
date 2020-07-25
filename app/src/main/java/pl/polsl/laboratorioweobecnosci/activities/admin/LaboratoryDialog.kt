@@ -77,7 +77,10 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
                     mainLaboratory.laboratory.laboratoryStart = Date.from(
                         LocalDateTime.of(dateFrom.toLocalDate(), newTime)
                             .atZone(ZoneId.systemDefault()).toInstant())
-                    fillInfo()
+
+                    buttonStartDate.text = context.getString(R.string.BeginExerciseDate,
+                        mainLaboratory.laboratory.getLaboratoryStartDateString())
+
                 }, newHour, newMinute, true)
 
             val datePickerDialog = DatePickerDialog(context,
@@ -104,7 +107,11 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
                     mainLaboratory.laboratory.laboratoryEnd =
                         Date.from(LocalDateTime.of(dateTo.toLocalDate(), newTime)
                             .atZone(ZoneId.systemDefault()).toInstant())
-                    fillInfo()
+
+                    buttonEndDate.text =
+                        context.getString(R.string.EndExerciseDate,
+                            mainLaboratory.laboratory.getLaboratoryEndDateString())
+
                 }, newHour, newMinute, true)
 
             val datePickerDialog = DatePickerDialog(context,
