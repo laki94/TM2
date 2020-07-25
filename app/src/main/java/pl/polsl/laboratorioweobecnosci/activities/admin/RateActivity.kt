@@ -60,7 +60,12 @@ class RateActivity : AppCompatActivity() {
             val db = DatabaseHandler(this)
             workstationDetails.addAll(db.getAllWorkstationsDetails(labId))
             runOnUiThread {
-                adapter.notifyDataSetChanged()
+                if (workstationDetails.isEmpty()) {
+                    Toast.makeText(this, R.string.NoStudentsToRate, Toast.LENGTH_LONG).show()
+                    finish()
+                } else {
+                    adapter.notifyDataSetChanged()
+                }
             }
         }.start()
     }
