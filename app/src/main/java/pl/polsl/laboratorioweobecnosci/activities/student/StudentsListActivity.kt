@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.*
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +33,7 @@ class StudentsListActivity : AppCompatActivity() {
     private lateinit var studentsAtLaboratory: ListOfStudentsAtWorkstation
     private lateinit var mainLaboratory: Laboratory
     private lateinit var mainRecyclerView: RecyclerView
+    private lateinit var rateButton: Button
     private var rateButtonNeedAuth = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,11 +41,12 @@ class StudentsListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_students_list)
 
         val tvLaboratory = findViewById<TextView>(R.id.tvLaboratory)
-
+        rateButton = findViewById(R.id.bRate)
         val extras = intent.extras
         Thread {
             val db = DatabaseHandler(this)
             studentsAtLaboratory = db.getStudentsAssignedToWorkstationsAtLaboratory(extras!!.getInt("LABID", 0))
+            setRateButtonVisibility()
             mainLaboratory = db.laboratoryDao().getLaboratory(extras.getInt("LABID", 0))
             runOnUiThread {
                 listOfStudentsAtWorkstationAdapter = ListOfStudentsAtWorkstationAdapter(this, studentsAtLaboratory)
@@ -55,8 +58,10 @@ class StudentsListActivity : AppCompatActivity() {
                 listOfStudentsAtWorkstationAdapter.onStudentRemove = { remModel ->
                     val snackbar = Snackbar.make(findViewById(R.id.clStudents),
                         R.string.StudentRemoved, Snackbar.LENGTH_INDEFINITE)
+                    setRateButtonVisibility()
                     snackbar.setAction("UNDO") {
                         listOfStudentsAtWorkstationAdapter.addNewStudent(remModel)
+                        setRateButtonVisibility()
                     }
                     snackbar.addCallback(object : Snackbar.Callback() {
                         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
@@ -96,6 +101,17 @@ class StudentsListActivity : AppCompatActivity() {
                 }
             }
         }.start()
+    }
+
+    /**
+     * Ustawienie widoczności przycisku oceniania
+     */
+    private fun setRateButtonVisibility() {
+        if (studentsAtLaboratory.isEmpty()) {
+            rateButton.visibility = View.GONE
+        } else {
+            rateButton.visibility = View.VISIBLE
+        }
     }
 
     /**
@@ -139,10 +155,12 @@ class StudentsListActivity : AppCompatActivity() {
                 db.studentDao().insert(it.student)
                 runOnUiThread {
                     listOfStudentsAtWorkstationAdapter.addNewStudent(it)
+                    setRateButtonVisibility()
                 }
             }.start()
         }
         dialog.addStudent(layoutInflater, mainLaboratory.id)
+        setRateButtonVisibility()
     }
 
     /**
