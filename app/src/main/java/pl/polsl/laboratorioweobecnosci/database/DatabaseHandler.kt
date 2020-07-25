@@ -163,6 +163,17 @@ abstract class DatabaseHandler : RoomDatabase(){
     }
 
     /**
+     * Usunięcie zadania wykonanego przez stanowisko na laboratorium
+     * @param taskId Id zadania
+     * @param laboratoryId Id laboratorium
+     * @param workstationId Id stanowiska
+     */
+    private fun removeTaskDoneByWorkstationAtLaboratory(taskId: Int, laboratoryId: Int, workstationId: Int) {
+        val taskToDel = workstationLaboratoryTaskDao().getTaskForWorkstationAtLaboratoryWithId(workstationId, laboratoryId, taskId)
+        workstationLaboratoryTaskDao().delete(taskToDel)
+    }
+
+    /**
      * Usunięcie laboratorium i wszystkich powiązanych z nim danych
      * @param laboratoryId Id laboratorium
      */
@@ -182,6 +193,83 @@ abstract class DatabaseHandler : RoomDatabase(){
         val grades = laboratoryWorkstationGradeDao().getGradesAtLaboratory(laboratoryId)
         grades.forEach {
             laboratoryWorkstationGradeDao().delete(it)
+        }
+    }
+
+    /**
+     * Funkcja zwracająca listę stanowisk ze studentami na laboratorium
+     * @param labId Id laboratorium
+     * @return Lista stanowisk ze studentami
+     */
+    private fun getStudentsAtWorkstationAtLab(labId: Int): ListOfWorkstationsWithStudents {
+        val result = ListOfWorkstationsWithStudents()
+        val students = studentDao().getStudentsAtLaboratory(labId)
+
+        students.forEach {
+            val workstation = workstationDao().getWorkstation(it.workstationId)
+            result.addStudentToWorkstation(it, workstation)
+        }
+        return result
+    }
+
+    /**
+     * Funkcja zwracająca listę stanowisk ze studentami razem z zadaniami do wykonania, wykonanymi i przypisanych ocenach
+     * @param labId Id laboratorium
+     * @return Lista stanowisk ze studentami z zadaniami wykonanymi, do wykonania i przypisanej ocenie
+     */
+    fun getAllWorkstationsDetails(labId: Int): WorkstationWithLabDetailsList {
+        val result = WorkstationWithLabDetailsList()
+        val tasks = getTasksForLaboratory(labId)
+
+        val usedWorkstations = getStudentsAtWorkstationAtLab(labId)
+
+        usedWorkstations.forEach {
+            val tasksDone = getTasksDoneByWorkstationAtLaboratory(labId, it.workstation.id)
+            val grade = laboratoryWorkstationGradeDao().getGradeForWorkstationAtLaboratory(labId,
+                it.workstation.id)
+
+            result.addItem(it, tasks, tasksDone, grade)
+        }
+        return result
+    }
+
+    /**
+     * Funkcja usuwa/zapisuje wykonane zadania w bazie
+     * @param prevTasksDone lista wcześniej wykonanych zadań
+     * @param workstationWithLabDetails informacja o stanowisku ze studentami, zadaniami wykonanymi, do wykonania i przypisanej ocenie
+     */
+    fun synchronizeTasksDone(prevTasksDone: LaboratoryTaskList, workstationWithLabDetails: WorkstationWithLabDetails) {
+        prevTasksDone.forEach {
+            if (!workstationWithLabDetails.tasksDone.haveTask(it)) {
+                removeTaskDoneByWorkstationAtLaboratory(it.id, it.laboratoryId,
+                    workstationWithLabDetails.workstationWithStudents.workstation.id)
+            }
+        }
+
+        workstationWithLabDetails.tasksDone.forEach {
+            if (!prevTasksDone.haveTask(it)) {
+                val item = WorkstationLaboratoryTask(it.id,
+                    workstationWithLabDetails.workstationWithStudents.workstation.id,
+                    workstationWithLabDetails.workstationWithStudents.students[0].laboratoryId
+                )
+                workstationLaboratoryTaskDao().insert(item)
+            }
+        }
+    }
+
+    /**
+     * Synchronizacja przypisanej oceny do stanowiska
+     * @param prevGrade wcześniej przypisana ocena
+     * @param actGrade nowa przypisana ocena
+     */
+    fun synchronizeForcedGrade(prevGrade: LaboratoryWorkstationGradeModel?,
+                               actGrade: LaboratoryWorkstationGradeModel?) {
+        if (actGrade?.grade != prevGrade?.grade) {
+            if (prevGrade == null) {
+                laboratoryWorkstationGradeDao().insert(actGrade!!)
+            } else {
+                laboratoryWorkstationGradeDao().update(actGrade!!)
+            }
         }
     }
 }

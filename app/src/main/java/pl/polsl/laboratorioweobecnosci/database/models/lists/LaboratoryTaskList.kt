@@ -68,4 +68,16 @@ class LaboratoryTaskList: ArrayList<LaboratoryTask>() {
         }
         add(laboratoryTask)
     }
+
+    /**
+     * Usuwa zadanie z listy jeśli istnieje
+     * @param laboratoryTask zadanie do usunięcia
+     */
+    fun removeIfExist(laboratoryTask: LaboratoryTask) {
+        forEach {
+            if (it.simpleCompare(laboratoryTask))
+                return
+        }
+        remove(laboratoryTask)
+    }
 }

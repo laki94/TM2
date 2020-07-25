@@ -1,6 +1,7 @@
 package pl.polsl.laboratorioweobecnosci.activities.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,17 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.button_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.models.*
-import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfWorkstationsWithStudents
+import pl.polsl.laboratorioweobecnosci.database.models.lists.WorkstationWithLabDetailsList
 
 /**
  * Adapter dla aktywności wyświetlających ocenianie stanowisk
  * @param context context aktywności
- * @param items lista stanowisk ze studentami
+ * @param items lista stanowisk ze studentami, zadaniami wykonanymi, do wykonania i przypisanej ocenie
  * @property onWorkstationClick callback, który zostanie wywołany po wciśnięciu przycisku określającego dane stanowisko
  */
-class RateListAdapter(private val context: Context, private val items: ListOfWorkstationsWithStudents): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RateListAdapter(private val context: Context, private val items: WorkstationWithLabDetailsList): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var onWorkstationClick: ((StudentListWorkstationModel) -> Unit)? = null
+    var onWorkstationClick: ((WorkstationWithLabDetails) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.button_item, parent, false))
@@ -32,11 +33,17 @@ class RateListAdapter(private val context: Context, private val items: ListOfWor
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val myHolder = holder as MyViewHolder
 
-        val workstation = items.getSortedWorkstation()[position]
-        val students = items.getStudentsAtWorkstation(workstation)
+        val workstation = items[position].workstationWithStudents.workstation
+        val students = items[position].workstationWithStudents.students
         myHolder.bItem.text = String.format("%s\n%s",
             context.getString(R.string.WorkstationNr, workstation.number),
-            students?.toNewLineSeparatedString())
+            students.toNewLineSeparatedString())
+
+        when {
+            items[position].forcedGrade != null -> myHolder.bItem.setBackgroundColor(Color.YELLOW)
+            items[position].haveAllTasksDone() -> myHolder.bItem.setBackgroundColor(Color.GREEN)
+            else -> myHolder.bItem.setBackgroundColor(Color.LTGRAY)
+        }
     }
 
     /**
@@ -47,7 +54,7 @@ class RateListAdapter(private val context: Context, private val items: ListOfWor
 
         init {
             bItem.setOnClickListener {
-                onWorkstationClick?.invoke(items.getSortedItemsByWorkstation()[adapterPosition])
+                onWorkstationClick?.invoke(items[adapterPosition])
             }
         }
     }

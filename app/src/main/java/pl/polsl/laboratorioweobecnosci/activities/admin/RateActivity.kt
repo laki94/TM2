@@ -13,21 +13,22 @@ import pl.polsl.laboratorioweobecnosci.csv.CsvGenerator
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.LaboratoryWorkstationGradeModel
 import pl.polsl.laboratorioweobecnosci.database.models.lists.LaboratoryTaskList
-import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfWorkstationsWithStudents
+import pl.polsl.laboratorioweobecnosci.database.models.WorkstationWithLabDetails
+import pl.polsl.laboratorioweobecnosci.database.models.lists.WorkstationWithLabDetailsList
 import pl.polsl.laboratorioweobecnosci.preferences.PermissionsManager
 
 /**
  * Aktywność z ocenianiem stanowisk na laboratorium
  * @property adapter adapter do RecyclerView aktywności
  * @property labId Id ocenianego laboratorium
- * @property workstationsWithStudents lista stanowisk ze studentami
+ * @property workstationDetails lista stanowisk ze studentami, zadaniami do wykonania, wykonanymi i przypisanej ocenie
  * @property tasks zadania do wykonania na laboratorium
  */
 class RateActivity : AppCompatActivity() {
 
     private lateinit var adapter: RateListAdapter
     private var labId = 0
-    private var workstationsWithStudents = ListOfWorkstationsWithStudents()
+    private var workstationDetails = WorkstationWithLabDetailsList()
     private var tasks = LaboratoryTaskList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,29 +40,15 @@ class RateActivity : AppCompatActivity() {
             labId = extras.getInt("LABID", 0)
         }
 
-        adapter = RateListAdapter(this, workstationsWithStudents)
+        adapter = RateListAdapter(this, workstationDetails)
 
         adapter.let {
             it.onWorkstationClick = { studentsAtWorkstation ->
-                Thread {
-                    val db = DatabaseHandler(this)
-                    val tasksDone = db.getTasksDoneByWorkstationAtLaboratory(
-                        studentsAtWorkstation.students[0].laboratoryId,
-                        studentsAtWorkstation.workstation.id)
-                    var actGrade = db.laboratoryWorkstationGradeDao().getGradeForWorkstationAtLaboratory(
-                        studentsAtWorkstation.students[0].laboratoryId,
-                        studentsAtWorkstation.workstation.id
-                    )
-                    if (actGrade == null) {
-                        actGrade = LaboratoryWorkstationGradeModel(
-                            studentsAtWorkstation.students[0].laboratoryId,
-                            studentsAtWorkstation.workstation.id)
-                    }
-                    runOnUiThread {
-                        val dialog = RateDialog(this)
-                        dialog.rate(layoutInflater, studentsAtWorkstation, tasks, tasksDone, actGrade)
-                    }
-                }.start()
+                val dialog = RateDialog(this)
+                dialog.setOnDismissListener {
+                    adapter.notifyDataSetChanged()
+                }
+                dialog.rate(layoutInflater, studentsAtWorkstation)
             }
         }
 
@@ -71,12 +58,7 @@ class RateActivity : AppCompatActivity() {
 
         Thread {
             val db = DatabaseHandler(this)
-            tasks = db.getTasksForLaboratory(labId)
-            val studentsAtLaboratory = db.getStudentsAtLaboratory(labId)
-            studentsAtLaboratory.forEach {
-                workstationsWithStudents.addStudentToWorkstation(it, db.workstationDao()
-                    .getWorkstation(it.workstationId))
-            }
+            workstationDetails.addAll(db.getAllWorkstationsDetails(labId))
             runOnUiThread {
                 adapter.notifyDataSetChanged()
             }

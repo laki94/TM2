@@ -21,4 +21,13 @@ data class LaboratoryWorkstationGradeModel (
     var grade: Int = 2,
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
-)
+) {
+
+    /**
+     * Funkcja zwracająca kopię bieżącego obiektu
+     * @return Kopia aktualnego obiektu
+     */
+    fun clone(): LaboratoryWorkstationGradeModel {
+        return LaboratoryWorkstationGradeModel(laboratoryId, workstationId, grade, id)
+    }
+}
