@@ -27,14 +27,14 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddExercise"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:scaleType="center"
-        android:rotation="45"
         android:onClick="onAddExerciseClick"
-        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+        android:scaleType="center"
+        app:backgroundTint="@color/yellow"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
