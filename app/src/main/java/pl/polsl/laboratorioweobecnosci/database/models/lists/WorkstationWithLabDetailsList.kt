@@ -27,4 +27,13 @@ class WorkstationWithLabDetailsList: ArrayList<WorkstationWithLabDetails>() {
         newItem.forcedGrade = grade
         add(newItem)
     }
+
+    /**
+     * Sortowanie obiektów na liście po numerze stanowiska
+     */
+    fun sortByWorkstationNr() {
+        this.sortBy {
+            it.workstationWithStudents.workstation.number
+        }
+    }
 }

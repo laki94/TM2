@@ -28,11 +28,9 @@ class CsvGenerator(private val mainContext: Context, private val doOnGenerated: 
         Thread {
             try {
                 val db = DatabaseHandler(mainContext)
-                val studentListWorkstation =
-                    db.getStudentsAssignedToWorkstationsAtLaboratory(laboratoryId)
+                val labInfo = db.getAllWorkstationsDetails(laboratoryId)
+                labInfo.sortByWorkstationNr()
 
-                studentListWorkstation.sortByWorkstationNr()
-                val allTasks = db.getTasksForLaboratory(laboratoryId)
                 val csvFileName = LocalDateTime.now().atZone(ZoneId.systemDefault()).format(
                     DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss")
                 ) + ".csv"
@@ -48,28 +46,16 @@ class CsvGenerator(private val mainContext: Context, private val doOnGenerated: 
                             mainContext.getString(R.string.Tasks),
                             mainContext.getString(R.string.Grade)))
 
-                    studentListWorkstation.forEach { studentWorkstation ->
-                        val tasksDone = db.getTasksDoneByWorkstationAtLaboratory(
-                            laboratoryId,
-                            studentWorkstation.workstation.id
-                        )
-                        val gradeModel = db.getWorkstationGrade(
-                            laboratoryId,
-                            studentWorkstation.workstation.id
-                        )
-
-                        val boolTasks = ArrayList<Boolean>()
-                        allTasks.forEach { task ->
-                            boolTasks.add(tasksDone.haveTask(task))
+                    labInfo.forEach { workstationWithStudentsDetails ->
+                        workstationWithStudentsDetails.workstationWithStudents.students.forEach { student ->
+                            csvPrinter.printRecord(
+                                workstationWithStudentsDetails.workstationWithStudents.workstation.number,
+                                student.firstName,
+                                student.lastName,
+                                workstationWithStudentsDetails.getTasksDoneAsBools(),
+                                workstationWithStudentsDetails.getGrade()
+                            )
                         }
-
-                        csvPrinter.printRecord(
-                            studentWorkstation.workstation.number,
-                            studentWorkstation.student.firstName,
-                            studentWorkstation.student.lastName,
-                            boolTasks,
-                            gradeModel.grade
-                        )
                     }
                     csvPrinter.flush()
                     csvPrinter.close()

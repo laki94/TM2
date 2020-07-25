@@ -59,6 +59,7 @@ class RateActivity : AppCompatActivity() {
         Thread {
             val db = DatabaseHandler(this)
             workstationDetails.addAll(db.getAllWorkstationsDetails(labId))
+            workstationDetails.sortByWorkstationNr()
             runOnUiThread {
                 if (workstationDetails.isEmpty()) {
                     Toast.makeText(this, R.string.NoStudentsToRate, Toast.LENGTH_LONG).show()

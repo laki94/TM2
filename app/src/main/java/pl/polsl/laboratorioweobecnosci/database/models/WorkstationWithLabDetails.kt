@@ -22,4 +22,28 @@ class WorkstationWithLabDetails {
     fun haveAllTasksDone(): Boolean {
         return tasksDone.count() == tasksToDo.count()
     }
+
+    /**
+     * Funkcja zwracająca tablicę informującą o wykonanych zadaniach
+     * @return tablica true/false informująca o wykonanych zadaniach
+     */
+    fun getTasksDoneAsBools(): ArrayList<Boolean> {
+        val result = ArrayList<Boolean>()
+        tasksToDo.forEach {
+            result.add(tasksDone.haveTask(it))
+        }
+        return result
+    }
+
+    /**
+     * Funkcja zwracająca przypisaną ocenę lub ocenę według wykonanych zadań dla stanowiska
+     * @return ocena
+     */
+    fun getGrade(): Int {
+        if (forcedGrade != null) {
+            return forcedGrade!!.grade
+        } else {
+            return tasksDone.getHighestGrade()
+        }
+    }
 }
