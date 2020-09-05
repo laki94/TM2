@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Laboratorioweobecnosci</string>
+    <string name="app_name" translatable="false">eDziennik</string>
 
     <string name="AdminPanel">Admins panel</string>
     <string name="StudentsPanel">Students panel</string>

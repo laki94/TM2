@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Laboratorioweobecnosci</string>
 
     <string name="AdminPanel">Panel admina</string>
     <string name="StudentsPanel">Panel studentów</string>
