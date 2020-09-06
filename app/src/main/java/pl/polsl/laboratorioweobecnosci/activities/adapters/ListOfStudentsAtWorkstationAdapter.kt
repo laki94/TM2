@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.students_workstation_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
 import pl.polsl.laboratorioweobecnosci.database.models.*
+import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfStudentsAtWorkstation
 
 /**
  * Adapter dla aktywności wyświetlających informacje o studentach na danym stanowisku

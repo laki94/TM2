@@ -1,22 +1,14 @@
 package pl.polsl.laboratorioweobecnosci.activities.adapters
 
 import android.content.Context
-import android.graphics.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.card_item.view.*
-import kotlinx.android.synthetic.main.students_workstation_item.view.*
 import pl.polsl.laboratorioweobecnosci.R
-import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
-import pl.polsl.laboratorioweobecnosci.database.models.ListOfStudentsAtWorkstation
 import pl.polsl.laboratorioweobecnosci.database.models.StudentListWorkstationModel
-import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationModel
 
 /**
  * Adapter dla aktywności wyświetlających studentów na danym stanowisku

@@ -114,25 +114,12 @@ abstract class DatabaseHandler : RoomDatabase(){
      * @return lista studentów i stanowisk
      */
     fun getStudentsAssignedToWorkstationsAtLaboratory(labId: Int): ListOfStudentsAtWorkstation {
-        val res = ListOfStudentsAtWorkstation()
+        val res =
+            ListOfStudentsAtWorkstation()
         val students = getStudentsAtLaboratory(labId)
         students.forEach {
             val workstation = workstationDao().getWorkstation(it.workstationId)
             res.addStudentWorkstation(it, workstation)
-        }
-        return res
-    }
-
-    /**
-     * Pobranie oceny stanowiska
-     * @param laboratoryId Id laboratorium
-     * @param workstationId Id stanowiska
-     * @return ocena stanowiska na laboratorium
-     */
-    fun getWorkstationGrade(laboratoryId: Int, workstationId: Int): LaboratoryWorkstationGradeModel {
-        var res = laboratoryWorkstationGradeDao().getGradeForWorkstationAtLaboratory(laboratoryId, workstationId)
-        if (res == null) {
-            res = LaboratoryWorkstationGradeModel(laboratoryId, workstationId)
         }
         return res
     }

@@ -1,7 +1,8 @@
-package pl.polsl.laboratorioweobecnosci.database.models
+package pl.polsl.laboratorioweobecnosci.database.models.lists
 
-import pl.polsl.laboratorioweobecnosci.database.models.lists.StudentList
-import pl.polsl.laboratorioweobecnosci.database.models.lists.WorkstationList
+import pl.polsl.laboratorioweobecnosci.database.models.Student
+import pl.polsl.laboratorioweobecnosci.database.models.StudentWorkstationModel
+import pl.polsl.laboratorioweobecnosci.database.models.Workstation
 
 /**
  * Lista studentów na stanowiskach
@@ -33,15 +34,6 @@ class ListOfStudentsAtWorkstation: ArrayList<StudentWorkstationModel>() {
                 res.addIfNotExist(it.student)
         }
         return res
-    }
-
-    /**
-     * Sortowanie listy po numerze stanowiska
-     */
-    fun sortByWorkstationNr() {
-        this.sortBy {
-            it.workstation.number
-        }
     }
 
     /**
@@ -115,7 +107,8 @@ class ListOfStudentsAtWorkstation: ArrayList<StudentWorkstationModel>() {
             if ((student.compare(it.student)) && (workstation.number == it.workstation.number))
                 return
         }
-        val newObj = StudentWorkstationModel()
+        val newObj =
+            StudentWorkstationModel()
         newObj.student = student
         newObj.workstation = workstation
         add(newObj)

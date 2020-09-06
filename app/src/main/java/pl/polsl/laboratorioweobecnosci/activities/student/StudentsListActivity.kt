@@ -17,6 +17,7 @@ import pl.polsl.laboratorioweobecnosci.activities.adapters.ListOfStudentsAtWorks
 import pl.polsl.laboratorioweobecnosci.activities.admin.RateActivity
 import pl.polsl.laboratorioweobecnosci.database.DatabaseHandler
 import pl.polsl.laboratorioweobecnosci.database.models.*
+import pl.polsl.laboratorioweobecnosci.database.models.lists.ListOfStudentsAtWorkstation
 import pl.polsl.laboratorioweobecnosci.security.AuthorizationManager
 
 /**
