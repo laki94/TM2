@@ -66,7 +66,7 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
             var dateFrom = mainLaboratory.laboratory.getLaboratoryStartDate()
 
             val newYear = dateFrom.year
-            val newMonth = dateFrom.month.value
+            val newMonth = dateFrom.month.value - 1
             val newDay = dateFrom.dayOfMonth
             val newHour = dateFrom.hour
             val newMinute = dateFrom.minute
@@ -85,7 +85,7 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
 
             val datePickerDialog = DatePickerDialog(context,
                 DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    val newDate = LocalDate.of(year, month, dayOfMonth)
+                    val newDate = LocalDate.of(year, month + 1, dayOfMonth)
                     dateFrom = LocalDateTime.of(newDate, dateFrom.toLocalTime())
                     timePickerDialog.show()
                 }, newYear, newMonth, newDay)
@@ -96,7 +96,7 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
             var dateTo = mainLaboratory.laboratory.getLaboratoryEndDate()
 
             val newYear = dateTo.year
-            val newMonth = dateTo.month.value
+            val newMonth = dateTo.month.value - 1
             val newDay = dateTo.dayOfMonth
             val newHour = dateTo.hour
             val newMinute = dateTo.minute
@@ -116,7 +116,7 @@ class LaboratoryDialog(context: Context) : AlertDialog.Builder(context) {
 
             val datePickerDialog = DatePickerDialog(context,
                 DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    val newDate = LocalDate.of(year, month, dayOfMonth)
+                    val newDate = LocalDate.of(year, month + 1, dayOfMonth)
                     dateTo = LocalDateTime.of(newDate, dateTo.toLocalTime())
                     timePickerDialog.show()
                 }, newYear, newMonth, newDay)
